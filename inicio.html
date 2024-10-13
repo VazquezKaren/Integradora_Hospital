@@ -1,45 +1,91 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 	<meta charset="UTF-8">
 	<title>Hospital del niño</title>
+	<link rel="stylesheet" href="css/inicio.css">
 	<link rel="stylesheet" href="css/estilos.css">
 </head>
+
 <body>
 	<header class="header">
 		<div class="container">
-		<div class="btn-menu">
-			<label for="btn-menu">☰</label>
-		</div>
-			<div class="logo">
-				<h1>Hospital del niño</h1>
+			<div class="btn-menu">
+				<label for="btn-menu">☰</label>
 			</div>
+			<div class="logo">
+				<a href="inicio.html" style="text-decoration: none; color: inherit;">
+					<h1>Hospital del niño</h1>
+				</a>
+			</div>
+
 			<nav class="menu">
 				<a href="#">Historial</a>
-				<a href="#">Usuario  <img src="img/usuario_icon.png" alt="", height="20px" ></a>
+				<a href="empleado.html" class="user-link">
+					Usuario <img src="img/usuario_icon.png" alt="imagen" height="20px">
+				</a>
+
 			</nav>
 		</div>
 	</header>
 
-    <div class="actions">
-        <section>
-            
-        </section>
-    </div>
+	<div class="actions">
+		<section>
+
+		</section>
+	</div>
 
 	<div class="capa"></div>
-<input type="checkbox" id="btn-menu">
-<div class="container-menu">
-	<div class="cont-menu">
-		<nav>
-			<a href="inicio.html" class="user-link">Empleado</a>
-			<a href="#">Pacientes</a>
-			<a href="#">Registrar nuevo paciente</a>
-			<a href="#">Buscar Paciente</a>
-			<a href="#">Formato en blanco</a>
-		</nav>
-		<label for="btn-menu">🗙  </label>
+	<input type="checkbox" id="btn-menu">
+	<div class="container-menu">
+		<div class="cont-menu">
+			<nav>
+				<a href="empleado.html" class="user-link">Empleado</a>
+				<a href="inicio.html" class="user-link">Inicio</a>
+				<a href="pacientes.html">Pacientes</a>
+				<a href="registro.html">Registrar nuevo paciente</a>
+				<a href="formatoblanco.html">Formato en blanco</a>
+			</nav>
+		</div>
 	</div>
-</div>
+	<section>
+		<div class="content-grid">
+			<div class="contentbox">
+				<h2>Registar paciente</h2>
+				<img src="img/Hospital Municipal del Niño de Durango.jpeg" alt="hospital" height="50px">
+				<br>
+				<p>El paciente se registrara en la base de datos</p>
+				<br>
+				<button>Acceder</button>
+			</div>
+
+			<div class="contentbox">
+				<h2>Buscar paciente</h2>
+				<img src="img/Hospital Municipal del Niño de Durango.jpeg" alt="hospital" height="50px">
+				<br>
+				<p>Ingrese el No.de registro del paciente</p>
+				<br>
+				<input type="text" placeholder="Buscar" name="busqueda">
+			</div>
+
+			<div class="subcontainer">
+				<div class="contentbox">
+					<h2>Formato en blanco</h2>
+					<img src="img/Hospital Municipal del Niño de Durango.jpeg" alt="hospital" height="50px">
+					<br>
+					<button>Ver</button>
+				</div>
+	
+				<div class="contentbox">
+					<h2>Registar paciente</h2>
+					<img src="img/Hospital Municipal del Niño de Durango.jpeg" alt="hospital" height="50px">
+					<br>
+					<button>Ver</button>
+				</div>
+			</div>
+		</div>
+	</section>
 </body>
+
 </html>
