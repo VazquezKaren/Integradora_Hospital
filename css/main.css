@@ -24,6 +24,7 @@ body {
     max-width: 1200px;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
 }
 
 .left-panel {
@@ -38,6 +39,7 @@ body {
     max-width: 100%;
     height: auto;
     object-fit: cover;
+    border-radius: 4px;
 }
 
 .right-panel {

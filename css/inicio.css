@@ -1,5 +1,5 @@
 section{
-    min-height: 4vmax;
+    min-height: 1vmax;
     min-width: 4vmax;
     margin-left: 200px;
     display: flex;
@@ -58,6 +58,18 @@ section{
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-right: 20px;
+}
+
+.contentbox select{
+    background-color: #aeaeae;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 20px;
 }
 
 .contentbox button:hover {
