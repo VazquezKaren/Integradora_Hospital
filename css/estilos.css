@@ -49,7 +49,7 @@ body {
     color: white;
     font-size: 25px;
     cursor: pointer;
-	justify-content: flex-start;
+    justify-content: flex-start;
 }
 
 .logo h1 {
@@ -64,19 +64,19 @@ body {
     float: right;
     margin-right: 50px;
     line-height: 70px; 
-	justify-content: flex-end;
+    justify-content: flex-end;
 }
 
 .container .menu a {
     display: inline-block;
-	padding: 20px;
-	line-height: normal;
-	text-decoration: none;
-	color: white;
-	transition: all 0.3s ease;
-	border-bottom: 2px solid transparent;
-	font-size: 15px;
-	margin-right: 5px;
+    padding: 20px;
+    line-height: normal;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+    font-size: 15px;
+    margin-right: 5px;
 }
 
 .container .menu a:hover {
@@ -90,7 +90,7 @@ body {
 }
 
 /* Menú lateral dinámico */
-.container-menu {
+.container-menu{
     position: fixed;
     top: 0;
     left: -100%;
@@ -99,26 +99,59 @@ body {
     background-color: #6d6d6d;
     transition: left 0.3s ease;
     z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     padding-top: 70px;
 }
+
+
 
 input[type="checkbox"]:checked ~ .container-menu {
     left: 0; /* Se muestra cuando se marca el checkbox */
 }
 
+.centered-nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.cont-menu nav {
+    padding-top: 20px;
+}
+
 .cont-menu nav a {
-    display: block;
-    padding: 15px;
-    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
     color: white;
     text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.cont-menu nav a i {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
     font-size: 18px;
-    margin-bottom: 20px;
+}
+
+.cont-menu nav a.empleado {
+    background-color: #555;
+    font-weight: bold;
+    border-bottom: 2px solid #777;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.cont-menu nav a:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .cont-menu nav a:hover {
-    background-color: black;
-    transition: background-color 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 /* Ajustar la capa de fondo */
@@ -138,11 +171,11 @@ input[type="checkbox"]:checked ~ .container-menu {
     align-items: center;
     text-decoration: none; 
     color: white;
-    font-size: 16px; 
+    font-size: 16px;
 }
 
 .user-link img {
-    margin-left: 3px; /* Añade un margen izquierdo para separar la imagen del texto */
-    vertical-align: middle; /* Asegura que la imagen esté alineada verticalmente */
-	padding-bottom: 5px;
+    margin-left: 3px;
+    vertical-align: middle;
+    padding-bottom: 5px;
 }

@@ -1,5 +1,6 @@
 section{
     min-height: 4vmax;
+    min-width: 4vmax;
     margin-left: 200px;
     display: flex;
     justify-content: space-evenly;
@@ -22,6 +23,7 @@ section{
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     text-align: center;
     transition: transform 0.3s;
+    margin-bottom: 10px;
 }
 
 .contentbox:hover {
@@ -40,7 +42,7 @@ section{
 }
 
 .contentbox button {
-    background-color: #4a90e2;
+    background-color: #6d6d6d;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -59,11 +61,13 @@ section{
 }
 
 .contentbox button:hover {
-    background-color: #3a7bc8;
+    background-color: #aeaeae;
 }
 
 
 .subcontainer{
     z-index: 600;
-
+    color: black;
+    text-align: center;
+    
 }
