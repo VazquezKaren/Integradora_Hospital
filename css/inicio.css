@@ -1,11 +1,12 @@
-section{
+section {
     min-height: 1vmax;
     min-width: 4vmax;
-    margin-left: 200px;
+    margin-left: 0;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
+    padding: 20px;
 }
 
 .content-grid {
@@ -13,9 +14,10 @@ section{
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
+    width: 100%;
 }
 
-.contentbox{
+.contentbox {
     z-index: 600;
     background-color: white;
     border-radius: 8px;
@@ -50,7 +52,8 @@ section{
     cursor: pointer;
     transition: background-color 0.3s;
 }
-.contentbox input{
+
+.contentbox input {
     background-color: #aeaeae;
     color: white;
     border: none;
@@ -59,9 +62,11 @@ section{
     cursor: pointer;
     transition: background-color 0.3s;
     margin-right: 20px;
+    width: 100%;
+    max-width: 200px;
 }
 
-.contentbox select{
+.contentbox select {
     background-color: #aeaeae;
     color: white;
     border: none;
@@ -70,16 +75,25 @@ section{
     cursor: pointer;
     transition: background-color 0.3s;
     margin-right: 20px;
+    width: 100%;
+    max-width: 200px;
 }
 
 .contentbox button:hover {
     background-color: #aeaeae;
 }
 
-
-.subcontainer{
+.subcontainer {
     z-index: 600;
     color: black;
     text-align: center;
-    
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .subcontainer {
+        grid-template-columns: 1fr;
+    }
 }
