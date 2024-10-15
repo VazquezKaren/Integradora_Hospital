@@ -54,12 +54,12 @@ section {
 }
 
 .contentbox input {
-    background-color: #aeaeae;
-    color: white;
+    
+    background-color: #aeaeae49;
+    color: black;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    cursor: pointer;
     transition: background-color 0.3s;
     margin-right: 20px;
     width: 100%;
