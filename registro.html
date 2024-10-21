@@ -85,6 +85,7 @@
                             </select>
                         </div>
                     </div>
+                    <hr>
                     <h3>Dirección</h3>
                     <div class="form-row">
                         <div class="form-group">
@@ -109,10 +110,12 @@
                         </div>
                         <div class="form-group">
                             <label for="diagnostico_inicial">Dx inicial:</label>
-                            <input type="text" id="diagnostico_inicial">
+                            <textarea name="dx_registro" id="dx" rows="3"></textarea>
                         </div>
                     </div>
-                    
+                
+                    <hr>
+
                     <h2>Información del Responsable</h2>
                     <div class="form-row">
                         <div class="form-group">
@@ -142,6 +145,9 @@
                             <input type="text" id="ocupacion">
                         </div>
                     </div>
+
+                        <hr>
+
                     <h3>Dirección del Responsable</h3>
                     <div class="form-row">
                         <div class="form-group">
@@ -163,11 +169,20 @@
                             <input type="number" id="personas_hogar" min="0">
                         </div>
                         <div class="form-group">
+                            <label for="clasificacion_trabajo_social">Clasificación de trabajo social:</label>
+                            <input type="text" id="clasificacion_trabajo_social">
+                        </div>
+                        <div class="form-group">
                             <label for="personas_apoyo">Personas que apoyan al sostenimiento del hogar:</label>
                             <input type="number" id="personas_apoyo" min="0">
                         </div>
                     </div>
                     <div class="form-row">
+                        <div class="form-group">
+                            <label for="indice_economico">Índice económico:</label>
+                            <input type="number" id="indice_economico" min="0">
+                        </div>
+
                         <div class="form-group">
                             <label for="derechohabiente">Derechohabiente a:</label>
                             <select id="derechohabiente">
@@ -183,6 +198,7 @@
                             <input type="text" id="derechohabiente_otro">
                         </div>
                     </div>
+                    <!--
                     <div class="form-row">
                         <div class="form-group">
                             <label for="ingresos">Total de ingresos:</label>
@@ -192,23 +208,36 @@
                             <label for="egresos">Total de egresos:</label>
                             <input type="number" id="egresos" min="0">
                         </div>
-                        <div class="form-group">
-                            <label for="indice_economico">Índice económico:</label>
-                            <input type="number" id="indice_economico" min="0">
-                        </div>
                     </div>
+                    -->
+
+
                     <div class="form-row">
-                        <div class="form-group full-width">
-                            <label for="clasificacion_trabajo_social">Clasificación de trabajo social:</label>
-                            <input type="text" id="clasificacion_trabajo_social">
-                        </div>
+                        
                     </div>
+
                     <div class="form-row">
                         <div class="form-group full-width">
                             <label for="observaciones">Observaciones:</label>
                             <textarea id="observaciones" rows="5"></textarea>
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hoja_frontal">Hoja frontal:</label>
+                            <input type="file" name="hoja_frontal" id="hoja_frontal">
+                        </div>
+                        <div class="form-group">
+                            <label for="hoja_compromiso">Hoja de compromiso:</label>
+                            <input type="file" name="hoja_compromiso" id="hoja_compromiso">
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button">Generar Hoja Frontal</button>
+                        <button type="button">Generar Hoja de Compromiso</button>
+                    </div>
+                    
                     <div class="button-group">
                         <button type="submit">Registrar Paciente</button>
                     </div>
