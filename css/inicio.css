@@ -37,13 +37,18 @@ section {
     color: #333;
 }
 
+.contentbox h3{
+    margin-bottom: 1rem;
+    color: #333;
+}
+
 .contentbox img {
     max-width: 50%;
     height: auto;
     margin-bottom: 1rem;
 }
 
-.contentbox button {
+.contentbox button{
     background-color: #6d6d6d;
     color: white;
     border: none;
@@ -54,8 +59,12 @@ section {
     transition: background-color 0.3s;
 }
 
+.contentbox button a{
+    color: white;
+    text-decoration: none;
+}
+
 .contentbox input {
-    
     background-color: #aeaeae49;
     color: black;
     border: none;
@@ -66,6 +75,7 @@ section {
     width: 100%;
     max-width: 200px;
 }
+
 
 .contentbox select {
     background-color: #aeaeae;

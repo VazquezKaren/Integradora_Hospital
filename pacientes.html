@@ -47,6 +47,16 @@
     <section class="main-content">
         <div class="content-grid">
             <div class="contentbox patient-info">
+                <h1>Informacion del paciente</h1>
+                <br>
+                <i class="fa-solid fa-magnifying-glass"></i> <input type="text" placeholder="Buscar" name="busqueda">
+            </div>
+        </div>
+    </section>
+
+    <section class="main-content">
+        <div class="content-grid">
+            <div class="contentbox patient-info">
                 <div class="tabs">
                     <button class="tab-btn active" onclick="showTab('paciente')">Paciente</button>
                     <button class="tab-btn" onclick="showTab('responsable')">Responsable</button>
@@ -202,21 +212,28 @@
                                 <input type="text" name="colonia_responsable" id="colonia_responsable">
                             </div>
                         </div>
+
+                        <hr>
+
+                        <h2>Trabajo social</h2>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="personas_hogar">No. de personas en el hogar:</label>
                                 <input type="number" name="personas_hogar" id="personas_hogar" min="1">
                             </div>
+
                             <div class="form-group">
                                 <label for="personas_apoyo">Personas que apoyan al sostenimiento del hogar:</label>
                                 <input type="number" name="personas_apoyo" id="personas_apoyo" min="0">
                             </div>
-                        </div>
-                        <div class="form-row">
+
                             <div class="form-group">
                                 <label for="derechohabiente">Derechohabiente a:</label>
                                 <input type="text" name="derechohabiente" id="derechohabiente">
                             </div>
+                        </div>
+
+                        <div class="form-row">
                             <div class="form-group">
                                 <label for="ingresos">Total de ingresos:</label>
                                 <input type="number" name="ingresos" id="ingresos" min="0" step="0.01">
@@ -225,10 +242,6 @@
                                 <label for="egresos">Total de egresos:</label>
                                 <input type="number" name="egresos" id="egresos" min="0" step="0.01">
                             </div>
-                        </div>
-
-                        
-                        <div class="form-row">
                             <div class="form-group">
                                 <label for="indice_economico">Índice económico:</label>
                                 <select name="indice_economico" id="indice_economico">
@@ -238,6 +251,7 @@
                                 </select>
                             </div>
                         </div>
+                        
                         <div class="button-group">
                             <button type="submit">Guardar cambios</button>
                             <button type="reset">Descartar cambios</button>
