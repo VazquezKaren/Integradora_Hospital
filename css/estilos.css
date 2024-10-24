@@ -1,9 +1,12 @@
 /* Reset y estilos globales */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+    font-family: "Montserrat", sans-serif;
 }
 
 body {
@@ -55,7 +58,6 @@ body {
 }
 
 .logo h1 {
-    font-family: 'Georgia', serif;
     color: white;
     font-weight: 400;
     font-size: 2rem; 
@@ -156,6 +158,10 @@ body {
     font-size: 16px;
     background-color: #555;
     text-align: center;
+}
+
+.cerrar-sesion:hover{
+    
 }
 
 /* Ajustar la capa de fondo */
