@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital del niño - Registro de Pacientes</title>
+    <title>Hospital del niño - Historial de Pacientes</title>
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/inicio.css">
-    <link rel="stylesheet" href="css/pacientes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <header class="header">
         <div class="container">
@@ -20,6 +21,7 @@
                     <h1>Hospital del niño</h1>
                 </a>
             </div>
+
             <nav class="menu">
                 <a href="historial.html">Historial</a>
                 <a href="empleado.html" class="user-link">
@@ -44,6 +46,67 @@
         </div>
     </div>
 
-    
+    <section>
+        <div class="content-grid">
+            <!-- Tabla de actividades del historial -->
+            <div class="contentbox">
+                <h2>Historial de Actividades</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Actividad</th>
+                            <th>Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>23/10/2024</td>
+                            <td>Modificación de datos de paciente</td>
+                            <td>Ricardo Perez</td>
+                        </tr>
+                        <tr>
+                            <td>22/10/2024</td>
+                            <td>Registro de nuevo paciente</td>
+                            <td>Ana Lopez</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tabla de cambios recientes -->
+            <div class="contentbox">
+                <h2>Cambios Recientes</h2>
+                <table class="recent-changes-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Campo Modificado</th>
+                            <th>Anterior</th>
+                            <th>Nuevo</th>
+                            <th>Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>23/10/2024</td>
+                            <td>Dirección</td>
+                            <td>Calle Falsa 123</td>
+                            <td>Calle Verdadera 456</td>
+                            <td>Ricardo Perez</td>
+                        </tr>
+                        <tr>
+                            <td>22/10/2024</td>
+                            <td>Teléfono</td>
+                            <td>123-456-7890</td>
+                            <td>098-765-4321</td>
+                            <td>Ana Lopez</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 </body>
+
 </html>
