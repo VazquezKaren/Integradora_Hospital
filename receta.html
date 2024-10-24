@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expediente Médico - Hospital del Niño</title>
+    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="btn-menu">
+                <label for="btn-menu">☰</label>
+            </div>
+            <div class="logo">
+                <a href="inicio.html" style="text-decoration: none; color: inherit;">
+                    <h1>Hospital del niño</h1>
+                </a>
+            </div>
+            <nav class="menu">
+                <a href="historial.html">Historial</a>
+                <a href="empleado.html" class="user-link">
+                    Administrador(a) <i class="fas fa-user"></i>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="capa"></div>
+    <input type="checkbox" id="btn-menu" checked>
+    <div class="container-menu">
+        <div class="cont-menu">
+            <nav>
+                <a href="registro.html" class="normal"><i class="fas fa-user-plus"></i> Registrar nuevo paciente</a>
+                <a href="buscar.html" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>
+                <a href="actualizar.html" class="normal"><i class="fas fa-edit"></i> Actualizar paciente</a>
+                <a href="eliminar.html" class="normal"><i class="fas fa-trash-alt"></i> Eliminar paciente existente</a>
+                <a href="formato.html" class="normal"><i class="fas fa-file-alt"></i> Formatos en blanco</a>
+            </nav>
+            <a href="#" class="cerrar-sesion"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+        </div>
+    </div>
+
+    <section>
+        <div class="content-grid">
+            <div class="contentbox">
+                <h2>Receta Médica</h2>
+                <h3>Natalia Niebla Rosales (0001/24)</h3>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Nombre(s):</td>
+                            <td><input type="text" value="Natalia"></td>
+                            <td>Apellido Paterno:</td>
+                            <td><input type="text" value="Niebla"></td>
+                            <td>Apellido Materno:</td>
+                            <td><input type="text" value="Rosales"></td>
+                        </tr>
+                        <tr>
+                            <td>ISSSTE:</td>
+                            <td><input type="text" value="ISSSTE"></td>
+                            <td>Otro:</td>
+                            <td><input type="text"></td>
+                            <td>Fecha de la consulta:</td>
+                            <td><input type="date" value="2024-12-05"></td>
+                        </tr>
+                        <tr>
+                            <td>Edad:</td>
+                            <td><input type="number" value="10"></td>
+                            <td>Peso:</td>
+                            <td><input type="number" value="46"></td>
+                            <td>Talla:</td>
+                            <td><input type="text" value="xxx"></td>
+                            <td>Temperatura:</td>
+                            <td><input type="number" value="46"></td>
+                        </tr>
+                        <tr>
+                            <td>Tratamiento:</td>
+                            <td colspan="5"><textarea placeholder="Texto... medicinas recetadas..."></textarea></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button>Editar</button>
+                <button>Eliminar</button>
+                <button>Generar Receta Médica</button>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

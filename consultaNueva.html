@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital del Niño - Consulta Médica</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="stylesheet" href="css/pacientes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="btn-menu">
+                <label for="btn-menu">☰</label>
+            </div>
+            <div class="logo">
+                <a href="inicio.html" style="text-decoration: none; color: inherit;">
+                    <h1>Hospital del Niño</h1>
+                </a>
+            </div>
+            <nav class="menu">
+                <a href="historial.html">Historial</a>
+                <a href="empleado.html" class="user-link">
+                    Ricardo Perez <i class="fas fa-user"></i>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="capa"></div>
+    <input type="checkbox" id="btn-menu" checked>
+    <div class="container-menu">
+        <div class="cont-menu">
+            <nav>
+                <a href="empleado.html" class="empleado"><i class="fas fa-user"></i> Ricardo Perez</a>
+                <a href="inicio.html" class="normal"><i class="fas fa-home"></i> Inicio</a>
+                <a href="registro.html" class="normal"><i class="fas fa-user-plus"></i> Registrar nuevo paciente</a>
+                <a href="pacientes.html" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>
+                <a href="formatoblanco.html" class="normal"><i class="fas fa-file-alt"></i> Formato en blanco</a>
+            </nav>
+            <a href="#" class="cerrar-sesion"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+        </div>
+    </div>
+    
+    <section class="main-content">
+        <div class="content-grid">
+            <div class="contentbox patient-info">
+                <form action="">
+                    <h2>Consulta Médica</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id-ingreso">ID Ingreso:</label>
+                            <input type="text" id="id-ingreso" value="igrsu51224">
+                        </div>
+                        <div class="form-group">
+                            <label for="fecha-consulta">Fecha de la consulta:</label>
+                            <input type="date" id="fecha-consulta" value="2024-12-05">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre">Nombre(s):</label>
+                            <input type="text" id="nombre" value="Natalia">
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido-paterno">Apellido Paterno:</label>
+                            <input type="text" id="apellido-paterno" value="Niebla">
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido-materno">Apellido Materno:</label>
+                            <input type="text" id="apellido-materno" value="Rosales">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edad">Edad:</label>
+                            <input type="number" id="edad" value="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="peso">Peso:</label>
+                            <input type="number" id="peso" value="46">
+                        </div>
+                        <div class="form-group">
+                            <label for="talla">Talla:</label>
+                            <input type="text" id="talla" value="46">
+                        </div>
+                        <div class="form-group">
+                            <label for="temperatura">Temperatura:</label>
+                            <input type="number" id="temperatura" value="36">
+                        </div>
+                        <div class="form-group">
+                            <label for="derechohabiente">Derechohabiente:</label>
+                            <select id="derechohabiente">
+                                <option value="ISSSTE">ISSSTE</option>
+                                <option value="IMSS">IMSS</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="diagnostico">Diagnóstico:</label>
+                            <textarea id="diagnostico" rows="3" placeholder="Texto... Observaciones..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="tratamiento">Tratamiento:</label>
+                            <textarea id="tratamiento" rows="3" placeholder="Texto... medicinas recetadas..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit">Guardar Consulta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            document.body.classList.toggle('menu-closed');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.remove('menu-closed');
+        });
+    </script>
+</body>
+</html>
