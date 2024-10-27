@@ -13,7 +13,7 @@
     <header class="header">
         <div class="container">
             <div class="btn-menu">
-                <label for="btn-menu">☰</label>
+                <label for="btn-menu"><i class="fa-solid fa-bars"></i></label>
             </div>
             <div class="logo">
                 <a href="inicio.html" style="text-decoration: none; color: inherit;">
@@ -21,7 +21,9 @@
                 </a>
             </div>
             <nav class="menu">
-                <a href="historial.html">Historial</a>
+                <a href="historial.html" class="user-link">
+                    Historial <i class="fa-solid fa-clipboard"></i>
+                </a>
                 <a href="empleado.html" class="user-link">
                     Ricardo Perez <i class="fas fa-user"></i>
                 </a>
@@ -48,6 +50,7 @@
         <div class="content-grid">
             <div class="contentbox patient-info">
                 <h1>Informacion del paciente</h1>
+                <p>Ingrese el No.de registro del paciente</p>
                 <br>
                 <i class="fa-solid fa-magnifying-glass"></i> <input type="text" placeholder="Buscar" name="busqueda">
                 <button>Buscar</button>

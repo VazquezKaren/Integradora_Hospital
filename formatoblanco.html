@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital del niño - Registro de Pacientes</title>
+    <title>Formatos en blanco</title>
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/inicio.css">
     <link rel="stylesheet" href="css/pacientes.css">
@@ -13,7 +13,7 @@
     <header class="header">
         <div class="container">
             <div class="btn-menu">
-                <label for="btn-menu">☰</label>
+                <label for="btn-menu"><i class="fa-solid fa-bars"></i></label>
             </div>
             <div class="logo">
                 <a href="inicio.html" style="text-decoration: none; color: inherit;">
@@ -21,7 +21,9 @@
                 </a>
             </div>
             <nav class="menu">
-                <a href="historial.html">Historial</a>
+                <a href="historial.html" class="user-link">
+                    Historial <i class="fa-solid fa-clipboard"></i>
+                </a>
                 <a href="empleado.html" class="user-link">
                     Ricardo Perez <i class="fas fa-user"></i>
                 </a>
@@ -44,6 +46,29 @@
         </div>
     </div>
 
+    <section>
+        <div class="content-grid">
+            <div class="contentbox">
+                <h2>Formatos en blanco</h2>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="content-grid">
+                <div class="subcontainer">
+                    <div class="contentbox">
+                        <h2>Hoja consentimiento</h2>
+                        <embed src="pdfs/hoja consentimiento.pdf" type="application/pdf" width="100%" height="750px">
+
+                    </div>
+                    <div class="contentbox">
+                        <h2>Hoja frontal</h2>
+                        <embed src="pdfs/hoja frontal.pdf" type="application/pdf" width="100%" height="750px">
+                    </div>
+                </div>
+        </div>
+    </section>
     
 </body>
 </html>

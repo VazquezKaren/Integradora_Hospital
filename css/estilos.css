@@ -59,7 +59,6 @@ body {
 
 .logo h1 {
     color: white;
-    font-weight: 400;
     font-size: 2rem; 
     margin-left: 10px;
 }
@@ -190,47 +189,12 @@ body {
     padding-bottom: 5px;
 }
 
-/* Estilos responsivos */
-@media (max-width: 768px) {
-    
-    
-    .container .menu a{
-        display: none;
-    }
-
-    .container .btn-menu label {
-        display: block;
-        margin-left: .5rem  ;
-    }
-
-    body {
-        padding-left: 0;
-    }
-
-    .header {
-        width: 100%;
-    }
-
-    .container-menu {
-        left: -250px;
-        transition: left 0.3s ease;
-    }
-
-    input[type="checkbox"]:checked ~ .container-menu {
-        left: 0;
-    }
-
-    .content-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
 table {
-    width: 100%;
+    width: 80%;
     border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 1rem;
+    margin: 20px auto;
     text-align: left;
+    table-layout: fixed;
 }
 
 thead th {
@@ -238,6 +202,7 @@ thead th {
     color: white;
     padding: 10px;
     border-bottom: 2px solid #555;
+    text-size-adjust: auto;
 }
 
 tbody td {
@@ -253,49 +218,7 @@ tbody tr:hover {
     background-color: #f5f5f5;
 }
 
-h2 {
-    margin-top: 40px;
-    color: #6d6d6d;
-    text-align: left;
-}
-
-.recent-changes-table {
-    display: table;
-    width: 100%;
-    border: none;
-}
-
-/* Estilos para el recuadro de expediente médico */
-.contentbox {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 900px;
-    margin: 40px auto;
-}
-
-.contentbox h2, .contentbox h3 {
-    color: #111111;
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-    vertical-align: middle;
-}
-
-table input[type="text"], table input[type="date"], table input[type="number"], table textarea {
+input[type="text"], input[type="date"], input[type="number"], textarea {
     width: 100%;
     padding: 5px;
     margin: 5px 0;
@@ -304,10 +227,56 @@ table input[type="text"], table input[type="date"], table input[type="number"], 
     box-sizing: border-box;
 }
 
-table textarea {
+textarea {
     resize: none;
     height: 100px;
 }
+
+.recent-changes-history-table {
+    width: 100%;
+}
+
+@media (max-width: 1300px) {
+    .recent-changes-history-table {
+        font-size: 0.6rem; 
+    }
+
+    .recent-changes-history-table th,
+    .recent-changes-history-table td {
+        padding: 8px; /* Reducir el padding para un mejor ajuste */
+    }
+}
+
+@media (max-width: 480px) {
+    .recent-changes-history-table {
+        font-size: 0.5rem; /* Tamaño de fuente aún más pequeño para pantallas muy pequeñas */
+    }
+
+    .recent-changes-history-table th,
+    .recent-changes-history-table td {
+        padding: 6px; /* Ajustar el padding */
+    }
+}
+
+/* Estilos para el recuadro de expediente médico */
+
+/*
+.contentbox {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px;
+}
+
+.contentbox h2, .contentbox h3 {
+    color: #111111;
+    margin-bottom: 20px;
+    margin-top: 1rem;
+    text-align: center;
+}
+*/
 
 /* Estilo para los botones */
 button {
@@ -353,4 +322,41 @@ button:hover {
     background-color: #4CAF50;
     color: white;
     display: none; /* Inicialmente oculto */
+}
+
+
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    
+    
+    .container .menu a{
+        display: none;
+    }
+
+    .container .btn-menu label {
+        display: block;
+        margin-left: .5rem  ;
+    }
+
+    body {
+        padding-left: 0;
+    }
+
+    .header {
+        width: 100%;
+    }
+
+    .container-menu {
+        left: -250px;
+        transition: left 0.3s ease;
+    }
+
+    input[type="checkbox"]:checked ~ .container-menu {
+        left: 0;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
 }
