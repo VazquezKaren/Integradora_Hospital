@@ -1,6 +1,4 @@
-# Integradora_HospitaldelNi-o
+# Integradora Hospital del Niño
 
-
-#Utilizar popconfirm para las alertas 
-#Y tambien Mui
+Saben usar MUI?
 
