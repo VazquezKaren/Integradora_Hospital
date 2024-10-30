@@ -10,3 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setTimeout(hideLoader, 5000);
 });
+
+function toggleMenu() {
+    document.body.classList.toggle('menu-closed');
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.remove('menu-closed');
+});
