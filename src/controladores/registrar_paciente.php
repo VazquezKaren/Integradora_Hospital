@@ -1,6 +1,6 @@
 <?php
 // Incluir la configuración de la base de datos
-include '../../config.php';
+include 'C:\xampp\htdocs\Integradora_Hospital\src\config.php';
 
     // Preparar y sanitizar los datos del paciente
     $nombre = htmlspecialchars($_POST['nombre']);
