@@ -19,15 +19,15 @@ include '../../config.php';
     $direccion_colonia = htmlspecialchars($_POST['direccion_colonia']);
 
     // Información del tutor
-    $responsable_nombre = htmlspecialchars($_POST['responsable_nombre']);
-    $responsable_apellido_paterno = htmlspecialchars($_POST['responsable_apellido_paterno']);
-    $responsable_apellido_materno = htmlspecialchars($_POST['responsable_apellido_materno']);
+    $tutor_nombre = htmlspecialchars($_POST['tutor_nombre']);
+    $tutor_apellido_paterno = htmlspecialchars($_POST['tutor_apellido_paterno']);
+    $tutor_apellido_materno = htmlspecialchars($_POST['tutor_apellido_materno']);
     $parentesco = htmlspecialchars($_POST['parentesco']);
     $telefono = htmlspecialchars($_POST['telefono']);
     $ocupacion = htmlspecialchars($_POST['ocupacion']);
-    $responsable_direccion_calle = htmlspecialchars($_POST['responsable_direccion_calle']);
-    $responsable_direccion_numero = htmlspecialchars($_POST['responsable_direccion_numero']);
-    $responsable_direccion_colonia = htmlspecialchars($_POST['responsable_direccion_colonia']);
+    $tutor_direccion_calle = htmlspecialchars($_POST['tutor_direccion_calle']);
+    $tutor_direccion_numero = htmlspecialchars($_POST['tutor_direccion_numero']);
+    $tutor_direccion_colonia = htmlspecialchars($_POST['tutor_direccion_colonia']);
 
     // Trabajo social
     $personas_hogar = (int)$_POST['personas_hogar'];
@@ -42,6 +42,18 @@ include '../../config.php';
         // Iniciar una transacción
         $conn->beginTransaction();
 
+        // Comprobar si el paciente ya está registrado
+        $sql_check = "SELECT idPaciente FROM paciente WHERE nombre = :nombre AND apellido_paterno = :apellido_paterno AND apellido_materno = :apellido_materno AND fecha_nacimiento = :fecha_nacimiento";
+        $stmt = $conn->prepare($sql_check);
+        $stmt->execute([
+            ':nombre' => $nombre,
+            ':apellido_paterno' => $apellido_paterno,
+            ':apellido_materno' => $apellido_materno,
+            ':fecha_nacimiento' => $fecha_nacimiento
+        ]);
+        $idPaciente = $stmt->fetchColumn();
+
+        if ($idPaciente) {
         // Insertar los datos del paciente
         $sql_paciente = "INSERT INTO paciente (nombre, apellido_paterno, apellido_materno, fecha_nacimiento, edad, lugar_nacimiento, sexo, servicio_solicitado, dx_registro, direccion_calle, direccion_numero, direccion_colonia)VALUES (:nombre, :apellido_paterno, :apellido_materno, :fecha_nacimiento, :edad, :lugar_nacimiento, :sexo, :servicio_solicitado, :dx_registro, :direccion_calle, :direccion_numero, :direccion_colonia)";
         $stmt = $conn->prepare($sql_paciente);
@@ -59,7 +71,9 @@ include '../../config.php';
             ':direccion_numero' => $direccion_numero,
             ':direccion_colonia' => $direccion_colonia
         ]);
-        
+        // Obtener el ID del nuevo paciente
+        $idPaciente = $conn->lastInsertId();
+    }
         // Obtener el último ID insertado
         $idPaciente = $conn->lastInsertId();
 
@@ -93,14 +107,33 @@ include '../../config.php';
             ':observaciones' => $observaciones
         ]);
 
-        // Confirmar la transacción
-        $conn->commit();
-        echo "Registro completado exitosamente.";
-    } catch (PDOException $e) {
-        // Revertir la transacción en caso de error
-        $conn->rollBack();
-        echo "Error al registrar los datos: " . $e->getMessage();
-    }
+    // Generar Hoja frontal
+    $pdf = new TCPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('helvetica', '', 12);
+
+    // Contenido del PDF
+    $pdf->Cell(0, 10, "Hoja Frontal", 0, 1, 'C');
+    $pdf->Cell(0, 10, "Fecha de Ingreso: " . date('Y-m-d'), 0, 1);
+    $pdf->Cell(0, 10, "Hora de Ingreso: " . date('H:i:s'), 0, 1);
+    $pdf->Cell(0, 10, "Número de Registro: " . $idPaciente, 0, 1);
+    $pdf->Cell(0, 10, "Nombre: " . $nombre . " " . $apellido_paterno . " " . $apellido_materno, 0, 1);
+    $pdf->Cell(0, 10, "Edad: " . $edad, 0, 1);
+    $pdf->Cell(0, 10, "Fecha de Nacimiento: " . $fecha_nacimiento, 0, 1);
+    $pdf->Cell(0, 10, "DX Inicial: " . $dx_registro, 0, 1);
+    $pdf->Cell(0, 10, "Nombre del Tutor: " . $responsable_nombre . " " . $responsable_apellido_paterno, 0, 1);
+
+    // Guardar el PDF
+    $pdf->Output("hoja_frontal_$idPaciente.pdf", 'D');
+
+    // Confirmar la transacción
+    $conn->commit();
+    echo "Registro completado exitosamente.";
+} catch (PDOException $e) {
+    // Revertir la transacción en caso de error
+    $conn->rollBack();
+    echo "Error al registrar los datos: " . $e->getMessage();
+}
 
     // Cerrar la conexión
     $conn = null;
