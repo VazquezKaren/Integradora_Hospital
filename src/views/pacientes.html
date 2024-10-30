@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../css/pacientes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="../../JS/main.js"></script>
+    <script src="../../JS/funciones.js"></script>
 </head>
 
 <body>
@@ -96,14 +97,6 @@
                                 <input type="date" name="fecha_nacimiento" id="fecha_nacimiento">
                             </div>
                             <div class="form-group">
-                                <label for="lugar_nacimiento">Lugar de nacimiento:</label>
-                                <select name="lugar_nacimiento" id="lugar_nacimiento">
-                                    <option value="" disabled selected>Seleccione la ciudad</option>
-                                    <option value="durango">Durango</option>
-                                    <option value="canatlan">Canatlan</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label for="sexo">Sexo:</label>
                                 <select name="sexo" id="sexo">
                                     <option value="" disabled selected>Seleccione el sexo</option>
@@ -111,8 +104,34 @@
                                     <option value="femenino">Femenino</option>
                                 </select>
                             </div>
+
+                            <div class="form-group">
+                                <label for="paciente_pais">País</label>
+                                <select id="paciente_pais" name="paciente_pais"
+                                    onchange="actualizarEstados('paciente')">
+                                    <option value="" disabled selected>Seleccione un país</option>
+                                    <option value="Mexico">México</option>
+                                    <option value="Extranjero">Extranjero</option>
+                                </select>
+                            </div>
                         </div>
 
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="paciente_estado">Estado</label>
+                                <select id="paciente_estado" name="paciente_estado"
+                                    onchange="actualizarMunicipios('paciente')">
+                                    <option value="" disabled selected>Seleccione un estado</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="paciente_municipio">Municipio</label>
+                                <select id="paciente_municipio" name="paciente_municipio">
+                                    <option value="" disabled selected>Seleccione un municipio</option>
+                                </select>
+                            </div>
+                        </div>
                         <hr>
 
                         <h2>Dirección</h2>
@@ -176,6 +195,10 @@
                     </form>
                 </div>
                 <div id="responsable" class="tab-content">
+
+
+
+
                     <h2>Datos del Responsable</h2>
                     <form action="">
                         <div class="form-row">
@@ -206,6 +229,34 @@
                                 <input type="text" name="ocupacion" id="ocupacion">
                             </div>
                         </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="responsable_pais">País</label>
+                                <select id="responsable_pais" name="responsable_pais" onchange="actualizarEstados('responsable')">
+                                    <option value="" disabled selected>Seleccione un país</option>
+                                    <option value="Mexico">México</option>
+                                    <option value="Extranjero">Extranjero</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Estado del Responsable -->
+                            <div class="form-group">
+                                <label for="responsable_estado">Estado</label>
+                                <select id="responsable_estado" name="responsable_estado" onchange="actualizarMunicipios('responsable')">
+                                    <option value="" disabled selected>Seleccione un estado</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Municipio del Responsable -->
+                            <div class="form-group">
+                                <label for="responsable_municipio">Municipio</label>
+                                <select id="responsable_municipio" name="responsable_municipio">
+                                    <option value="" disabled selected>Seleccione un municipio</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <hr>
 
                         <h2>Dirección</h2>
