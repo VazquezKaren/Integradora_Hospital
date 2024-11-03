@@ -3,9 +3,6 @@
 include('cabecera.php'); 
 ?>
 
-
-
-
     <section>
         <div class="content-grid">
             <div class="contentbox">

@@ -8,10 +8,6 @@
     <link rel="stylesheet" href="css/inicio.css">
     <script src="JS/main.js"></script>
 </head>
-
-
-
-
 <body>
 	<div class="loader-container">
         <div class="loader"></div>
@@ -25,14 +21,21 @@
         <div class="right-panel">
             <h2>Hospital del Niño</h2>
             <p>Durango, Dgo.</p>
-            <form action="#" method="POST">
+
+            <?php 
+            include('src/config.php'); 
+            include('src/controladores/controlador_index.php'); 
+            ?>
+
+            <form action="" method="POST">
                 <label for="usuario">Usuario</label>
                 <input type="text" id="usuario" name="usuario" required placeholder="Ingrese su usuario">
                 
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" name="password" required placeholder="Ingrese su contraseña">
                 
-                <button type="submit" >Ingresar</button>
+                <input type="submit" name="btningresar" value="INICIAR SESION">
+                <button type="submit" name="btningresar" >Ingresar</button>
             </form>
         </div>
     </div>
