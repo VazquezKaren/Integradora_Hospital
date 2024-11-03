@@ -51,7 +51,7 @@
                 <a href="pacientes.php" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>
                 <a href="formatoblanco.php" class="normal"><i class="fas fa-file-alt"></i> Formato en blanco</a>
             </nav>
-            <a href="#" class="cerrar-sesion"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+            <a href="../../index.php" class="cerrar-sesion"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
         </div>
     </div>
 </body>
