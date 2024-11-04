@@ -89,6 +89,20 @@ button:hover {
     background-color: #8c8c8c;
 }
 
+.btninput {
+    width: 100%;
+    padding: 10px;
+    background-color: #454546;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btninput:hover{
+    background-color: #8c8c8c;
+}
+
 img {
     filter: brightness(60%);
 }

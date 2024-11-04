@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de sesion</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/inicio.css">
     <script src="JS/main.js"></script>
 </head>
 <body>
@@ -22,20 +21,25 @@
             <h2>Hospital del Niño</h2>
             <p>Durango, Dgo.</p>
 
-            <?php 
-            include('src/config.php'); 
-            include('src/controladores/controlador_index.php'); 
-            ?>
-
             <form action="" method="POST">
+
+                <?php 
+                    if (isset($_GET['error'])) {
+                    ?>
+                        <script href="">noacceso()</script>
+                        <?php 
+                        echo $_GET['error']
+                        ?>
+                <?php
+                    }
+                ?>
                 <label for="usuario">Usuario</label>
                 <input type="text" id="usuario" name="usuario" required placeholder="Ingrese su usuario">
                 
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" name="password" required placeholder="Ingrese su contraseña">
                 
-                <input type="submit" name="btningresar" value="INICIAR SESION">
-                <button type="submit" name="btningresar" >Ingresar</button>
+                <input type="submit" name="btningresar" value="Ingresar" class="btninput">
             </form>
         </div>
     </div>
