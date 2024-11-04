@@ -38,7 +38,7 @@
                     $_SESSION['idUsuario'] = $row['idUsuario'];
 
                     $idEmpleado = $row['fkIdEmpleado'];
-                    $sqlEmpleado = "SELECT nombres, apellidoPaterno, apellidoMaterno FROM empleado WHERE idEmpleado = '$idEmpleado'";
+                    $sqlEmpleado = "SELECT nombres, apellidoPaterno, apellidoMaterno, telefono, email FROM empleado WHERE idEmpleado = '$idEmpleado'";
                     $resultEmpleado = mysqli_query($conn, $sqlEmpleado);
 
                     if (mysqli_num_rows($resultEmpleado) === 1) {
@@ -46,6 +46,8 @@
                         $_SESSION['nombreEmpleado'] = $rowEmpleado['nombres'];
                         $_SESSION['apellidoPaternoEmpleado'] = $rowEmpleado['apellidoPaterno'];
                         $_SESSION['apellidoMaternoEmpleado'] = $rowEmpleado['apellidoMaterno'];
+                        $_SESSION['telefonoEmpleado'] = $rowEmpleado['telefono'];
+                        $_SESSION['emailEmpleado'] = $rowEmpleado['email'];
                     }
 
                     header("Location:../views/inicio.php");

@@ -26,19 +26,20 @@ session_start();
                         </tr>
                         <tr>
                             <td>Correo Electrónico:</td>
-                            <td>ricardo.perez@example.com</td>
+                            <td><?php echo $_SESSION['emailEmpleado']; ?></td>
                         </tr>
                         <tr>
                             <td>Teléfono:</td>
-                            <td>(555) 123-4567</td>
+                            <td><?php echo $_SESSION['telefonoEmpleado']; ?></td>
                         </tr>
                         <tr>
                             <td>Rol:</td>
-                            <td>Enfermero</td>
+                            <td><?php echo $_SESSION['rol']; ?></td>
                         </tr>
                     </tbody>
                 </table>
-                <button style="background-color: #ff4d4d; color: white;">Cerrar sesion</button>
+                <button href="../controladores/CerrarSesion.php" style="background-color: #ff4d4d; color: white;">Cerrar sesion</button>
+                <a href="../controladores/CerrarSesion.php" class="cerrar-sesion" style="background-color: #ff4d4d; color: white;><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
             </div>
         </div>
     </section>

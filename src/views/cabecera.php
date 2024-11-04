@@ -49,7 +49,7 @@ session_start();
     <div class="container-menu">
         <div class="cont-menu">
             <nav>
-                <a href="empleado.php" class="empleado"><i class="fas fa-user"></i> <?php echo $_SESSION['nombreEmpleado']; ?></a>
+                <a href="empleado.php" class="empleado"><i class="fas fa-user"></i> <?php echo $_SESSION['nombreEmpleado'] . ' ' . $_SESSION['apellidoPaternoEmpleado']; ?></a>
                 <a href="inicio.php" class="normal"><i class="fas fa-home"></i> Inicio</a>
                 <a href="registro.php" class="normal"><i class="fas fa-user-plus"></i> Registrar nuevo paciente</a>
                 <a href="pacientes.php" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>
