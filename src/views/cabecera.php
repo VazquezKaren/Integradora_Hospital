@@ -12,6 +12,10 @@
     <script src="../../JS/funciones.js"></script>
 </head>
 
+<?php
+session_start();
+?>
+
 <body>
 	<div class="loader-container">
         <div class="loader"></div>
@@ -34,8 +38,8 @@
                     Historial <i class="fa-solid fa-clipboard"></i>
                 </a>
                 <a href="empleado.php" class="user-link">
-                    Ricardo Perez <i class="fas fa-user"></i>
-                </a>
+                <?php echo $_SESSION['nombreEmpleado']; ?> <i class="fas fa-user"></i>
+                </a>    
             </nav>
         </div>
     </header>
@@ -45,7 +49,7 @@
     <div class="container-menu">
         <div class="cont-menu">
             <nav>
-                <a href="empleado.php" class="empleado"><i class="fas fa-user"></i> Ricardo Perez</a>
+                <a href="empleado.php" class="empleado"><i class="fas fa-user"></i> <?php echo $_SESSION['nombreEmpleado']; ?></a>
                 <a href="inicio.php" class="normal"><i class="fas fa-home"></i> Inicio</a>
                 <a href="registro.php" class="normal"><i class="fas fa-user-plus"></i> Registrar nuevo paciente</a>
                 <a href="pacientes.php" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>

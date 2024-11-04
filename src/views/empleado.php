@@ -1,6 +1,7 @@
 <?php 
 // BARRA DE NAVEACION Y MENU DE INTERACCION ENTRE SECCIONES, MODIFICAR EN CASO DE CAMBIAR RUTAS DE LOCALIZACION DE LOS ARCHIVOS DEL PROYECTO
 include('cabecera.php'); 
+session_start();
 ?>
 
     <section>
@@ -17,11 +18,11 @@ include('cabecera.php');
                     <tbody>
                         <tr>
                             <td>Nombre:</td>
-                            <td>Ricardo</td>
+                            <td><?php echo $_SESSION['nombreEmpleado']; ?></td>
                         </tr>
                         <tr>
-                            <td>Apellido:</td>
-                            <td>Perez</td>
+                            <td>Apellidos:</td>
+                            <td> <?php echo $_SESSION['apellidoPaternoEmpleado'] . $_SESSION['apellidoMaternoEmpleado'];?></td>
                         </tr>
                         <tr>
                             <td>Correo Electrónico:</td>
