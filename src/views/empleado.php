@@ -22,7 +22,7 @@ session_start();
                         </tr>
                         <tr>
                             <td>Apellidos:</td>
-                            <td> <?php echo $_SESSION['apellidoPaternoEmpleado'] . $_SESSION['apellidoMaternoEmpleado'];?></td>
+                            <td> <?php echo $_SESSION['apellidoPaternoEmpleado'] . ' ' . $_SESSION['apellidoMaternoEmpleado'];?></td>
                         </tr>
                         <tr>
                             <td>Correo Electrónico:</td>
