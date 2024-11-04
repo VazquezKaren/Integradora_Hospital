@@ -106,3 +106,8 @@ button:hover {
 img {
     filter: brightness(60%);
 }
+
+
+.error-message{
+    background-color: red;
+}

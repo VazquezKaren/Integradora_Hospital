@@ -6,6 +6,7 @@
     <title>Inicio de sesion</title>
     <link rel="stylesheet" href="css/main.css">
     <script src="JS/main.js"></script>
+    <script src="JS/alertas.js"></script>
 </head>
 <body>
 	<div class="loader-container">
@@ -20,19 +21,17 @@
         <div class="right-panel">
             <h2>Hospital del Niño</h2>
             <p>Durango, Dgo.</p>
-
-            <form action="" method="POST">
+            <form action="src/controladores/controlador_index.php" method="POST">
 
                 <?php 
                     if (isset($_GET['error'])) {
-                    ?>
-                        <script href="">noacceso()</script>
-                        <?php 
-                        echo $_GET['error']
-                        ?>
-                <?php
+                        echo "<p class='error-message'>" . htmlspecialchars($_GET['error']) . "</p>";
+                        /*
+                        echo "<script>noacceso();</script>";
+                        */
                     }
                 ?>
+
                 <label for="usuario">Usuario</label>
                 <input type="text" id="usuario" name="usuario" required placeholder="Ingrese su usuario">
                 

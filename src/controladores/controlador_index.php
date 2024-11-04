@@ -1,27 +1,26 @@
 <?php
-sesion_start();
-    include('../config.php')
+    session_start();
+    include('../config.php');
 
     
-    if (isset($_POST["usuario"]) && empty($_POST["password"])){
+    if (isset($_POST["usuario"]) && isset($_POST["password"])) {
         function validate ($data){
             $data = trim($data);
             $data = stripslashes($data);
             $data = htmlspecialchars($data);
             return $data;
-        }
+        };
 
         $usuario = validate($_POST['usuario']);
         $password = validate($_POST['password']);
 
         if (empty($usuario)) {
-            header("Location: Index.php?error-El usuario es requerido");
+            header("Location: ../../index.php?error-El usuario es requerido");
             exit();
         } elseif (empty($password)) {
-            header("Location: Index.php?error-La contraseña es requerido");
+            header("Location: ../../index.php?error-La contraseña es requerido");
             exit();
-        }
-        else {
+        }else {
 
             /*
             $password = md5($password);
@@ -32,25 +31,26 @@ sesion_start();
 
             if (mysqli_num_rows($result) === 1){
                 $row = mysqli_fetch_assoc($result);
-                if ($row['$usuario'] === $usuario && $row['password'] === $password) {
+
+                if ($row['usuario'] === $usuario && $row['contrasena'] === $password) {
                     $_SESSION['usuario'] = $row['usuario'];
-                    $_SESSION['Nombre_Completo'] = $row['Nombre_Completo'];
-                    $_SESSION['Id'] = $row['Id'];
-                    header("Location:src/views/inicio.php");
+                    $_SESSION['rol'] = $row['rol'];
+                    $_SESSION['idUsuario'] = $row['idUsuario'];
+                    header("Location:../views/inicio.php");
                     exit();
                 }else {
-                    header("Location:index.php?error=El usuario o la contraseña son incorrectos");
-                    exit()
+                    header("Location:../../index.php?error=El usuario o la contraseña son incorrectos");
+                    exit();
                 }
             }else{
-                header("Location:index.php?error=El usuario o la contraseña son incorrectos");
-                exit()
+                header("Location:../../index.php?error=El usuario o la contraseña son incorrectos");
+                exit();
             }
 
         }
-    }else{
-        header("Location:index.php");
-        exit()
-    }
 
+    }else{
+        header("Location: ../../index.php?error=Debe ingresar usuario y contraseña");
+        exit();
+    }
 ?>
