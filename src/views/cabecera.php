@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital del niño</title>
-    <link rel="stylesheet" href="../../css/estilos.css">
-    <link rel="stylesheet" href="../../css/inicio.css">
-    <link rel="stylesheet" href="../../css/pacientes.css">
+    <link rel="stylesheet" href="../../css/estilos.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../../css/inicio.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../../css/pacientes.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="../../JS/main.js"></script>
-    <script src="../../JS/funciones.js"></script>
+    <script src="../../JS/main.js?v=<?php echo time(); ?>"></script>
+    <script src="../../JS/funciones.js?v=<?php echo time(); ?>"></script>
 </head>
 
 <?php

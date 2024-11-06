@@ -15,7 +15,8 @@ section {
     gap: 4rem;
     margin-top: 4rem;
     width: 100%;
-    margin-right: 3rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
 }
 
 .contentbox {
