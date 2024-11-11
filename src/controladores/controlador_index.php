@@ -1,70 +1,69 @@
 <?php
-    session_start();
-    include('../config.php');
 
-    
-    if (isset($_POST["usuario"]) && isset($_POST["password"])) {
-        function validate ($data){
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        };
+require_once '../config.php';
+session_start();
 
-        $usuario = validate($_POST['usuario']);
-        $password = validate($_POST['password']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $usuario = $_POST['usuario'];
+    $password = $_POST['password'];
 
-        if (empty($usuario)) {
-            header("Location: ../../index.php?error-El usuario es requerido");
-            exit();
-        } elseif (empty($password)) {
-            header("Location: ../../index.php?error-La contraseña es requerido");
-            exit();
-        }else {
+    try {
+        $conn = new conn();
+        $pdo = $conn->connect();
 
-            /*
-            $password = md5($password);
-            */
+        $sql = "SELECT * FROM usuarios WHERE usuario = :usuario";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['usuario' => $usuario]);
+        $usuarioData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sql = "SELECT * FROM usuarios WHERE usuario='$usuario' AND contrasena = '$password'";
-            $result = mysqli_query($conn, $sql);
+        // Sustituir esta linea de codigo aca cuando tengamos el hashing, si no despues no va a jalar
+        // if ($usuarioData && password_verify($password,  $usuarioData['contrasena']))    o sin hash     if ($usuarioData && $password === $usuarioData['contrasena'])
 
-            if (mysqli_num_rows($result) === 1){
-                $row = mysqli_fetch_assoc($result);
+        if ($usuarioData && $password === $usuarioData['contrasena']) {
+            $_SESSION['usuario'] = $usuarioData['usuario'];
+            $_SESSION['rol'] = $usuarioData['rol'];
+            $_SESSION['idUsuario'] = $usuarioData['idUsuario'];
+            $idEmpleado = $usuarioData['fkIdEmpleado'];
+            
+            $sqlEmpleado = "SELECT nombres, apellidoPaterno, apellidoMaterno, telefono, email FROM empleado WHERE idEmpleado = :idEmpleado";
+            $stmtEmpleado = $pdo->prepare($sqlEmpleado);
+            $stmtEmpleado->execute(['idEmpleado' => $idEmpleado]);
+            $empleadoData = $stmtEmpleado->fetch(PDO::FETCH_ASSOC);
 
-                if ($row['usuario'] === $usuario && $row['contrasena'] === $password) {
-                    $_SESSION['usuario'] = $row['usuario'];
-                    $_SESSION['rol'] = $row['rol'];
-                    $_SESSION['idUsuario'] = $row['idUsuario'];
+            if ($empleadoData) {
+                $_SESSION['nombreEmpleado'] = $empleadoData['nombres'];
+                $_SESSION['apellidoPaternoEmpleado'] = $empleadoData['apellidoPaterno'];
+                $_SESSION['apellidoMaternoEmpleado'] = $empleadoData['apellidoMaterno'];
+                $_SESSION['telefonoEmpleado'] = $empleadoData['telefono'];
+                $_SESSION['emailEmpleado'] = $empleadoData['email'];
+            };
 
-                    $idEmpleado = $row['fkIdEmpleado'];
-                    $sqlEmpleado = "SELECT nombres, apellidoPaterno, apellidoMaterno, telefono, email FROM empleado WHERE idEmpleado = '$idEmpleado'";
-                    $resultEmpleado = mysqli_query($conn, $sqlEmpleado);
-
-                    if (mysqli_num_rows($resultEmpleado) === 1) {
-                        $rowEmpleado = mysqli_fetch_assoc($resultEmpleado);
-                        $_SESSION['nombreEmpleado'] = $rowEmpleado['nombres'];
-                        $_SESSION['apellidoPaternoEmpleado'] = $rowEmpleado['apellidoPaterno'];
-                        $_SESSION['apellidoMaternoEmpleado'] = $rowEmpleado['apellidoMaterno'];
-                        $_SESSION['telefonoEmpleado'] = $rowEmpleado['telefono'];
-                        $_SESSION['emailEmpleado'] = $rowEmpleado['email'];
-                    }
-
-                    header("Location:../views/inicio.php");
-                    exit();
-                }else {
-                    header("Location:../../index.php?error=El usuario o la contraseña son incorrectos");
-                    exit();
-                }
-            }else{
-                header("Location:../../index.php?error=El usuario o la contraseña son incorrectos");
+            if ($usuarioData['rol'] === "TRABAJO_SOCIAL") {
+                header("Location:../views/inicio.php");
+                exit();
+            }elseif ($usuarioData['rol'] === 'DOCTOR') {
+                header("Location:../views/inicio.php");
+                exit();
+            }elseif ($usuarioData['rol'] === 'ADMIN') {
+                header("Location:../views/inicio.php");
+                exit();
+            }elseif ($usuarioData['rol'] === 'ENFERMERA') {
+                header("Location:../views/inicio.php");
                 exit();
             }
-
+            else{
+                header( 'Location:../../index.php?error=Acceso denegado');
+                exit();
+            }
+            exit();
+        }else {
+            header("Location: ../../index.php?error=Credenciales incorrectas");
+            exit();
         }
-
-    }else{
-        header("Location: ../../index.php?error=Debe ingresar usuario y contraseña");
-        exit();
+        
+    } catch (\Throwable $th) {
+        $error =  "Error en la conexion" . $th->getMessage();
+        exit;
     }
+}
 ?>

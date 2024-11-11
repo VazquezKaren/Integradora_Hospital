@@ -1,10 +1,12 @@
 <?php 
 // BARRA DE NAVEACION Y MENU DE INTERACCION ENTRE SECCIONES, MODIFICAR EN CASO DE CAMBIAR RUTAS DE LOCALIZACION DE LOS ARCHIVOS DEL PROYECTO
 include('cabecera.php'); 
+
+require_once '../config.php';
+$conn = new conn();
+$pdo = $conn->connect();
+
 ?>
-
-
-
 	<section>
 		<div class="content-grid">
 			<div class="contentbox">
@@ -44,5 +46,4 @@ include('cabecera.php');
 		</div>
 	</section>
 </body>
-
 </html>

@@ -1,7 +1,6 @@
 <?php 
 // BARRA DE NAVEACION Y MENU DE INTERACCION ENTRE SECCIONES, MODIFICAR EN CASO DE CAMBIAR RUTAS DE LOCALIZACION DE LOS ARCHIVOS DEL PROYECTO
 include('cabecera.php'); 
-session_start();
 ?>
 
     <section>
@@ -39,7 +38,8 @@ session_start();
                     </tbody>
                 </table>
                 <button href="../controladores/CerrarSesion.php" style="background-color: #ff4d4d; color: white;">Cerrar sesion</button>
-                <a href="../controladores/CerrarSesion.php" class="cerrar-sesion" style="background-color: #ff4d4d; color: white;><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                <a href="../controladores/CerrarSesion.php" class="cerrar-sesion" style="background-color: #ff4d4d; color: white;"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+
             </div>
         </div>
     </section>

@@ -13,7 +13,9 @@
 </head>
 
 <?php
-session_start();
+
+include('../controladores/sesion.php'); 
+
 ?>
 
 <body>
@@ -51,9 +53,38 @@ session_start();
             <nav>
                 <a href="empleado.php" class="empleado"><i class="fas fa-user"></i> <?php echo $_SESSION['nombreEmpleado'] . ' ' . $_SESSION['apellidoPaternoEmpleado']; ?></a>
                 <a href="inicio.php" class="normal"><i class="fas fa-home"></i> Inicio</a>
+                
+                <!-- Elementos de la pagina de Trabajo social -->
+                <?php if ($privilegio == 'TRABAJO_SOCIAL') { ?>
                 <a href="registro.php" class="normal"><i class="fas fa-user-plus"></i> Registrar nuevo paciente</a>
                 <a href="pacientes.php" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>
                 <a href="formatoblanco.php" class="normal"><i class="fas fa-file-alt"></i> Formato en blanco</a>
+                <?php };?>
+
+
+                <!-- Elementos de la pagina de ADMIN -->
+                <?php if ($privilegio == 'ADMIN') { ?>
+                <a href="registro.php" class="normal"><i class="fas fa-user-plus"></i>Empleados</a>
+                <a href="pacientes.php" class="normal"><i class="fas fa-search"></i>Pacientes</a>
+                <a href="formatoblanco.php" class="normal"><i class="fas fa-file-alt"></i>Registros</a>
+                <a href="formatoblanco.php" class="normal"><i class="fas fa-file-alt"></i>Registros</a>
+                <?php };?>
+
+                <!-- Elementos de la pagina de ENFERMERA -->
+                <?php if ($privilegio == 'ENFERMERA') { ?>
+                <a href="registro.php" class="normal"><i class="fas fa-user-plus"></i> Registrar nuevo paciente</a>
+                <a href="pacientes.php" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>
+                <a href="formatoblanco.php" class="normal"><i class="fas fa-file-alt"></i> Formato en blanco</a>
+                <?php };?>
+
+
+                <!-- Elementos de la pagina de DOCTOR -->
+                <?php if ($privilegio == 'DOCTOR') { ?>
+                <a href="registro.php" class="normal"><i class="fas fa-user-plus"></i> Registrar nuevo paciente</a>
+                <a href="pacientes.php" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>
+                <a href="formatoblanco.php" class="normal"><i class="fas fa-file-alt"></i> Formato en blanco</a>
+                <?php };?>
+
             </nav>
             <a href="../controladores/CerrarSesion.php" class="cerrar-sesion"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
         </div>
