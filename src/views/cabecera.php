@@ -8,8 +8,11 @@
     <link rel="stylesheet" href="../../css/inicio.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../../css/pacientes.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="../../JS/main.js?v=<?php echo time(); ?>"></script>
     <script src="../../JS/funciones.js?v=<?php echo time(); ?>"></script>
+    <script src="../../JS/alertas.js?v=<?php echo time(); ?>"></script>
 </head>
 
 <?php
@@ -55,34 +58,35 @@ include('../controladores/sesion.php');
                 <a href="inicio.php" class="normal"><i class="fas fa-home"></i> Inicio</a>
                 
                 <!-- Elementos de la pagina de Trabajo social -->
-                <?php if ($privilegio == 'TRABAJO_SOCIAL') { ?>
+                <?php if ($_SESSION['rol'] == 'TRABAJO_SOCIAL') { ?>
                 <a href="registro.php" class="normal"><i class="fas fa-user-plus"></i> Registrar nuevo paciente</a>
                 <a href="pacientes.php" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>
-                <a href="formatoblanco.php" class="normal"><i class="fas fa-file-alt"></i> Formato en blanco</a>
+                <!-- Agregar un boton de ingresos -->
                 <?php };?>
 
 
                 <!-- Elementos de la pagina de ADMIN -->
-                <?php if ($privilegio == 'ADMIN') { ?>
+                <?php if ($_SESSION['rol'] == 'ADMIN') { ?>
                 <a href="registro.php" class="normal"><i class="fas fa-user-plus"></i>Empleados</a>
+                <!-- Empleados tendra las opciones de: Registrar empleado, consultar empleado,  -->
                 <a href="pacientes.php" class="normal"><i class="fas fa-search"></i>Pacientes</a>
+                <!-- Pacientes tendra las oipciones de: regisytrar, modificar, ingresos -->
                 <a href="formatoblanco.php" class="normal"><i class="fas fa-file-alt"></i>Registros</a>
                 <a href="formatoblanco.php" class="normal"><i class="fas fa-file-alt"></i>Registros</a>
                 <?php };?>
 
                 <!-- Elementos de la pagina de ENFERMERA -->
-                <?php if ($privilegio == 'ENFERMERA') { ?>
-                <a href="registro.php" class="normal"><i class="fas fa-user-plus"></i> Registrar nuevo paciente</a>
+                <?php if ($_SESSION['rol'] == 'ENFERMERA') { ?>
                 <a href="pacientes.php" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>
-                <a href="formatoblanco.php" class="normal"><i class="fas fa-file-alt"></i> Formato en blanco</a>
+                <!-- Agregar un boton de ingresos -->
                 <?php };?>
 
 
                 <!-- Elementos de la pagina de DOCTOR -->
-                <?php if ($privilegio == 'DOCTOR') { ?>
+                <?php if ($_SESSION['rol'] == 'DOCTOR') { ?>
                 <a href="registro.php" class="normal"><i class="fas fa-user-plus"></i> Registrar nuevo paciente</a>
                 <a href="pacientes.php" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>
-                <a href="formatoblanco.php" class="normal"><i class="fas fa-file-alt"></i> Formato en blanco</a>
+                
                 <?php };?>
 
             </nav>
