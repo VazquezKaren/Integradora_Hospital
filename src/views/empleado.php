@@ -37,8 +37,7 @@ include('cabecera.php');
                         </tr>
                     </tbody>
                 </table>
-                <button href="../controladores/CerrarSesion.php" style="background-color: #ff4d4d; color: white;">Cerrar sesion</button>
-                <a href="../controladores/CerrarSesion.php" class="cerrar-sesion" style="background-color: #ff4d4d; color: white;"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                <a href="../controladores/CerrarSesion.php" class="cerrar-sesion" style="background-color: #ff4d4d;"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
 
             </div>
         </div>
