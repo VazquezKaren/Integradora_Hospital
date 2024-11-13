@@ -156,6 +156,13 @@ include('../controladores/sesion.php');
                                 <a href="#" class="nav_link"><i class="fa-solid fa-bell"></i></i>Notificaciones</a>
                             </div>
                         </li>
+
+                        <li class="list_item">
+                            <div class="list_button">
+                                <a href="#" class="nav_link"><i class="fa-solid fa-gear"></i></i>Configuracion</a>
+                            </div>
+                        </li>
+
                     </ul>
                     <?php }; ?>
 
