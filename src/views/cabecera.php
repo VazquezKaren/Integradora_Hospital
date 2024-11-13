@@ -13,6 +13,12 @@
     <script src="../../JS/main.js?v=<?php echo time(); ?>"></script>
     <script src="../../JS/funciones.js?v=<?php echo time(); ?>"></script>
     <script src="../../JS/alertas.js?v=<?php echo time(); ?>"></script>
+    <style>
+        #miGrafica {
+            width: 30px; /* Aumenta el tamaño para que sea visible */
+            height: 20px;
+        }
+    </style>
 </head>
 
 <?php

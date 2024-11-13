@@ -1,36 +1,45 @@
 <?php
-// Incluir la configuración de la base de datos
-include '../config.php';
 
-    // Preparar y sanitizar los datos del paciente
+// Incluir el archivo de conexión a la base de datos
+include('../config.php');
+
+$connObj = new conn();
+$conn = $connObj->connect();
+
+// Verificar si el formulario fue enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Obtener y sanitizar los datos del formulario usando htmlspecialchars
     $nombre = htmlspecialchars($_POST['nombre']);
     $apellido_paterno = htmlspecialchars($_POST['apellido_paterno']);
     $apellido_materno = htmlspecialchars($_POST['apellido_materno']);
     $fecha_nacimiento = htmlspecialchars($_POST['fecha_nacimiento']);
-    $edad = (int)$_POST['edad'];
-    $lugar_nacimiento = htmlspecialchars($_POST['lugar_nacimiento']);
+    $edad = htmlspecialchars($_POST['edad']);
     $sexo = htmlspecialchars($_POST['sexo']);
     $servicio_solicitado = htmlspecialchars($_POST['servicio_solicitado']);
+    $paciente_pais = htmlspecialchars($_POST['paciente_pais']);
+    $paciente_estado = htmlspecialchars($_POST['paciente_estado']);
+    $paciente_municipio = htmlspecialchars($_POST['paciente_municipio']);
     $dx_registro = htmlspecialchars($_POST['dx_registro']);
-
-    // Dirección del paciente
     $direccion_calle = htmlspecialchars($_POST['direccion_calle']);
     $direccion_numero = htmlspecialchars($_POST['direccion_numero']);
     $direccion_colonia = htmlspecialchars($_POST['direccion_colonia']);
 
-    // Información del tutor
-    $tutor_nombre = htmlspecialchars($_POST['tutor_nombre']);
-    $tutor_apellido_paterno = htmlspecialchars($_POST['tutor_apellido_paterno']);
-    $tutor_apellido_materno = htmlspecialchars($_POST['tutor_apellido_materno']);
+    // Datos del responsable
+    $responsable_nombre = htmlspecialchars($_POST['responsable_nombre']);
+    $responsable_apellido_paterno = htmlspecialchars($_POST['responsable_apellido_paterno']);
+    $responsable_apellido_materno = htmlspecialchars($_POST['responsable_apellido_materno']);
     $parentesco = htmlspecialchars($_POST['parentesco']);
     $telefono = htmlspecialchars($_POST['telefono']);
     $ocupacion = htmlspecialchars($_POST['ocupacion']);
-    $tutor_direccion_calle = htmlspecialchars($_POST['tutor_direccion_calle']);
-    $tutor_direccion_numero = htmlspecialchars($_POST['tutor_direccion_numero']);
-    $tutor_direccion_colonia = htmlspecialchars($_POST['tutor_direccion_colonia']);
+    $responsable_pais = htmlspecialchars($_POST['responsable_pais']);
+    $responsable_estado = htmlspecialchars($_POST['responsable_estado']);
+    $responsable_municipio = htmlspecialchars($_POST['responsable_municipio']);
+    $responsable_direccion_calle = htmlspecialchars($_POST['responsable_direccion_calle']);
+    $responsable_direccion_numero = htmlspecialchars($_POST['responsable_direccion_numero']);
+    $responsable_direccion_colonia = htmlspecialchars($_POST['responsable_direccion_colonia']);
 
-    // Trabajo social
-    $personas_hogar = (int)$_POST['personas_hogar'];
+    // Datos de trabajo social
+    $personas_hogar = htmlspecialchars($_POST['personas_hogar']);
     $clasificacion_trabajo_social = htmlspecialchars($_POST['clasificacion_trabajo_social']);
     $personas_apoyo = htmlspecialchars($_POST['personas_apoyo']);
     $indice_economico = htmlspecialchars($_POST['indice_economico']);
@@ -38,75 +47,51 @@ include '../config.php';
     $derechohabiente_otro = htmlspecialchars($_POST['derechohabiente_otro']);
     $observaciones = htmlspecialchars($_POST['observaciones']);
 
-    try {
-        // Iniciar una transacción
-        $conn->beginTransaction();
 
-        // Comprobar si el paciente ya está registrado
-        $sql_check = "SELECT idPaciente FROM paciente WHERE nombre = :nombre AND apellido_paterno = :apellido_paterno AND apellido_materno = :apellido_materno AND fecha_nacimiento = :fecha_nacimiento";
-        $stmt = $conn->prepare($sql_check);
-        $stmt->execute([
-            ':nombre' => $nombre,
-            ':apellido_paterno' => $apellido_paterno,
-            ':apellido_materno' => $apellido_materno,
-            ':fecha_nacimiento' => $fecha_nacimiento
-        ]);
-        $idPaciente = $stmt->fetchColumn();
 
-        if ($idPaciente) {
-        // Insertar los datos del paciente
-        $sql_paciente = "INSERT INTO paciente (nombre, apellido_paterno, apellido_materno, fecha_nacimiento, edad, lugar_nacimiento, sexo, servicio_solicitado, dx_registro, direccion_calle, direccion_numero, direccion_colonia)VALUES (:nombre, :apellido_paterno, :apellido_materno, :fecha_nacimiento, :edad, :lugar_nacimiento, :sexo, :servicio_solicitado, :dx_registro, :direccion_calle, :direccion_numero, :direccion_colonia)";
-        $stmt = $conn->prepare($sql_paciente);
-        $stmt->execute([
-            ':nombre' => $nombre,
-            ':apellido_paterno' => $apellido_paterno,
-            ':apellido_materno' => $apellido_materno,
-            ':fecha_nacimiento' => $fecha_nacimiento,
-            ':edad' => $edad,
-            ':lugar_nacimiento' => $lugar_nacimiento,
-            ':sexo' => $sexo,
-            ':servicio_solicitado' => $servicio_solicitado,
-            ':dx_registro' => $dx_registro,
-            ':direccion_calle' => $direccion_calle,
-            ':direccion_numero' => $direccion_numero,
-            ':direccion_colonia' => $direccion_colonia
-        ]);
-        // Obtener el ID del nuevo paciente
-        $idPaciente = $conn->lastInsertId();
+    if ($conn->connect_error) {
+        die("Error de conexión: " . $conn->connect_error);
     }
-        // Obtener el último ID insertado
-        $idPaciente = $conn->lastInsertId();
 
-        // Insertar los datos del tutor
-        $sql_tutor = "INSERT INTO tutor (idPaciente, nombre, apellido_paterno, apellido_materno, parentesco, telefono, ocupacion, direccion_calle, direccion_numero, direccion_colonia)VALUES (:idPaciente, :nombre, :apellido_paterno, :apellido_materno, :parentesco, :telefono, :ocupacion, :direccion_calle, :direccion_numero, :direccion_colonia)";
-        $stmt = $conn->prepare($sql_tutor);
-        $stmt->execute([
-            ':idPaciente' => $idPaciente,
-            ':nombre' => $responsable_nombre,
-            ':apellido_paterno' => $responsable_apellido_paterno,
-            ':apellido_materno' => $responsable_apellido_materno,
-            ':parentesco' => $parentesco,
-            ':telefono' => $telefono,
-            ':ocupacion' => $ocupacion,
-            ':direccion_calle' => $responsable_direccion_calle,
-            ':direccion_numero' => $responsable_direccion_numero,
-            ':direccion_colonia' => $responsable_direccion_colonia
-        ]);
+    // Transacción para insertar los datos en múltiples tablas
+    $conn->begin_transaction();
 
-        // Insertar los datos de trabajo social
-        $sql_trabajo_social = "INSERT INTO trabajo_social (idPaciente, personas_hogar, clasificacion_trabajo_social, personas_apoyo, indice_economico, derechohabiente, derechohabiente_otro, observaciones)VALUES (:idPaciente, :personas_hogar, :clasificacion_trabajo_social, :personas_apoyo, :indice_economico, :derechohabiente, :derechohabiente_otro, :observaciones)";
+    try {
+        // Insertar datos del paciente en la tabla 'paciente'
+        $sql_paciente = "INSERT INTO paciente (nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, edad, sexo, servicioSolicitado, pais, estado, municipio, dxRegistro, calle, numero, colonia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql_paciente);
+        $stmt->bind_param("ssssisssssssss", $nombre, $apellido_paterno, $apellido_materno, $fecha_nacimiento, $edad, $sexo, $servicio_solicitado, $paciente_pais, $paciente_estado, $paciente_municipio, $dx_registro, $direccion_calle, $direccion_numero, $direccion_colonia);
+        $stmt->execute();
+        $paciente_id = $conn->insert_id;
+
+        // Insertar datos del responsable en la tabla 'responsable'
+        $sql_responsable = "INSERT INTO responsable (nombre, apellidoPaterno, apellidoMaterno, parentesco, telefono, ocupacion, pais, estado, municipio, calle, numero, colonia, fkPaciente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql_responsable);
+        $stmt->bind_param("ssssssssssssi", $responsable_nombre, $responsable_apellido_paterno, $responsable_apellido_materno, $parentesco, $telefono, $ocupacion, $responsable_pais, $responsable_estado, $responsable_municipio, $responsable_direccion_calle, $responsable_direccion_numero, $responsable_direccion_colonia, $paciente_id);
+        $stmt->execute();
+
+        // Insertar datos de trabajo social en la tabla 'trabajo_social'
+        $sql_trabajo_social = "INSERT INTO trabajo_social (personasHogar, clasificacionTrabajoSocial, personasApoyo, indiceEconomico, derechohabiente, derechohabienteOtro, observaciones, fkPaciente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql_trabajo_social);
-        $stmt->execute([
-            ':idPaciente' => $idPaciente,
-            ':personas_hogar' => $personas_hogar,
-            ':clasificacion_trabajo_social' => $clasificacion_trabajo_social,
-            ':personas_apoyo' => $personas_apoyo,
-            ':indice_economico' => $indice_economico,
-            ':derechohabiente' => $derechohabiente,
-            ':derechohabiente_otro' => $derechohabiente_otro,
-            ':observaciones' => $observaciones
-        ]);
+        $stmt->bind_param("isisissi", $personas_hogar, $clasificacion_trabajo_social, $personas_apoyo, $indice_economico, $derechohabiente, $derechohabiente_otro, $observaciones, $paciente_id);
+        $stmt->execute();
 
+        // Confirmar la transacción
+        $conn->commit();
+        echo "Registro exitoso.";
+    } catch (Exception $e) {
+        // Revertir en caso de error
+        $conn->rollback();
+        echo "Error al registrar: " . $e->getMessage();
+    } finally {
+        $stmt->close();
+        $conn->close();
+    }
+}
+?>
+
+
+<?php
     // Generar Hoja frontal
     $pdf = new TCPDF();
     $pdf->AddPage();
@@ -125,15 +110,6 @@ include '../config.php';
 
     // Guardar el PDF
     $pdf->Output("hoja_frontal_$idPaciente.pdf", 'D');
-
-    // Confirmar la transacción
-    $conn->commit();
-    echo "Registro completado exitosamente.";
-} catch (PDOException $e) {
-    // Revertir la transacción en caso de error
-    $conn->rollBack();
-    echo "Error al registrar los datos: " . $e->getMessage();
-}
 
     // Cerrar la conexión
     $conn = null;

@@ -30,6 +30,10 @@ section {
     transition: transform 0.3s;
     margin-bottom: 10px;
 }
+.contentbox graficas{
+    height: 500px;
+    width: 500px;
+}
 
 .contentbox:hover {
     transform: translateY(-5px);
