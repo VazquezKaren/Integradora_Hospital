@@ -67,7 +67,7 @@ include('../controladores/sesion.php');
 
                         <li class="list_item list_item--click">
                             <div class="list_button list_button--click">
-                                <a href="#" class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
+                                <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
                             </div>
                             <ul class="list_show">
                                 <li class="list_inside">
@@ -79,6 +79,7 @@ include('../controladores/sesion.php');
                                 <li class="list_inside">
                                     <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
                                 </li>
+                                
                             </ul>
                         </li>
                         
@@ -112,12 +113,15 @@ include('../controladores/sesion.php');
                                 <li class="list_inside">
                                     <a href="consultarEmpleado.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar empleado</a>
                                 </li>
+                                <li class="list_inside">
+                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-trash"></i>Eliminar empleado</a>
+                                </li>
                             </ul>
                         </li>
 
                         <li class="list_item list_item--click">
                             <div class="list_button list_button--click">
-                                <a href="#" class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
+                                <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
                             </div>
                             <ul class="list_show">
                                 <li class="list_inside">
@@ -128,6 +132,9 @@ include('../controladores/sesion.php');
                                 </li>
                                 <li class="list_inside">
                                     <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
+                                </li>
+                                <li class="list_inside">
+                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-trash"></i>Eliminar paciente</a>
                                 </li>
                             </ul>
                         </li>
@@ -157,7 +164,7 @@ include('../controladores/sesion.php');
 
                         <li class="list_item list_item--click">
                             <div class="list_button list_button--click">
-                                <a href="#" class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
+                                <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
                             </div>
                             <ul class="list_show">
                                 <li class="list_inside">
@@ -193,7 +200,7 @@ include('../controladores/sesion.php');
 
                         <li class="list_item list_item--click">
                             <div class="list_button list_button--click">
-                                <a href="#" class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
+                                <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
                             </div>
                             <ul class="list_show">
                                 <li class="list_inside">

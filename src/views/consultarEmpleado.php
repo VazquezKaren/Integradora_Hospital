@@ -9,7 +9,24 @@ if ($_SESSION['rol'] !== 'ADMIN') {
     exit;
 }
 ?>
-    
+    <section class="main-content">
+        <div class="content-grid">
+            <div class="contentbox patient-info">
+                <h1>Consultar empleado</h1>
+                <p>Ingrese el No. de registro del empleado o su nombre</p>
+                <br>
+                <form method="post" action="">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar" name="busqueda">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+<!-- Si no se encurntra la busqueda anadir una tabla con los resultados similares en cuanto si se ingresa algun nombre 
+como julian y que salgan todos los julianes y ya si selecciona uno que lo mande a la pantalla que esta aca debajo-->
+
     <section class="main-content">
         <div class="content-grid">
             <div class="contentbox employee-info">
