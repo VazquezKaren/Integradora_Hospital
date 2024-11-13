@@ -158,11 +158,9 @@ include('../controladores/mostrar_informacion_pacientes.php')
                         </div>
                     </form>
                 </div>
+
+
                 <div id="responsable" class="tab-content">
-
-
-
-
                     <h2>Datos del Responsable</h2>
                     <form action="">
                         <div class="form-row">
@@ -297,19 +295,6 @@ include('../controladores/mostrar_informacion_pacientes.php')
 
     <script>
         
-        function showTab(tabName) {
-            var tabs = document.getElementsByClassName("tab-content");
-            for (var i = 0; i < tabs.length; i++) {
-                tabs[i].style.display = "none";
-            }
-            document.getElementById(tabName).style.display = "block";
-            
-            var buttons = document.getElementsByClassName("tab-btn");
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove("active");
-            }
-            event.currentTarget.classList.add("active");
-        }
         function habilitarEdicion() {
         const inputs = document.querySelectorAll('input, select, textarea');
         inputs.forEach(input => {
