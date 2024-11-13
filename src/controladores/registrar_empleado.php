@@ -1,5 +1,5 @@
 <?php
-require_once('../config.php');
+include_once('../config.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombres = $_POST['nombre'];
@@ -38,10 +38,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'especialidad' => $especialidad,
             ]);
 
+            $fkIdEmpleado = 7;
+            $sql_usuario = "INSERT INTO usuarios(usuario, contrasena, rol, fkidEmpleado) 
+                            VALUES (:usuario, :contrasena, :rol, :fkIdEmpleado)";
+            $stmtUsuario = $pdo->prepare($sql_usuario);
+            $stmtUsuario->execute([
+                'usuario' => $username,
+                'contrasena' => $hashed_password,
+                'rol' => $rol,
+                'fkIdEmpleado' => $fkIdEmpleado,
+            ]);
+
             echo "<script>
                 alert('Usuario registrado correctamente');
                 window.location.href = '../views/registroEmpleado.php';
             </script>";
+
         } catch (\Throwable $th) {
             echo "<script>
                 alert('Error en el registro del empleado: " . addslashes($th->getMessage()) . "');
