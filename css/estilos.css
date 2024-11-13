@@ -15,7 +15,7 @@ body {
     padding-left: 250px; /* Añadido para dejar espacio para la barra lateral */
 }
 
-/* Capa de fondo */
+/* Capa de fondo  para ocultar elementos basura*/
 .capa {
     position: fixed;
     width: 100%;
@@ -26,7 +26,7 @@ body {
     left: 0;
 }
 
-/* Estilos para el encabezado */
+/* Estilos para la parte superiro de la pagina (encabezado) */
 .header {
     background-color: #7d7d7d;
     width: calc(100% - 250px); /* Ajustado para dejar espacio para la barra lateral */
@@ -92,7 +92,9 @@ body {
     vertical-align: middle;
 }
 
-/* Menú lateral estático */
+
+/*ESTILOS PARA EL NAVBAR LATERAL Y DE TODO LO RELACIONADO CON ESO*/
+
 .container-menu {
     position: fixed;
     top: 0;
@@ -111,30 +113,90 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 100%;
 }
 
 .cont-menu nav {
     flex-grow: 1;
 }
 
-.cont-menu nav a {
+.nav_link {
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    gap: 8px;
+}
+
+.nav_link:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.nav_link i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.nav_link a {
+    text-align: left;
+}
+
+.nav_link--inside {
+    padding-left: 50px;
+}
+
+.list_item {
+    list-style: none;
+    width: 100%;
+    overflow: hidden;
+}
+
+.list_item--click {
+    cursor: pointer;
+}
+
+.list_button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.list_show {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+    border-left: 2px solid white;
+    margin-left: 22px;
+}
+
+.list_show.show {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+
+.empleado {
     display: flex;
     align-items: center;
     padding: 15px 20px;
     color: white;
     text-decoration: none;
     font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.cont-menu nav a i {
-    margin-right: 15px;
-    width: 20px;
-    text-align: center;
-    font-size: 18px;
-}
-
-.cont-menu nav a.empleado {
     background-color: #555;
     font-weight: bold;
     border-bottom: 2px solid #777;
@@ -142,12 +204,11 @@ body {
     justify-content: center;
 }
 
-.cont-menu nav a:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.cont-menu nav a:hover {
-    background-color: rgba(0, 0, 0, 0.3);
+.empleado i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    margin-bottom: 3px;
 }
 
 .cerrar-sesion {
@@ -159,9 +220,21 @@ body {
     text-align: center;
 }
 
-.cerrar-sesion:hover{
+.cerrar-sesion:hover {
     background-color: rgba(0, 0, 0, 0.3);
 }
+
+.list_item--click > .list_button > .nav_link {
+    justify-content: space-between;
+}
+
+.list_item--click > .list_button > .nav_link > .arrow {
+    margin-left: 10px;
+}
+
+
+
+
 
 /* Ajustar la capa de fondo */
 .capa {
@@ -243,18 +316,18 @@ textarea {
 
     .recent-changes-history-table th,
     .recent-changes-history-table td {
-        padding: 8px; /* Reducir el padding para un mejor ajuste */
+        padding: 8px; /* Depemndiendo de com o queramos el ajustar el contenido solo cambair el padding */
     }
 }
 
 @media (max-width: 480px) {
     .recent-changes-history-table {
-        font-size: 0.5rem; /* Tamaño de fuente aún más pequeño para pantallas muy pequeñas */
+        font-size: 0.5rem; /* fuente pa la pantalla de mobil */
     }
 
     .recent-changes-history-table th,
     .recent-changes-history-table td {
-        padding: 6px; /* Ajustar el padding */
+        padding: 6px;
     }
 }
 

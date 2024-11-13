@@ -1,48 +1,14 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital del niño - Ver Empleado</title>
-    <link rel="stylesheet" href="css/estilos.css">
-    <link rel="stylesheet" href="css/inicio.css">
-    <link rel="stylesheet" href="css/pacientes.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <header class="header">
-        <div class="container">
-            <div class="btn-menu">
-                <label for="btn-menu">☰</label>
-            </div>
-            <div class="logo">
-                <a href="inicio.html" style="text-decoration: none; color: inherit;">
-                    <h1>Hospital del niño</h1>
-                </a>
-            </div>
-            <nav class="menu">
-                <a href="historial.html">Historial</a>
-                <a href="empleado.html" class="user-link">
-                    Ricardo Perez <i class="fas fa-user"></i>
-                </a>
-            </nav>
-        </div>
-    </header>
+<?php
+include ("cabecera.php");
+if (!isset($_SESSION['usuario'])) {
+	header("location: ../../index.php");
+}
 
-    <div class="capa"></div>
-    <input type="checkbox" id="btn-menu" checked>
-    <div class="container-menu">
-        <div class="cont-menu">
-            <nav>
-                <a href="empleado.html" class="empleado"><i class="fas fa-user"></i> Ricardo Perez</a>
-                <a href="inicio.html" class="normal"><i class="fas fa-home"></i> Inicio</a>
-                <a href="registro_empleado.html" class="normal"><i class="fas fa-user-plus"></i> Registrar nuevo empleado</a>
-                <a href="pacientes.html" class="normal"><i class="fas fa-search"></i> Buscar paciente</a>
-                <a href="formatoblanco.html" class="normal"><i class="fas fa-file-alt"></i> Formato en blanco</a>
-            </nav>
-            <a href="#" class="cerrar-sesion"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
-        </div>
-    </div>
+if ($_SESSION['rol'] !== 'ADMIN') {
+	echo('Acceso denegado, solo personal autorizado');
+    exit;
+}
+?>
     
     <section class="main-content">
         <div class="content-grid">

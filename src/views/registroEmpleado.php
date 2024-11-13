@@ -1,6 +1,5 @@
 <?php
-
-session_start();
+include('cabecera.php');
 if (!isset($_SESSION['usuario'])) {
 	header("location: ../../index.php");
 }
@@ -13,8 +12,6 @@ if ($_SESSION['rol'] !== 'ADMIN') {
 require_once '../config.php';
 $conn = new conn();
 $pdo = $conn->connect();
-
-include('cabecera.php')
 ?>
     <section class="main-content">
         <div class="content-grid">
