@@ -23,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $conn = new conn();
             $pdo = $conn->connect();
+            $pdo->beginTransaction();
+
             $sql = "INSERT INTO empleado(nombres, apellidoPaterno, apellidoMaterno, calleDireccion, numeroDireccion, coloniaDireccion, telefono, email, especialidad) 
                     VALUES (:nombres, :apellido_p, :apellido_m, :direccion_calle, :direccion_numero, :direccion_colonia, :telefono, :email, :especialidad)";
             $stmt = $pdo->prepare($sql);
@@ -38,7 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'especialidad' => $especialidad,
             ]);
 
-            $fkIdEmpleado = 7;
+            $fkIdEmpleado = $pdo->lastInsertId();
+            if (!$fkIdEmpleado) {
+                throw new Exception("Error al obtener la ID del empleado recién registrado.");
+            }
+
             $sql_usuario = "INSERT INTO usuarios(usuario, contrasena, rol, fkidEmpleado) 
                             VALUES (:usuario, :contrasena, :rol, :fkIdEmpleado)";
             $stmtUsuario = $pdo->prepare($sql_usuario);
@@ -49,14 +55,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'fkIdEmpleado' => $fkIdEmpleado,
             ]);
 
+            $pdo->commit();
+
             echo "<script>
                 alert('Usuario registrado correctamente');
                 window.location.href = '../views/registroEmpleado.php';
             </script>";
 
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
+            $pdo->rollBack();
             echo "<script>
-                alert('Error en el registro del empleado: " . addslashes($th->getMessage()) . "');
+                alert('Error en el registro: " . addslashes($e->getMessage()) . "');
                 window.location.href = '../views/registroEmpleado.php';
             </script>";
         }

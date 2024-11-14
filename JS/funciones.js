@@ -64,3 +64,28 @@ function showTab(tabName) {
     }
     event.currentTarget.classList.add("active");
 }
+
+function habilitarEdicion() {
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.removeAttribute('readonly');  
+        input.removeAttribute('disabled');  
+    });
+
+    document.getElementById('guardar-btn').style.display = 'inline';
+    document.getElementById('descartar-btn').style.display = 'inline';
+    document.getElementById('modificar-btn').style.display = 'none';
+}
+
+function deshabilitarEdicion() {
+ 
+    const inputs = document.querySelectorAll('input:not([name="busqueda"]), select, textarea');
+    inputs.forEach(input => {
+        input.setAttribute('readonly', true);  
+        input.setAttribute('disabled', true);  
+    });
+
+    document.getElementById('guardar-btn').style.display = 'none';
+    document.getElementById('descartar-btn').style.display = 'none';
+    document.getElementById('modificar-btn').style.display = 'inline';
+}

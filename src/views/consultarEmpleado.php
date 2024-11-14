@@ -8,6 +8,8 @@ if ($_SESSION['rol'] !== 'ADMIN') {
     echo ('Acceso denegado, solo personal autorizado');
     exit;
 }
+
+include('../controladores/mostrar_informacion_empleado.php')
 ?>
 <section class="main-content">
     <div class="content-grid">
@@ -37,28 +39,39 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
                 <button class="tab-btn active" onclick="showTab('informacion')">Informacion</button>
                 <button class="tab-btn" onclick="showTab('historial')">Historial</button>
             </div>
+
             <div id="informacion" class="tab-content active">
                 <h2>Datos del Empleado</h2>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="nombre">Nombre(s):</label>
-                        <input type="text" id="nombre" value="Juan" disabled>
+                        <input type="text" id="nombre" value="<?php echo $empleadoData['nombres'] ?? ''; ?>" disabled>
                     </div>
                     <div class="form-group">
-                        <label for="apellidos">Apellidos:</label>
-                        <input type="text" id="apellidos" value="Gonzalez" disabled>
+                        <label for="apellidos">Apellido paterno:</label>
+                        <input type="text" id="apellidos" value="<?php echo $empleadoData['apellidoPaterno'] ?? ''; ?>" disabled>
                     </div>
+                    <div class="form-group">
+                        <label for="apellidos">Apellido materno:</label>
+                        <input type="text" id="apellidos" value="<?php echo $empleadoData['apellidoPaterno'] ?? ''; ?>" disabled>
+                    </div>
+                </div>
+                <div class="form-row">
                     <div class="form-group">
                         <label for="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" value="1234567890" disabled>
+                        <input type="tel" id="telefono" value="<?php echo $empleadoData['telefono'] ?? ''; ?>" disabled>
                     </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="email" id="email" value="juan.gonzalez@example.com" disabled>
+                        <input type="email" id="email" value="<?php echo $empleadoData['email'] ?? ''; ?>" disabled>
                     </div>
                     <div class="form-group">
                         <label for="especialidad">Especialidad:</label>
-                        <input type="text" id="especialidad" value="Cardiología" disabled>
+                        <select id="rol" disabled>
+                            <option value="CARDIOLOGIA" <?php echo (isset($empleadoData['especialidad']) && $empleadoData['especialidad'] === 'CARDIOLOGIA') ? 'selected' : ''; ?>>Cardiologia</option>
+                            <option value="PEDIATRIA" <?php echo (isset($empleadoData['especialidad']) && $empleadoData['especialidad'] === 'PEDIATRIA') ? 'selected' : ''; ?>>Pediatria</option>
+                            <option value="NEUROLOGIA" <?php echo (isset($empleadoData['especialidad']) && $empleadoData['especialidad'] === 'NEUROLOGIA') ? 'selected' : ''; ?>>Neurologia</option>
+                        </select>
                     </div>
                 </div>
 
@@ -67,35 +80,44 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="direccion_calle">Calle:</label>
-                        <input type="text" id="direccion_calle" value="Calle Principal" disabled>
+                        <input type="text" id="direccion_calle" value="<?php echo $empleadoData['calleDireccion'] ?? ''; ?>" disabled>
                     </div>
                     <div class="form-group">
                         <label for="direccion_numero">Número:</label>
-                        <input type="text" id="direccion_numero" value="123" disabled>
+                        <input type="text" id="direccion_numero" value="<?php echo $empleadoData['numeroDireccion'] ?? ''; ?>" disabled>
                     </div>
                     <div class="form-group">
                         <label for="direccion_colonia">Colonia o Fraccionamiento:</label>
-                        <input type="text" id="direccion_colonia" value="Colonia Centro" disabled>
+                        <input type="text" id="direccion_colonia" value="<?php echo $empleadoData['coloniaDireccion'] ?? ''; ?>" disabled>
                     </div>
                 </div>
 
                 <hr>
+                <h3>Rol</h3>
+
+
                 <div class="form-row">
-                    <h3>Departamento y Rol</h3>
-                    <div class="form-group">
-                        <label for="departamento">Departamento:</label>
-                        <input type="text" id="departamento" value="Doctor" disabled>
-                    </div>
                     <div class="form-group">
                         <label for="rol">Rol:</label>
-                        <input type="text" id="rol" value="Cardiólogo" disabled>
+                        <select id="rol" disabled>
+                            <option value="TRABAJO_SOCIAL" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'TRABAJO_SOCIAL') ? 'selected' : ''; ?>>Trabajo social</option>
+                            <option value="ADMIN" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'ADMIN') ? 'selected' : ''; ?>>Admin</option>
+                            <option value="ENFERMERA" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'ENFERMERA') ? 'selected' : ''; ?>>Enfermera</option>
+                            <option value="DOCTOR" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'DOCTOR') ? 'selected' : ''; ?>>Doctor</option>
+                        </select>
                     </div>
+
                 </div>
 
                 <div class="button-group">
-                    <button type="button" id="edit-button" onclick="enableEditing()">Actualizar Información</button>
-                    <button type="button" class="delete-button">Eliminar Información</button>
-                    <button type="button" class="save-button" id="save-button" onclick="saveInformation()">Guardar Cambios</button>
+                    <button type="button" id="modificar-btn" onclick="habilitarEdicion()">Modificar</button>
+                    <button type="submit" id="guardar-btn" class="save-button" style="display: none;" onclick="deshabilitarEdicion()">Guardar cambios</button>
+                    <button type="reset" id="descartar-btn" class="delete-button" style="display: none;" onclick="deshabilitarEdicion()">Descartar cambios</button>
+
+                    <form method="post" action="../controladores/eliminar_empleado.php" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
+                        <input type="hidden" name="idEmpleado" value="<?php echo $empleadoData['idEmpleado'] ?? ''; ?>">
+                        <button type="submit" class="delete-button" >Eliminar empleado</button>
+                    </form>
                 </div>
             </div>
 
@@ -134,31 +156,14 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
     </div>
 </section>
 
-<script>
-    function enableEditing() {
-        // Habilitar todos los campos de entrada
-        document.querySelectorAll('input').forEach(function(input) {
-            input.disabled = false;
-        });
 
-        // Mostrar botón de Guardar y ocultar botón de Actualizar
-        document.getElementById('edit-button').style.display = 'none';
-        document.getElementById('save-button').style.display = 'inline-block';
-    }
-
-    function saveInformation() {
-        // Aquí se puede agregar la lógica para guardar los datos (como una solicitud al servidor)
-
-        // Deshabilitar de nuevo los campos de entrada
-        document.querySelectorAll('input').forEach(function(input) {
-            input.disabled = true;
-        });
-
-        // Mostrar botón de Actualizar y ocultar botón de Guardar
-        document.getElementById('edit-button').style.display = 'inline-block';
-        document.getElementById('save-button').style.display = 'none';
-    }
-</script>
 </body>
 
 </html>
+
+
+
+
+
+
+<!-- Cuando queramos realizar los cambios se debe mostrar una notificacion con los cambios que se desean realizar para confirmar si son correctos -->

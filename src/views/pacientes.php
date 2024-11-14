@@ -35,25 +35,25 @@ include('../controladores/mostrar_informacion_pacientes.php')
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nombre">Nombre(s):</label>
-                                <input type="text" name="nombre" id="nombre" value="<?php echo $data['paciente_nombres'] ?? ''; ?>" readonly>
+                                <input type="text" name="nombre" id="nombre" value="<?php echo $data['paciente_nombres'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="apellido_p">Apellido paterno:</label>
-                                <input type="text" name="apellido_p" id="apellido_p" value="<?php echo $data['paciente_apellidoPaterno'] ?? ''; ?>" readonly>
+                                <input type="text" name="apellido_p" id="apellido_p" value="<?php echo $data['paciente_apellidoPaterno'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="apellido_m">Apellido materno:</label>
-                                <input type="text" name="apellido_m" id="apellido_m" value="<?php echo $data['paciente_apellidoMaterno'] ?? ''; ?>" readonly>
+                                <input type="text" name="apellido_m" id="apellido_m" value="<?php echo $data['paciente_apellidoMaterno'] ?? ''; ?>" disabled>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-                                <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" value="<?php echo $data['paciente_fechaNacimiento'] ?? ''; ?>" readonly>
+                                <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" value="<?php echo $data['paciente_fechaNacimiento'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="apellido_m">Edad:</label>
-                                <input type="text" name="paciente_edad" id="[acoemte_edad" value="<?php echo $data['paciente_edad'] ?? ''; ?>" readonly>
+                                <input type="text" name="paciente_edad" id="[acoemte_edad" value="<?php echo $data['paciente_edad'] ?? ''; ?>" disabled>
                             </div>
 
                             <div class="form-group">
@@ -105,43 +105,43 @@ include('../controladores/mostrar_informacion_pacientes.php')
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="calle">Calle:</label>
-                                <input type="text" name="calle" id="calle" value="<?php echo $data['paciente_calleDireccion'] ?? ''; ?>" readonly>
+                                <input type="text" name="calle" id="calle" value="<?php echo $data['paciente_calleDireccion'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="numero">Número:</label>
-                                <input type="text" name="numero" id="numero" value="<?php echo $data['paciente_numeroDireccion'] ?? ''; ?>" readonly>
+                                <input type="text" name="numero" id="numero" value="<?php echo $data['paciente_numeroDireccion'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="colonia">Colonia o Fraccionamiento:</label>
-                                <input type="text" name="colonia" id="colonia" value="<?php echo $data['paciente_coloniaDireccion'] ?? ''; ?>" readonly>
+                                <input type="text" name="colonia" id="colonia" value="<?php echo $data['paciente_coloniaDireccion'] ?? ''; ?>" disabled>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="servicio">Servicio que solicita:</label>
-                                <input type="text" name="derechoHabiente" id="derechoHabiente" value="<?php echo $data['paciente_derechoHabiente'] ?? ''; ?>" readonly>
+                                <input type="text" name="derechoHabiente" id="derechoHabiente" value="<?php echo $data['paciente_derechoHabiente'] ?? ''; ?>" disabled>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group full-width">
                                 <label for="dx">Dx inicial:</label>
-                                <textarea name="dx" id="dx" rows="3" readonly><?php echo $data['paciente_dx'] ?? ''; ?></textarea>
+                                <textarea name="dx" id="dx" rows="3" disabled><?php echo $data['paciente_dx'] ?? ''; ?></textarea>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group full-width">
                                 <label for="observaciones">Observaciones:</label>
-                                <textarea name="observaciones" id="observaciones" rows="5" readonly><?php echo $data['paciente_observaciones'] ?? ''; ?></textarea>
+                                <textarea name="observaciones" id="observaciones" rows="5" disabled><?php echo $data['paciente_observaciones'] ?? ''; ?></textarea>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="hoja_frontal">Hoja frontal:</label>
-                                <input type="file" name="hoja_frontal" id="hoja_frontal" readonly>
+                                <input type="file" name="hoja_frontal" id="hoja_frontal" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="hoja_compromiso">Hoja de compromiso:</label>
-                                <input type="file" name="hoja_compromiso" id="hoja_compromiso" readonly>
+                                <input type="file" name="hoja_compromiso" id="hoja_compromiso" disabled>
                             </div>
                         </div>
 
@@ -166,29 +166,29 @@ include('../controladores/mostrar_informacion_pacientes.php')
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nombre_responsable">Nombre(s):</label>
-                                <input type="text" name="nombre_responsable" id="nombre_responsable" value="<?php echo $data['tutor_nombres'] ?? ''; ?>" readonly>
+                                <input type="text" name="nombre_responsable" id="nombre_responsable" value="<?php echo $data['tutor_nombres'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="apellido_p_responsable">Apellido paterno:</label>
-                                <input type="text" name="apellido_p_responsable" id="apellido_p_responsable" value="<?php echo $data['tutor_apellidoPaterno'] ?? ''; ?>" readonly>
+                                <input type="text" name="apellido_p_responsable" id="apellido_p_responsable" value="<?php echo $data['tutor_apellidoPaterno'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="apellido_m_responsable">Apellido materno:</label>
-                                <input type="text" name="apellido_m_responsable" id="apellido_m_responsable" value="<?php echo $data['tutor_apellidoMaterno'] ?? ''; ?>" readonly>
+                                <input type="text" name="apellido_m_responsable" id="apellido_m_responsable" value="<?php echo $data['tutor_apellidoMaterno'] ?? ''; ?>" disabled>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="parentesco">Parentesco:</label>
-                                <input type="text" name="parentesco" id="parentesco" value="<?php echo $data['tutor_parentesco'] ?? ''; ?>" readonly>
+                                <input type="text" name="parentesco" id="parentesco" value="<?php echo $data['tutor_parentesco'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="telefono">Teléfono:</label>
-                                <input type="tel" name="telefono" id="telefono" value="<?php echo $data['tutor_telefono'] ?? ''; ?>" readonly>
+                                <input type="tel" name="telefono" id="telefono" value="<?php echo $data['tutor_telefono'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="ocupacion">Ocupación:</label>
-                                <input type="text" name="ocupacion" id="ocupacion" value="<?php echo $data['tutor_ocupacion'] ?? ''; ?>" readonly>
+                                <input type="text" name="ocupacion" id="ocupacion" value="<?php echo $data['tutor_ocupacion'] ?? ''; ?>" disabled>
                             </div>
                         </div>
 
@@ -230,15 +230,15 @@ include('../controladores/mostrar_informacion_pacientes.php')
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="calle_responsable">Calle:</label>
-                                <input type="text" name="calle_responsable" id="calle_responsable" value="<?php echo $data['tutor_calleDireccion'] ?? ''; ?>" readonly>
+                                <input type="text" name="calle_responsable" id="calle_responsable" value="<?php echo $data['tutor_calleDireccion'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="numero_responsable">Número:</label>
-                                <input type="text" name="numero_responsable" id="numero_responsable" value="<?php echo $data['tutor_numeroDireccion'] ?? ''; ?>" readonly>
+                                <input type="text" name="numero_responsable" id="numero_responsable" value="<?php echo $data['tutor_numeroDireccion'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="colonia_responsable">Colonia o Fraccionamiento:</label>
-                                <input type="text" name="colonia_responsable" id="colonia_responsable" value="<?php echo $data['tutor_coloniaDireccion'] ?? ''; ?>" readonly>
+                                <input type="text" name="colonia_responsable" id="colonia_responsable" value="<?php echo $data['tutor_coloniaDireccion'] ?? ''; ?>" disabled>
                             </div>
                         </div>
 
@@ -248,28 +248,28 @@ include('../controladores/mostrar_informacion_pacientes.php')
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="personas_hogar">No. de personas en el hogar:</label>
-                                <input type="number" name="personas_hogar" id="personas_hogar" min="1" value="<?php echo $data['tutor_noPersonasHogar'] ?? ''; ?>" readonly >
+                                <input type="number" name="personas_hogar" id="personas_hogar" min="1" value="<?php echo $data['tutor_noPersonasHogar'] ?? ''; ?>" disabled >
                             </div>
 
                             <div class="form-group">
                                 <label for="personas_apoyo">Personas que apoyan al sostenimiento del hogar:</label>
-                                <input type="number" name="personas_apoyo" id="personas_apoyo" min="0" value="<?php echo $data['tutor_noPersonasApoyanEconomiaHogar'] ?? ''; ?>" readonly>
+                                <input type="number" name="personas_apoyo" id="personas_apoyo" min="0" value="<?php echo $data['tutor_noPersonasApoyanEconomiaHogar'] ?? ''; ?>" disabled>
                             </div>
 
                             <div class="form-group">
                                 <label for="derechohabiente">Derechohabiente a:</label>
-                                <input type="text" name="derechohabiente" id="derechohabiente" value="<?php echo $data['tutor_derechoHabiente'] ?? ''; ?>" readonly>
+                                <input type="text" name="derechohabiente" id="derechohabiente" value="<?php echo $data['tutor_derechoHabiente'] ?? ''; ?>" disabled>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="ingresos">Total de ingresos:</label>
-                                <input type="number" name="ingresos" id="ingresos" min="0" step="0.01" value="<?php echo $data['tutor_totalIngresos'] ?? ''; ?>" readonly>
+                                <input type="number" name="ingresos" id="ingresos" min="0" step="0.01" value="<?php echo $data['tutor_totalIngresos'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="egresos">Total de egresos:</label>
-                                <input type="number" name="egresos" id="egresos" min="0" step="0.01" value="<?php echo $data['tutor_totalIngresos'] ?? ''; ?>" readonly>
+                                <input type="number" name="egresos" id="egresos" min="0" step="0.01" value="<?php echo $data['tutor_totalIngresos'] ?? ''; ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="indice_economico">Índice económico:</label>
@@ -280,7 +280,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                             </select>
                             </div>
                         </div>
-                       
+                        
                         <div class="button-group">
                             <button type="button" id="modificar-btn" onclick="habilitarEdicion()">Modificar</button>
                             <button type="submit" id="guardar-btn" style="display: none;" onclick="deshabilitarEdicion()">Guardar cambios</button>
@@ -292,33 +292,5 @@ include('../controladores/mostrar_informacion_pacientes.php')
             </div>
         </div>
     </section>
-
-    <script>
-        
-        function habilitarEdicion() {
-        const inputs = document.querySelectorAll('input, select, textarea');
-        inputs.forEach(input => {
-            input.removeAttribute('readonly');  
-            input.removeAttribute('disabled');  
-        });
-
-        document.getElementById('guardar-btn').style.display = 'inline';
-        document.getElementById('descartar-btn').style.display = 'inline';
-        document.getElementById('modificar-btn').style.display = 'none';
-    }
-
-    function deshabilitarEdicion() {
-     
-        const inputs = document.querySelectorAll('input:not([name="busqueda"]), select, textarea');
-        inputs.forEach(input => {
-            input.setAttribute('readonly', true);  
-            input.setAttribute('disabled', true);  
-        });
-
-        document.getElementById('guardar-btn').style.display = 'none';
-        document.getElementById('descartar-btn').style.display = 'none';
-        document.getElementById('modificar-btn').style.display = 'inline';
-    }
-    </script>
 </body>
 </html>
