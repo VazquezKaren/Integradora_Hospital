@@ -15,60 +15,64 @@ include('cabecera.php');
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nombre">Nombre(s):</label>
-                                <input type="text" id="nombre" name="nombre">
+                                <input type="text" id="nombre" name="nombre" required >
                             </div>
                             <div class="form-group">
                                 <label for="apellido_paterno">Apellido Paterno:</label>
-                                <input type="text" id="apellido_paterno" name="apellido_paterno">
+                                <input type="text" id="apellido_paterno" name="apellido_paterno" required>
                             </div>
                             <div class="form-group">
                                 <label for="apellido_materno">Apellido Materno:</label>
-                                <input type="text" id="apellido_materno" name="apellido_materno">
+                                <input type="text" id="apellido_materno" name="apellido_materno" required>
                             </div>
                             <div class="form-group">
                                 <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento">
+                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="edad">Edad:</label>
-                                <input type="number" id="edad" name="edad" min="0">
+                                <input type="number" id="edad" name="edad" min="0" required>
                             </div>
                             <div class="form-group">
                                 <label for="sexo">Sexo:</label>
-                                <select id="sexo" name="sexo">
+                                <select id="sexo" name="sexo" required>
                                     <option value="femenino">Femenino</option>
                                     <option value="masculino">Masculino</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="servicio_solicitado">Servicio que solicita:</label>
-                                <input type="text" id="servicio_solicitado" name="servicio_solicitado">
+                                <input type="text" id="servicio_solicitado" name="servicio_solicitado" required>
                             </div>
                             <div class="form-group">
-                                <label for="paciente_pais">País</label>
-                                <select id="paciente_pais" name="paciente_pais"
-                                    onchange="actualizarEstados('paciente')">
-                                    <option value="" disabled selected>Seleccione un país</option>
-                                    <option value="Mexico">México</option>
-                                    <option value="Extranjero">Extranjero</option>
-                                </select>
+                                <label for="motivo">Motivo:</label>
+                                <input type="text" id="motivo" name="motivo" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
+                                    <label for="paciente_pais">País</label>
+                                    <select id="paciente_pais" name="paciente_pais"
+                                        onchange="actualizarEstados('paciente')" required>
+                                        <option value="" disabled selected>Seleccione un país</option>
+                                        <option value="Mexico">México</option>
+                                        <option value="Extranjero">Extranjero</option>
+                                    </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="paciente_estado">Estado</label>
                                 <select id="paciente_estado" name="paciente_estado"
-                                    onchange="actualizarMunicipios('paciente')">
+                                    onchange="actualizarMunicipios('paciente')" required>
                                     <option value="" disabled selected>Seleccione un estado</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="paciente_municipio">Municipio</label>
-                                <select id="paciente_municipio" name="paciente_municipio">
+                                <select id="paciente_municipio" name="paciente_municipio" required>
                                     <option value="" disabled selected>Seleccione un municipio</option>
                                 </select>
                             </div>
@@ -78,7 +82,7 @@ include('cabecera.php');
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="diagnostico_inicial">Dx inicial:</label>
-                                <textarea name="dx_registro" id="dx" rows="3" name="dx_registro"></textarea>
+                                <textarea name="dx" id="dx" rows="3" required></textarea>
                             </div>
                         </div>
                         <hr>
@@ -86,15 +90,15 @@ include('cabecera.php');
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="direccion_calle">Calle:</label>
-                                <input type="text" id="direccion_calle" name="direccion_calle">
+                                <input type="text" id="direccion_calle" name="direccion_calle" required>
                             </div>
                             <div class="form-group">
                                 <label for="direccion_numero">Número:</label>
-                                <input type="number" id="direccion_numero" name="direccion_numero">
+                                <input type="number" id="direccion_numero" name="direccion_numero" required>
                             </div>
                             <div class="form-group">
                                 <label for="direccion_colonia">Colonia o Fraccionamiento:</label>
-                                <input type="text" id="direccion_colonia" name="direccion_colonia">
+                                <input type="text" id="direccion_colonia" name="direccion_colonia" required>
                             </div>
                         </div>
 
@@ -104,38 +108,42 @@ include('cabecera.php');
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="responsable_nombre">Nombre(s):</label>
-                                <input type="text" id="responsable_nombre" name="responsable_nombre">
+                                <input type="text" id="responsable_nombre" name="responsable_nombre" required>
                             </div>
                             <div class="form-group">
                                 <label for="responsable_apellido_paterno">Apellido Paterno:</label>
                                 <input type="text" id="responsable_apellido_paterno"
-                                    name="responsable_apellido_paterno">
+                                    name="responsable_apellido_paterno" required>
                             </div>
                             <div class="form-group">
                                 <label for="responsable_apellido_materno">Apellido Materno:</label>
                                 <input type="text" id="responsable_apellido_materno"
-                                    name="responsable_apellido_materno">
+                                    name="responsable_apellido_materno" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="parentesco">Parentesco:</label>
-                                <input type="text" id="parentesco" name="parentesco">
+                                <select id="parentesco" name="parentesco" required>
+                                    <option value="PADRE">PADRE</option>
+                                    <option value="MADRE">MADRE</option>
+                                    <option value="TUTOR_LEGAL">TUTOR_LEGAL</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="telefono">Teléfono:</label>
-                                <input type="tel" id="telefono" name="telefono">
+                                <input type="tel" id="telefono" name="telefono" required>
                             </div>
                             <div class="form-group">
                                 <label for="ocupacion">Ocupación:</label>
-                                <input type="text" id="ocupacion" name="ocupacion">
+                                <input type="text" id="ocupacion" name="ocupacion" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="responsable_pais">País</label>
-                                <select id="responsable_pais" name="responsable_pais" onchange="actualizarEstados('responsable')">
+                                <select id="responsable_pais" name="responsable_pais" onchange="actualizarEstados('responsable')" required>
                                     <option value="" disabled selected>Seleccione un país</option>
                                     <option value="Mexico">México</option>
                                     <option value="Extranjero">Extranjero</option>
@@ -145,7 +153,7 @@ include('cabecera.php');
                             <!-- Estado del Responsable -->
                             <div class="form-group">
                                 <label for="responsable_estado">Estado</label>
-                                <select id="responsable_estado" name="responsable_estado" onchange="actualizarMunicipios('responsable')">
+                                <select id="responsable_estado" name="responsable_estado" onchange="actualizarMunicipios('responsable')" required>
                                     <option value="" disabled selected>Seleccione un estado</option>
                                 </select>
                             </div>
@@ -153,7 +161,7 @@ include('cabecera.php');
                             <!-- Municipio del Responsable -->
                             <div class="form-group">
                                 <label for="responsable_municipio">Municipio</label>
-                                <select id="responsable_municipio" name="responsable_municipio">
+                                <select id="responsable_municipio" name="responsable_municipio" required>
                                     <option value="" disabled selected>Seleccione un municipio</option>
                                 </select>
                             </div>
@@ -165,17 +173,17 @@ include('cabecera.php');
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="responsable_direccion_calle">Calle:</label>
-                                <input type="text" id="responsable_direccion_calle" name="responsable_direccion_calle">
+                                <input type="text" id="responsable_direccion_calle" name="responsable_direccion_calle" required>
                             </div>
                             <div class="form-group">
                                 <label for="responsable_direccion_numero">Número:</label>
                                 <input type="text" id="responsable_direccion_numero"
-                                    name="responsable_direccion_numero">
+                                    name="responsable_direccion_numero" required>
                             </div>
                             <div class="form-group">
                                 <label for="responsable_direccion_colonia">Colonia o Fraccionamiento:</label>
                                 <input type="text" id="responsable_direccion_colonia"
-                                    name="responsable_direccion_colonia">
+                                    name="responsable_direccion_colonia" required>
                             </div>
                         </div>
 
@@ -186,27 +194,35 @@ include('cabecera.php');
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="personas_hogar">No. de personas en el hogar:</label>
-                                <input type="number" id="personas_hogar" name="personas_hogar" min="0">
+                                <input type="number" id="personas_hogar" name="personas_hogar" min="0" required>
                             </div>
                             <div class="form-group">
                                 <label for="clasificacion_trabajo_social">Clasificación de trabajo social:</label>
-                                <input type="text" id="clasificacion_trabajo_social"
-                                    name="clasificacion_trabajo_social">
+                                <select id="clasificacion_trabajo_social" name="clasificacion_trabajo_social" required>
+                                    <option value="SIN_APOYO">SIN_APOYO</option>
+                                    <option value="BAJO_APOYO">BAJO_APOYO</option>
+                                    <option value="MEDIO_APOYO">MEDIO_APOYO</option>
+                                    <option value="ALTO_APOYO">ALTO_APOYO</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="personas_apoyo">Personas que apoyan al sostenimiento del hogar:</label>
-                                <input type="number" id="personas_apoyo" min="0" name="personas_apoyo">
+                                <input type="number" id="personas_apoyo" min="0" name="personas_apoyo" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="indice_economico">Índice económico:</label>
-                                <input type="number" id="indice_economico" min="0" name="indice_economico">
+                                <select id="indice_economico" name="indice_economico" required>
+                                    <option value="BAJO">BAJO</option>
+                                    <option value="MEDIO">MEDIO</option>
+                                    <option value="ALTO">ALTO</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="derechohabiente">Derechohabiente a:</label>
-                                <select id="derechohabiente" name="derechohabiente">
+                                <select id="derechohabiente" name="derechohabiente" required>
                                     <option value="IMSS">IMSS</option>
                                     <option value="ISSSTE">ISSSTE</option>
                                     <option value="SEDENA">SEDENA</option>
@@ -214,23 +230,23 @@ include('cabecera.php');
                                     <option value="Otro">Otro</option>
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="derechohabiente_otro">Otro:</label>
-                                <input type="text" id="derechohabiente_otro" name="derechohabiente_otro">
+                                <input type="text" id="derechohabiente_otro" name="derechohabiente_otro" required>
+                            </div> -->
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ingresos">Total de ingresos:</label>
+                                <input type="number" id="ingresos" min="0" name="ingresos" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="egresos">Total de egresos:</label>
+                                <input type="number" id="egresos" min="0" name="egresos" required>
                             </div>
                         </div>
-                        <!--
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="ingresos">Total de ingresos:</label>
-                            <input type="number" id="ingresos" min="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="egresos">Total de egresos:</label>
-                            <input type="number" id="egresos" min="0">
-                        </div>
-                    </div>
-                    -->
+                    
 
 
                         <div class="form-row">
@@ -240,7 +256,7 @@ include('cabecera.php');
                         <div class="form-row">
                             <div class="form-group full-width">
                                 <label for="observaciones">Observaciones:</label>
-                                <textarea id="observaciones" rows="5" name="observaciones"></textarea>
+                                <textarea id="observaciones" rows="5" name="observaciones" required></textarea>
                             </div>
                         </div>
                         <div class="form-row">
