@@ -120,7 +120,7 @@ include('../controladores/sesion.php');
                                     <a href="consultarEmpleado.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar empleado</a>
                                 </li>
                                 <li class="list_inside">
-                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-trash"></i>Eliminar empleado</a>
+                                    <a href="consultarEmpleado.php" class="nav_link nav_link--inside"><i class="fa-solid fa-trash"></i>Eliminar empleado</a>
                                 </li>
                             </ul>
                         </li>
@@ -137,7 +137,7 @@ include('../controladores/sesion.php');
                                     <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar paciente</a>
                                 </li>
                                 <li class="list_inside">
-                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
+                                    <a href="ingresos.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
                                 </li>
                                 <li class="list_inside">
                                     <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-trash"></i>Eliminar paciente</a>
