@@ -12,13 +12,8 @@ $pdo = $conn->connect();
 			<div class="contentbox">
 				<div class="graficas">
 					INGRESOS DE LA SEMANA
-					<!-- Paso 2: Crear un elemento <canvas> donde se mostrará la gráfica -->
 					<canvas id="miGrafica" width="30" height="15"></canvas>
-
-					<!-- Incluir la biblioteca Chart.js desde un CDN -->
 					<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-					<!-- Paso 3: Agregar el script para configurar y mostrar la gráfica -->
 					<script src="../../JS/graficas.js">  </script>
 				</div>
 			</div>
@@ -67,8 +62,6 @@ $pdo = $conn->connect();
 					</div>
 				</div>
 			</div>
-
-			<!-- Vinculación del archivo JavaScript -->
 			<script src="../../JS/manual.js"></script>
 			<!-- <br> -->
 			<!-- <div class="subcontainer">
