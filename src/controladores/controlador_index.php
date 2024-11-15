@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Sustituir esta linea de codigo aca cuando tengamos el hashing, si no despues no va a jalar
         // if ($usuarioData && password_verify($password,  $usuarioData['contrasena']))    o sin hash     if ($usuarioData && $password === $usuarioData['contrasena'])
 
-        if ($usuarioData && $password === $usuarioData['contrasena']) {
+        if ($usuarioData && password_verify($password,  $usuarioData['contrasena'])) {
             $_SESSION['usuario'] = $usuarioData['usuario'];
             $_SESSION['rol'] = $usuarioData['rol'];
             $_SESSION['idUsuario'] = $usuarioData['idUsuario'];
