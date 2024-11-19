@@ -9,8 +9,11 @@ try {
     $sql = "
         SELECT ingresos.*, 
             paciente.nombres AS nombrePaciente,
+            paciente.apellidoPaterno As apellidoPaternoPaciente,
+            paciente.apellidoPaterno As apellidoMaternoPaciente,
             empleado.nombres AS nombreEmpleado,
-            empleado.idEmpleado AS idEmpleado
+            empleado.apellidoPaterno As apellidoPaternoEmpleado,
+            empleado.telefono As idEmpleado
         FROM ingresos
         JOIN paciente ON ingresos.fkIdPaciente = paciente.idPaciente
         JOIN usuarios ON ingresos.fkIdUsuario = usuarios.idUsuario

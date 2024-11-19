@@ -65,6 +65,8 @@ function showTab(tabName) {
     event.currentTarget.classList.add("active");
 }
 
+
+
 function habilitarEdicion() {
     const inputs = document.querySelectorAll('input, select, textarea');
     inputs.forEach(input => {

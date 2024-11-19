@@ -1,36 +1,69 @@
-<?php 
-// BARRA DE NAVEACION Y MENU DE INTERACCION ENTRE SECCIONES, MODIFICAR EN CASO DE CAMBIAR RUTAS DE LOCALIZACION DE LOS ARCHIVOS DEL PROYECTO
-include('cabecera.php'); 
-include('../controladores/mostrar_informacion_pacientes.php');
-$idPaciente = $_GET['idPaciente'] ?? null;
+<?php
+require_once '../config.php';
 
+$data = [];
+
+if (isset($_POST['fkIdPaciente'])) {
+    $busqueda = $_POST['fkIdPaciente'];
+
+    $sql = "SELECT 
+        paciente.nombres AS paciente_nombres, 
+        paciente.apellidoPaterno AS paciente_apellidoPaterno, 
+        paciente.apellidoMaterno AS paciente_apellidoMaterno, 
+        paciente.fechaNacimiento AS paciente_fechaNacimiento, 
+        paciente.pais AS paciente_pais, 
+        paciente.estado AS paciente_estado, 
+        paciente.municipio AS paciente_municipio, 
+        paciente.sexo AS paciente_sexo, 
+        paciente.edad AS paciente_edad,
+        paciente.calleDireccion AS paciente_calleDireccion, 
+        paciente.numeroDireccion AS paciente_numeroDireccion, 
+        paciente.coloniaDireccion AS paciente_coloniaDireccion,
+        paciente.derechoHabiente AS paciente_derechoHabiente, 
+        paciente.dx AS paciente_dx, 
+        paciente.observaciones AS paciente_observaciones,
+        tutor.nombres AS tutor_nombres, 
+        tutor.apellidoPaterno AS tutor_apellidoPaterno, 
+        tutor.apellidoMaterno AS tutor_apellidoMaterno, 
+        tutor.parentesco AS tutor_parentesco, 
+        tutor.telefono AS tutor_telefono, 
+        tutor.ocupacion AS tutor_ocupacion,
+        tutor.pais AS tutor_pais,
+        tutor.estado AS tutor_estado,
+        tutor.municipio AS tutor_municipio,
+        tutor.calleDireccion AS tutor_calleDireccion,
+        tutor.numeroDireccion AS tutor_numeroDireccion,
+        tutor.coloniaDireccion AS tutor_coloniaDireccion,
+        tutor.noPersonasHogar AS tutor_noPersonasHogar,
+        tutor.noPersonasApoyanEconomiaHogar AS tutor_noPersonasApoyanEconomiaHogar,
+        tutor.derechoHabiente AS tutor_derechoHabiente,
+        tutor.totalIngresos AS tutor_totalIngresos, 
+        tutor.totalEgresos AS tutor_totalEgresos,
+        tutor.indiceEconomico AS tutor_indiceEconomico
+    FROM paciente
+    LEFT JOIN tutor ON paciente.idPaciente = tutor.fkidPaciente
+    WHERE paciente.idPaciente = :busqueda";
+
+    $connObj = new conn();
+    $conn = $connObj->connect();
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(":busqueda", $busqueda, PDO::PARAM_INT);
+    $stmt->execute();
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+}
 ?>
 
-
-
-
-    <section class="main-content">
-        <div class="content-grid">
-            <div class="contentbox patient-info">
-                <h1>Informacion del paciente</h1>
-                <p>Ingrese el No.de registro del paciente</p>
-                <br>
-                <form method="POST" action="">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Buscar" name="busqueda" value="<?php echo $idPaciente; ?>">
-                    <button type="submit">Buscar</button>
-                </form>
-            </div>
-        </div>
-    </section>
 
     <section class="main-content">
         <div class="content-grid">
             <div class="contentbox patient-info">
                 <div class="tabs">
-                    <button class="tab-btn active" onclick="showTab('paciente')">Paciente</button>
-                    <button class="tab-btn" onclick="showTab('responsable')">Responsable</button>
+                    <button class="tab-btn active" data-tab="paciente">Paciente</button>
+                    <button class="tab-btn" data-tab="responsable">Responsable</button>
                 </div>
+
+
                 <div id="paciente" class="tab-content active">
                     <h2>Datos personales del paciente</h2>
                     <form action="">
@@ -151,15 +184,12 @@ $idPaciente = $_GET['idPaciente'] ?? null;
                             <button type="button">Generar Hoja Frontal</button>
                             <button type="button">Generar Hoja de Compromiso</button>
                         </div>
-
-                        
-                        <div class="button-group">
-                            <button type="button" id="modificar-btn" onclick="habilitarEdicion()">Modificar</button>
-                            <button type="submit" id="guardar-btn" style="display: none;" onclick="deshabilitarEdicion()">Guardar cambios</button>
-                            <button type="reset" id="descartar-btn" style="display: none;" onclick="deshabilitarEdicion()">Descartar cambios</button>
-                        </div>
                     </form>
                 </div>
+
+
+
+
 
 
                 <div id="responsable" class="tab-content">
@@ -282,17 +312,35 @@ $idPaciente = $_GET['idPaciente'] ?? null;
                             </select>
                             </div>
                         </div>
-                        
-                        <div class="button-group">
-                            <button type="button" id="modificar-btn" onclick="habilitarEdicion()">Modificar</button>
-                            <button type="submit" id="guardar-btn" style="display: none;" onclick="deshabilitarEdicion()">Guardar cambios</button>
-                            <button type="reset" id="descartar-btn" style="display: none;" onclick="deshabilitarEdicion()">Descartar cambios</button>
-                        </div>
-                        
                     </form>
                 </div>
             </div>
         </div>
     </section>
+
+
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Elimina la clase 'active' de todos los botones y contenidos
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Agrega la clase 'active' al botón y contenido correspondiente
+            button.classList.add('active');
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+});
+
+    </script>
+
 </body>
 </html>
