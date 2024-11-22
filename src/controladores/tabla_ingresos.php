@@ -10,7 +10,7 @@ try {
         SELECT ingresos.*, 
             paciente.nombres AS nombrePaciente,
             paciente.apellidoPaterno As apellidoPaternoPaciente,
-            paciente.apellidoPaterno As apellidoMaternoPaciente,
+            paciente.apellidoMaterno As apellidoMaternoPaciente,
             empleado.nombres AS nombreEmpleado,
             empleado.apellidoPaterno As apellidoPaternoEmpleado,
             empleado.telefono As idEmpleado
@@ -26,8 +26,8 @@ try {
 
 } catch (Exception $th) {
     echo "<script>
-            alert('Error en el registro: " . addslashes($th->getMessage()) . "');
-            window.location.href = '../views/consultarEmpleado.php';
+            alert('Error en la busqueda: " . addslashes($th->getMessage()) . "');
+            window.location.href = '../views/ingresos.php';
         </script>";
 }
 

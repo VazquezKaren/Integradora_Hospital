@@ -1,10 +1,8 @@
 <?php
 // BARRA DE NAVEACION Y MENU DE INTERACCION ENTRE SECCIONES, MODIFICAR EN CASO DE CAMBIAR RUTAS DE LOCALIZACION DE LOS ARCHIVOS DEL PROYECTO
-include('cabecera.php');
-include('../controladores/tabla_ingresos.php')
+include_once('cabecera.php');
+include_once('../controladores/tabla_ingresos.php')
 ?>
-
-<!--  BOOTSTRAP  -->
 
 <section class="main-content">
     <div class="content-grid">
@@ -84,16 +82,16 @@ include('../controladores/tabla_ingresos.php')
                                         <div class="modal-dialog modal-dialog-centered modal-xl">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Informacion del paciente</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form id="pacienteForm" method="POST" action="pacientes_emergente.php">
+                                                    
                                                         <input  name="fkIdPaciente" id="fkIdPaciente" type="hidden">
                                                         <div id="pacientes-content">
                                                             <?php include('pacientes_emergente.php'); ?>
                                                         </div>
-                                                    </form>
+                                                    
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
