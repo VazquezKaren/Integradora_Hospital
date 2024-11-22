@@ -1,7 +1,7 @@
 <?php 
 // BARRA DE NAVEACION Y MENU DE INTERACCION ENTRE SECCIONES, MODIFICAR EN CASO DE CAMBIAR RUTAS DE LOCALIZACION DE LOS ARCHIVOS DEL PROYECTO
 include('cabecera.php'); 
-
+include('../controladores/pacientes_ingresados.php');
 require_once '../config.php';
 $conn = new conn();
 $pdo = $conn->connect();
@@ -19,10 +19,10 @@ $pdo = $conn->connect();
 			</div>
 
 			<div class="contentbox">
-				<h2>Total pacientes</h2>
+				<h2>Pacientes dentro del Hospital</h2>
 				<img src="../../img/pacientes.png" alt="pacientes" height="30">
 				<br>
-				<p>El hospital cuenta con un total de 357 pacientes registrados</p>
+				<p>El hospital cuenta con un total de <?php echo $ingresos; ?> pacientes ingresados</p>
 			</div>
 
 			<div class="contentbox full-width">
