@@ -81,6 +81,37 @@
     padding-right: 2rem;
 }
 
+.form-group-filter label {
+    display: block;
+    margin-bottom:  0.5rem;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    margin-right: 20px;
+}
+
+.form-group-filter input, .form-group-filter select, .form-group-filter textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: left;
+    margin-right: 20px;
+}
+
+.form-group-filter select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 12px;
+    padding-right: 2rem;
+    text-align: left;
+    margin-right: 20px;
+}
+
+
 .button-group {
     margin-top: 1.5rem;
     display: flex;

@@ -1,6 +1,8 @@
 <?php
 require_once '../config.php';
 
+//Eliminar esta consulta haciendo un include
+
 $data = [];
 
 if (isset($_POST['fkIdPaciente'])) {
@@ -50,7 +52,7 @@ if (isset($_POST['fkIdPaciente'])) {
     $stmt->bindParam(":busqueda", $busqueda, PDO::PARAM_INT);
     $stmt->execute();
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
-}else {
+} else {
     echo 'Usuario no encontrado';
 }
 ?>
@@ -60,12 +62,14 @@ if (isset($_POST['fkIdPaciente'])) {
     <div class="content-grid">
         <div class="contentbox patient-info">
 
-        <div class="tabs">
-                    <button class="tab-btn active" onclick="showTab('paciente')">Paciente</button>
-                    <button class="tab-btn" onclick="showTab('responsable')">Responsable</button>
-                    <button class="tab-btn" onclick="showTab('ingreosos')">Ingresos</button>
-        </div>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('paciente')">Paciente</button>
+                <button class="tab-btn" onclick="showTab('responsable')">Responsable</button>
+                <button class="tab-btn" onclick="showTab('ingresos_btn')">Ingresos</button>
+            </div>
 
+
+            <!-- VENTANA DE INFORMACION DEL PACIENTE ESPECIFICO -->
 
             <div id="paciente" class="tab-content active">
                 <h2>Datos personales del paciente</h2>
@@ -192,7 +196,7 @@ if (isset($_POST['fkIdPaciente'])) {
 
 
 
-
+            <!-- VENTANA DE INFORMACION DEL RESPONSABLE ASOCIADO AL PACIENTE -->
 
 
             <div id="responsable" class="tab-content">
@@ -285,16 +289,21 @@ if (isset($_POST['fkIdPaciente'])) {
                             <label for="personas_hogar">No. de personas en el hogar:</label>
                             <input type="number" name="personas_hogar" id="personas_hogar" min="1" value="<?php echo $data['tutor_noPersonasHogar'] ?? ''; ?>" disabled>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="indice_economico">Índice económico:</label>
+                            <select name="indice_economico" id="indice_economico" disabled selected>
+                                <option value="bajo" <?php echo (isset($data['indiceEconomico']) && $data['indiceEconomico'] == 'BAJO') ? 'selected' : ''; ?>>Bajo</option>
+                                <option value="medio" <?php echo (isset($data['indiceEconomico']) && $data['indiceEconomico'] == 'MEDIO') ? 'selected' : ''; ?>>Medio</option>
+                                <option value="alto" <?php echo (isset($data['indiceEconomico']) && $data['indiceEconomico'] == 'ALTO') ? 'selected' : ''; ?>>Alto</option>
+                            </select>
+                        </div>
 
                         <div class="form-group">
                             <label for="personas_apoyo">Personas que apoyan al sostenimiento del hogar:</label>
                             <input type="number" name="personas_apoyo" id="personas_apoyo" min="0" value="<?php echo $data['tutor_noPersonasApoyanEconomiaHogar'] ?? ''; ?>" disabled>
                         </div>
 
-                        <div class="form-group">
-                            <label for="derechohabiente">Derechohabiente a:</label>
-                            <input type="text" name="derechohabiente" id="derechohabiente" value="<?php echo $data['tutor_derechoHabiente'] ?? ''; ?>" disabled>
-                        </div>
                     </div>
 
                     <div class="form-row">
@@ -306,26 +315,88 @@ if (isset($_POST['fkIdPaciente'])) {
                             <label for="egresos">Total de egresos:</label>
                             <input type="number" name="egresos" id="egresos" min="0" step="0.01" value="<?php echo $data['tutor_totalIngresos'] ?? ''; ?>" disabled>
                         </div>
-                        <div class="form-group">
-                            <label for="indice_economico">Índice económico:</label>
-                            <select name="indice_economico" id="indice_economico" disabled selected>
-                                <option value="bajo" <?php echo (isset($data['indiceEconomico']) && $data['indiceEconomico'] == 'BAJO') ? 'selected' : ''; ?>>Bajo</option>
-                                <option value="medio" <?php echo (isset($data['indiceEconomico']) && $data['indiceEconomico'] == 'MEDIO') ? 'selected' : ''; ?>>Medio</option>
-                                <option value="alto" <?php echo (isset($data['indiceEconomico']) && $data['indiceEconomico'] == 'ALTO') ? 'selected' : ''; ?>>Alto</option>
-                            </select>
-                        </div>
                     </div>
                 </form>
+            </div>
+
+            <!-- VENTANA DE REGISTROS ESPECIFICOS DE UN PACIENTE -->
+
+            <?php include_once('../controladores/obtener_ingresos_persona.php'); ?>
+
+            <div id="ingresos_btn" class="tab-content">
+                <h2>Ingresos del paciente</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <table class="recent-changes-history-table" id="tabla_ingresos_paciente">
+                            <thead>
+                                <tr>
+
+                                    <th>Fecha Ingreso</th>
+                                    <th>Hora Ingreso</th>
+                                    <th>Paciente</th>
+                                    <th>Fecha Egreso</th>
+                                    <th>Hora Egreso</th>
+                                    <th>Egreso</th>
+                                    <th>Servicio Solicitado</th>
+                                    <th>No.Empleado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <?php
+                                foreach ($data_table as $data_table) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $data_table['fechaIngreso'] ?></td>
+                                        <td><?php echo $data_table['horaIngreso'] ?></td>
+                                        <td><?php echo $data_table['nombrePaciente'] . " " . $data_table['apellidoPaternoPaciente'] . " " . $data_table['apellidoMaternoPaciente'] ?></td>
+                                        <td><?php echo $data_table['fechaEgreso'] ?></td>
+                                        <td><?php echo $data_table['horaEgreso'] ?></td>
+                                        <td><?php
+                                            if ($data_table['egreso'] == 1) {
+                                            ?> <i class="fa-solid fa-check"></i>
+                                            <?php
+                                            } else {
+                                            ?> <i class="fa-solid fa-xmark"></i>
+                                            <?php
+                                            }
+                                            ?></td>
+                                        <td><?php echo $data_table['servicioSolicita'] ?></td>
+                                        <td><?php echo $data_table['idEmpleado'] ?></td>
+                                        <td>
+                                            <?php
+                                            if ($data_table['egreso'] == 1) {
+                                            ?>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <form method="post" action="../controladores/marcar_salida.php" onsubmit="return confirm('¿Estás seguro de que deseas marcar la salida a este ingreso?');">
+                                                    <input type="hidden" class="forma-control" name="idIngreso" value="<?php echo $data_table['idIngreso']; ?>">
+                                                    <button title="Registrar salida" type="submit" class="btn btn-primary"><i class="fa-solid fa-right-from-bracket"></i></button>
+                                                </form>
+                                            <?php
+                                            }
+                                            ?>
+                                            <form method="post" action="../controladores/eliminar_ingreso.php" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este ingreso?');">
+                                                <input type="hidden" class="forma-control" name="idIngreso" value="<?php echo $data_table['idIngreso']; ?>">
+                                                <button title="Eliminar ingreso" type="submit" class="btn btn-primary"><i class="fa-solid fa-trash"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<script>
-    $(document).ready(function() {
-        $('#tabla_ingresos_paciente').DataTable();
-    });
-</script>
+
 
 <script>
     function showTab(tabName) {

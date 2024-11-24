@@ -1,27 +1,34 @@
 <?php
-require_once '../config.php';
 
-if (isset($_POST['fkIdPaciente'])) {
-    $busqueda = $_POST['fkIdPaciente'];
+include_once('../config.php');
 
-    $sql = "SELECT ingresos.*, 
-                paciente.nombres AS nombrePaciente, 
-                paciente.apellidoPaterno AS apellidoPaternoPaciente, 
-                paciente.apellidoMaterno AS apellidoMaternoPaciente 
-            FROM ingresos 
-            JOIN paciente ON ingresos.fkIdPaciente = paciente.idPaciente 
-            WHERE ingresos.fkIdPaciente = :busqueda";
+try {
 
-    $connObj = new conn();
-    $conn = $connObj->connect();
+    $sql_table = "
+    SELECT ingresos.*, 
+        paciente.nombres AS nombrePaciente,
+        paciente.apellidoPaterno As apellidoPaternoPaciente,
+        paciente.apellidoMaterno As apellidoMaternoPaciente,
+        empleado.nombres AS nombreEmpleado,
+        empleado.apellidoPaterno As apellidoPaternoEmpleado,
+        empleado.telefono As idEmpleado
+    FROM ingresos
+    JOIN paciente ON ingresos.fkIdPaciente = paciente.idPaciente
+    JOIN usuarios ON ingresos.fkIdUsuario = usuarios.idUsuario
+    JOIN empleado ON usuarios.fkIdEmpleado = empleado.idEmpleado
+    WHERE paciente.idPaciente = :busqueda";
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(":busqueda", $busqueda, PDO::PARAM_INT);
-    $stmt->execute();
-    $ingresos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$connObj = new conn();
+$conn = $connObj->connect();
 
-    echo json_encode($ingresos);
-} else {
-    echo json_encode([]);
-}
+$stmt_table = $conn->prepare($sql_table);
+$stmt_table->bindParam(":busqueda", $busqueda, PDO::PARAM_INT);
+$stmt_table->execute();
+$data_table = $stmt_table->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $th) {
+            echo "<script>
+        alert('Error en la busqueda de los registros del paciente: " . addslashes($th->getMessage()) . "');
+        window.location.href = '../views/ingresos.php';
+    </script>";
+        }
 ?>
