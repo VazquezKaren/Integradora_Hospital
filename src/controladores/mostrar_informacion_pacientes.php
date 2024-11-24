@@ -43,7 +43,7 @@ if (isset($_POST['busqueda'])) {
         tutor.indiceEconomico AS tutor_indiceEconomico
     FROM paciente
     LEFT JOIN tutor ON paciente.idPaciente = tutor.fkidPaciente
-    WHERE paciente.idPaciente = :busqueda";
+    WHERE paciente.noRegistro = :busqueda";
 
     try {
         $connObj = new conn();
