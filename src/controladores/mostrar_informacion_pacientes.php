@@ -1,8 +1,8 @@
-mostrar_paciente:
 <?php
 include '../config.php';
 
 $data = [];
+$error = ""; 
 
 if (isset($_POST['busqueda'])) {
     $busqueda = $_POST['busqueda'];
@@ -37,7 +37,7 @@ if (isset($_POST['busqueda'])) {
         tutor.coloniaDireccion AS tutor_coloniaDireccion,
         tutor.noPersonasHogar AS tutor_noPersonasHogar,
         tutor.noPersonasApoyanEconomiaHogar AS tutor_noPersonasApoyanEconomiaHogar,
-        tutor.derechoHabiente AS tutor_derechoHabiente,
+        tutor.trabajoSocial AS trabajo_social,
         tutor.totalIngresos AS tutor_totalIngresos, 
         tutor.totalEgresos AS tutor_totalEgresos,
         tutor.indiceEconomico AS tutor_indiceEconomico
@@ -45,14 +45,20 @@ if (isset($_POST['busqueda'])) {
     LEFT JOIN tutor ON paciente.idPaciente = tutor.fkidPaciente
     WHERE paciente.idPaciente = :busqueda";
 
-    $connObj = new conn();
-    $conn = $connObj->connect();
-    
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(":busqueda", $busqueda, PDO::PARAM_INT);
-    $stmt->execute();
-    $data = $stmt->fetch(PDO::FETCH_ASSOC);
-}else {
-    echo 'Usuario no encontrado';
+    try {
+        $connObj = new conn();
+        $conn = $connObj->connect();
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(":busqueda", $busqueda, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$data) {
+            $error = "El registro no existe."; 
+        }
+    } catch (PDOException $e) {
+        $error = "Error al buscar los datos: " . $e->getMessage();
+    }
 }
 ?>
