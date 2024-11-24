@@ -119,6 +119,16 @@ $pdo = $conn->connect();
         </div>
     </div>
 </section>
+<section class="full-page-section">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</section>
 </body>
 
 </html>

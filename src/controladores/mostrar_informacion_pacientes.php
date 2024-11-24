@@ -52,5 +52,7 @@ if (isset($_POST['busqueda'])) {
     $stmt->bindParam(":busqueda", $busqueda, PDO::PARAM_INT);
     $stmt->execute();
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
+}else {
+    echo 'Usuario no encontrado';
 }
 ?>

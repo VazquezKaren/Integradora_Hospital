@@ -1,7 +1,9 @@
 <?php 
 // BARRA DE NAVEACION Y MENU DE INTERACCION ENTRE SECCIONES, MODIFICAR EN CASO DE CAMBIAR RUTAS DE LOCALIZACION DE LOS ARCHIVOS DEL PROYECTO
 include('cabecera.php'); 
-include('../controladores/mostrar_informacion_pacientes.php')
+include('../controladores/mostrar_informacion_pacientes.php');
+$idPaciente = $_GET['idPaciente'] ?? null;
+
 ?>
 
 
@@ -13,9 +15,9 @@ include('../controladores/mostrar_informacion_pacientes.php')
                 <h1>Informacion del paciente</h1>
                 <p>Ingrese el No.de registro del paciente</p>
                 <br>
-                <form method="post" action="">
+                <form method="POST" action="">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Buscar" name="busqueda">
+                    <input type="text" placeholder="Buscar" name="busqueda" value="<?php echo $idPaciente; ?>">
                     <button type="submit">Buscar</button>
                 </form>
             </div>
