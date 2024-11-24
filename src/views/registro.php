@@ -236,16 +236,6 @@ include('cabecera.php');
                             </div> -->
                         </div>
                         
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="ingresos">Total de ingresos:</label>
-                                <input type="number" id="ingresos" min="0" name="ingresos" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="egresos">Total de egresos:</label>
-                                <input type="number" id="egresos" min="0" name="egresos" required>
-                            </div>
-                        </div>
                     
 
 

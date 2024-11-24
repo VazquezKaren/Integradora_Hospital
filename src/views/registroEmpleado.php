@@ -19,7 +19,6 @@ $pdo = $conn->connect();
         <div class="contentbox patients-info">
             <div class="tabs">
                 <button class="tab-btn active" onclick="showTab('informacion')">Informacion del empleado</button>
-                <button class="tab-btn" onclick="showTab('usuario')">Usuario</button>
             </div>
             <form action="../controladores/registrar_empleado.php" method="POST">
 
@@ -75,31 +74,22 @@ $pdo = $conn->connect();
                             <input type="text" id="direccion_colonia" name="direccion_colonia" required>
                         </div>
                     </div>
-
-                </div>
-
-                <div id="usuario" class="tab-content">
+                    <hr>
                     <h2>Datos del Usuario</h2>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="usuario">Usuario:</label>
                             <input type="text" id="usuario" name="usuario" required>
                         </div>
-                    </div>
-
-                    <div class="form-row">
+                        
                         <div class="form-group">
                             <label for="password">Contraseña:</label>
                             <input type="password" id="password" name="password" required>
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="password2">Confirmar contraseña:</label>
                             <input type="password" id="password2" name="password2" required>
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="rol">Rol:</label>
                             <select id="rol" name="rol" required>
@@ -114,7 +104,7 @@ $pdo = $conn->connect();
                 <div class="button-group">
                     <button type="submit">Registrar Empleado</button>
                 </div>
-
+                </div>
             </form>
         </div>
     </div>

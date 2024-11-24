@@ -160,7 +160,7 @@ if (isset($_POST['fkIdPaciente'])) {
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="servicio">Servicio que solicita:</label>
+                            <label for="servicio">Derechohabiente:</label>
                             <input type="text" name="derechoHabiente" id="derechoHabiente" value="<?php echo $data['paciente_derechoHabiente'] ?? ''; ?>" disabled>
                         </div>
                     </div>
@@ -289,7 +289,7 @@ if (isset($_POST['fkIdPaciente'])) {
                             <label for="personas_hogar">No. de personas en el hogar:</label>
                             <input type="number" name="personas_hogar" id="personas_hogar" min="1" value="<?php echo $data['tutor_noPersonasHogar'] ?? ''; ?>" disabled>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="indice_economico">Índice económico:</label>
                             <select name="indice_economico" id="indice_economico" disabled selected>

@@ -108,10 +108,15 @@ try {
     $stmt->execute();
     $ingresos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
     $rowCount = $stmt->rowCount();} catch (\Throwable $th) {
         echo "<script>
                 alert('Error en la obtencion de los registros: " . addslashes($th->getMessage()) . "');
                 window.location.href = '../views/registro.php';
                 </script>";
     }
+    // echo "<pre>";
+    // print_r($ingresos); // O usar var_dump($ingresos);
+    // echo "</pre>";
 ?>
+

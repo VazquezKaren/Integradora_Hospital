@@ -129,7 +129,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="servicio">Servicio que solicita:</label>
+                                <label for="servicio">Derechohabiente:</label>
                                 <input type="text" name="derechoHabiente" id="derechoHabiente" value="<?php echo $data['paciente_derechoHabiente'] ?? ''; ?>" readonly>
                             </div>
                         </div>
@@ -210,7 +210,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                             <!-- País del Tutor -->
                             <div class="form-group">
                                 <label for="tutor_pais">País</label>
-                                <select id="tutor_pais" name="tutor_pais" class="form-control" onchange="actualizarEstados('tutor')" disabled required>
+                                <select id="tutor_pais" name="tutor_pais" onchange="actualizarEstados('tutor')" disabled required>
                                     <option value="" disabled selected>Seleccione un país</option>
                                     <option value="Mexico" <?php echo (isset($data['tutor_pais']) && strtoupper($data['tutor_pais']) == 'MEXICO') ? 'selected' : ''; ?>>MÉXICO</option>
                                     <option value="Extranjero" <?php echo (isset($data['tutor_pais']) && strtoupper($data['tutor_pais']) == 'EXTRANJERO') ? 'selected' : ''; ?>>EXTRANJERO</option>
@@ -220,7 +220,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                             <!-- Estado del Tutor -->
                             <div class="form-group">
                                 <label for="tutor_estado">Estado</label>
-                                <select id="tutor_estado" name="tutor_estado" class="form-control" onchange="actualizarMunicipios('tutor')" disabled required>
+                                <select id="tutor_estado" name="tutor_estado" onchange="actualizarMunicipios('tutor')" disabled required>
                                     <option value="" disabled selected>Seleccione un estado</option>
                                     <?php if (isset($data['tutor_estado']) && !empty($data['tutor_estado'])): ?>
                                         <option value="<?php echo htmlspecialchars($data['tutor_estado'], ENT_QUOTES, 'UTF-8'); ?>" selected>
@@ -233,7 +233,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                             <!-- Municipio del Tutor -->
                             <div class="form-group">
                                 <label for="tutor_municipio">Municipio</label>
-                                <select id="tutor_municipio" name="tutor_municipio" class="form-control" disabled required>
+                                <select id="tutor_municipio" name="tutor_municipio" disabled required>
                                     <option value="" disabled selected>Seleccione un municipio</option>
                                     <?php if (isset($data['tutor_municipio']) && !empty($data['tutor_municipio'])): ?>
                                         <option value="<?php echo htmlspecialchars($data['tutor_municipio'], ENT_QUOTES, 'UTF-8'); ?>" selected>
