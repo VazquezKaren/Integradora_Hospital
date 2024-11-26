@@ -20,7 +20,9 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.min.css">
-
+                <!-- SWEET ALERT -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <!--  Scripts locales  -->
     <script src="../../JS/main.js?v=<?php echo time(); ?>"></script>
     <script src="../../JS/funciones.js?v=<?php echo time(); ?>"></script>
@@ -251,9 +253,10 @@ include('../controladores/sesion.php');
                     <?php }; ?>
 
                 </nav>
-                <a href="../controladores/CerrarSesion.php" class="cerrar-sesion"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                <button class="cerrar-sesion" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
+                <!-- <a href="../controladores/CerrarSesion.php" class="cerrar-sesion" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a> -->
             </div>
         </div>
     </body>
-
+        <script src="../../JS/alertas.js?v=<?php echo time(); ?>"></script>
 </html>

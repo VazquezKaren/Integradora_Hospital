@@ -461,3 +461,7 @@ button:hover {
     z-index: 1050 !important;
     transition: none !important; /* Desactiva transiciones que puedan interferir */
 }
+
+.custom-button {
+    background-color: #080808;;
+}

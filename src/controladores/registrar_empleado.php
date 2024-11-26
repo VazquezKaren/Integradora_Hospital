@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $password2 = $_POST['password2'];
 
+    // Comprobar que las contraseñas coinciden
     if ($password === $password2) {
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
@@ -25,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo = $conn->connect();
             $pdo->beginTransaction();
 
+            // Insertar en la tabla empleado
             $sql = "INSERT INTO empleado(nombres, apellidoPaterno, apellidoMaterno, calleDireccion, numeroDireccion, coloniaDireccion, telefono, email, especialidad) 
                     VALUES (:nombres, :apellido_p, :apellido_m, :direccion_calle, :direccion_numero, :direccion_colonia, :telefono, :email, :especialidad)";
             $stmt = $pdo->prepare($sql);
@@ -45,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 throw new Exception("Error al obtener la ID del empleado recién registrado.");
             }
 
+            // Insertar en la tabla usuarios
             $sql_usuario = "INSERT INTO usuarios(usuario, contrasena, rol, fkidEmpleado) 
                             VALUES (:usuario, :contrasena, :rol, :fkIdEmpleado)";
             $stmtUsuario = $pdo->prepare($sql_usuario);
@@ -57,23 +60,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $pdo->commit();
 
-            echo "<script>
-                alert('Usuario registrado correctamente');
-                window.location.href = '../views/registroEmpleado.php';
-            </script>";
+            // Usar SweetAlert para notificar éxito
+            echo "<!DOCTYPE html>
+            <html lang='en'>
+            <head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+            </head>
+            <body>
+                <script>
+                    Swal.fire({
+                        title: 'Registro exitoso',
+                        text: 'El usuario ha sido registrado correctamente.',
+                        icon: 'success'
+                    }).then(() => {
+                        window.location.href = '../views/registroEmpleado.php';
+                    });
+                </script>
+            </body>
+            </html>";
 
         } catch (Exception $e) {
             $pdo->rollBack();
-            echo "<script>
-                alert('Error en el registro: " . addslashes($e->getMessage()) . "');
-                window.location.href = '../views/registroEmpleado.php';
-            </script>";
+            // Usar SweetAlert para notificar error
+            echo "<!DOCTYPE html>
+            <html lang='en'>
+            <head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+            </head>
+            <body>
+                <script>
+                    Swal.fire({
+                        title: 'Error en el registro',
+                        text: '" . addslashes($e->getMessage()) . "',
+                        icon: 'error'
+                    }).then(() => {
+                        window.location.href = '../views/registroEmpleado.php';
+                    });
+                </script>
+            </body>
+            </html>";
         }
     } else {
-        echo "<script>
-            alert('Las contraseñas no coinciden');
-            window.location.href = '../views/registroEmpleado.php';
-        </script>";
+        // Usar SweetAlert para notificar contraseñas no coinciden
+        echo "<!DOCTYPE html>
+        <html lang='en'>
+        <head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        </head>
+        <body>
+            <script>
+                Swal.fire({
+                    title: 'Contraseñas no coinciden',
+                    text: 'Por favor, asegúrate de que ambas contraseñas sean iguales.',
+                    icon: 'warning'
+                }).then(() => {
+                    window.location.href = '../views/registroEmpleado.php';
+                });
+            </script>
+        </body>
+        </html>";
     }
 }
 ?>

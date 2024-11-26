@@ -115,8 +115,8 @@ try {
                 window.location.href = '../views/registro.php';
                 </script>";
     }
-    // echo "<pre>";
-    // print_r($ingresos); // O usar var_dump($ingresos);
-    // echo "</pre>";
+    echo "<pre>";
+    print_r($ingresos); // O usar var_dump($ingresos);
+    echo "</pre>";
 ?>
 

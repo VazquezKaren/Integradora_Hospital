@@ -1,3 +1,51 @@
+console.log("Inicio del archivo alertas.js");
+$('#btn-logout').click(function cerrar_sesion_confirm() {
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Cerrar sesión del usuario",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Confirmar",
+        didOpen: () => {
+        document.querySelector('.swal2-icon.swal2-warning').style.fontSize = '20px';
+        document.querySelector('.swal2-icon.swal2-warning').style.lineHeight = '50px';
+    }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Sesión cerrada",
+                text: "Has cerrado exitosamente tu sesión",
+                icon: "success",
+                confirmButtonText: "Aceptar"
+            }).then(() => {
+                window.location.href = '../../src/controladores/CerrarSesion.php';
+            });
+        }
+    });
+})
+
+
+function registro_empleado_existoso(){
+    Swal.fire({
+        title: "Registro realizado correctamente",
+        text: "Se ha realizado correctamente el registro del empleado",
+        icon: "success",
+        customClass: {
+            confirmButton: 'custom-button'
+        }
+    }).then(function () {
+        location.href = '../src/views/registroEmpleado.php';
+    });
+}
+
+
+
+
+
+
+
 
 function acceso() {
     Swal.fire({
