@@ -221,3 +221,17 @@ body: datosPaciente
     });
 
     }
+    function confirmarCambio(event) {
+        event.preventDefault(); 
+        const confirmacion = confirm("¿Está seguro de que desea cambiar la contraseña?");
+        if (confirmacion) {
+            document.getElementById('form-cambiar-contrasena').submit();
+        } else {
+            window.location.href = "empleado.php";
+        }
+    }
+
+    // Función para redirigir al cancelar
+    function cancelarCambio() {
+        window.location.href = "empleado.php";
+    }

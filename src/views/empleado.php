@@ -35,9 +35,15 @@ include('cabecera.php');
                             <td>Rol:</td>
                             <td><?php echo $_SESSION['rol']; ?></td>
                         </tr>
+                        
                     </tbody>
+                    
                 </table>
-                <a href="../controladores/CerrarSesion.php" class="cerrar-sesion" style="background-color: #ff4d4d;"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                <form action="formulario_cambiar_contrasena.php" method="GET">
+                    <button id="cambiar-contrasena" type="submit">Cambiar Contraseña</button>
+                    <a href="../controladores/CerrarSesion.php" class="cerrar-sesion" style="background-color: #ff4d4d;"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+
+                </form>
 
             </div>
         </div>
