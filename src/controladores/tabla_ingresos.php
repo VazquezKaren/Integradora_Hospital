@@ -6,7 +6,7 @@ if ($_POST['buscar'] == '') {
 $akeyword = explode(" ", $_POST['buscar']);
 
 try {
-    if ($_POST["buscar"] == '' and $_POST['buscarfechadesdeingreso'] == '' and $_POST['buscarfechahastaingreso'] == '' and $_POST['buscarfechadesdeegreso'] == '' and $_POST['buscarfechahastaegreso'] == '' and $_POST['estadoingreso'] == '' and $_POST['orden'] == '' and $_POST['buscarempleado'] == '') {
+    if ($_POST["buscar"] == '' and $_POST['buscarfechadesdeingreso'] == '' and $_POST['buscarfechahastaingreso'] == '' and $_POST['buscarfechadesdeegreso'] == '' and $_POST['buscarfechahastaegreso'] == '' and $_POST['estadoingreso'] == '' and $_POST['orden'] == '' and $_POST['buscarempleado'] == '' and $_POST['turnoingreso'] == '') {
 
         $query = "
             SELECT ingresos.*, 
@@ -49,21 +49,25 @@ try {
             $query .= " AND egreso = '" . $_POST['estadoingreso'] . "' ";
         }
 
-        if ($_POST["buscarfechadesdeingreso"] != '') {
-            $query .= " AND fechaIngreso BETWEEN '" . $_POST["buscarfechadesdeingreso"] . "' AND '" . $_POST["buscarfechahastaingreso"] . "' ";
+        if ($_POST["turnoingreso"] != '') {
+            $query .= " AND turno = '" . $_POST['turnoingreso'] . "' ";
         }
 
-        if ($_POST["buscarfechadesdeegreso"] != '') {
-            $query .= " AND fechaEgreso BETWEEN '" . $_POST["buscarfechadesdeegreso"] . "' AND '" . $_POST["buscarfechahastaegreso"] . "' ";
-        }
+        // if ($_POST["buscarfechadesdeingreso"] != '') {
+        //     $query .= " AND fechaIngreso BETWEEN '" . $_POST["buscarfechadesdeingreso"] . "' AND '" . $_POST["buscarfechahastaingreso"] . "' ";
+        // }
 
-        if ($_POST["buscarhoradesdeingreso"] != '') {
-            $query .= " AND horaIngreso BETWEEN '" . $_POST["buscarhoradesdeingreso"] . "' AND '" . $_POST["buscarhorahastaingreso"] . "' ";
-        }
+        // if ($_POST["buscarfechadesdeegreso"] != '') {
+        //     $query .= " AND fechaEgreso BETWEEN '" . $_POST["buscarfechadesdeegreso"] . "' AND '" . $_POST["buscarfechahastaegreso"] . "' ";
+        // }
 
-        if ($_POST["buscarhoradesdeegreso"] != '') {
-            $query .= " AND horaEgreso BETWEEN '" . $_POST["buscarhoradesdeegreso"] . "' AND '" . $_POST["buscarhorahastaegreso"] . "' ";
-        }
+        // if ($_POST["buscarhoradesdeingreso"] != '') {
+        //     $query .= " AND horaIngreso BETWEEN '" . $_POST["buscarhoradesdeingreso"] . "' AND '" . $_POST["buscarhorahastaingreso"] . "' ";
+        // }
+
+        // if ($_POST["buscarhoradesdeegreso"] != '') {
+        //     $query .= " AND horaEgreso BETWEEN '" . $_POST["buscarhoradesdeegreso"] . "' AND '" . $_POST["buscarhorahastaegreso"] . "' ";
+        // }
 
 
         if ($_POST["buscarempleado"] != '') {
@@ -115,8 +119,8 @@ try {
                 window.location.href = '../views/registro.php';
                 </script>";
     }
-    echo "<pre>";
-    print_r($ingresos); // O usar var_dump($ingresos);
-    echo "</pre>";
+    //echo "<pre>";
+    //print_r($ingresos); // O usar var_dump($ingresos);
+    //echo "</pre>";
 ?>
 

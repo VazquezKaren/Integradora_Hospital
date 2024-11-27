@@ -372,16 +372,16 @@ if (isset($_POST['fkIdPaciente'])) {
                                             <?php
                                             } else {
                                             ?>
-                                                <form method="post" action="../controladores/marcar_salida.php" onsubmit="return confirm('¿Estás seguro de que deseas marcar la salida a este ingreso?');">
+                                                <form method="post" action="../controladores/marcar_salida.php" class="form-marcar-salida">
                                                     <input type="hidden" class="forma-control" name="idIngreso" value="<?php echo $data_table['idIngreso']; ?>">
-                                                    <button title="Registrar salida" type="submit" class="btn btn-primary"><i class="fa-solid fa-right-from-bracket"></i></button>
+                                                    <button title="Registrar salida" type="button" class="btn btn-primary btn-marcar-salida"><i class="fa-solid fa-right-from-bracket"></i></button>
                                                 </form>
                                             <?php
                                             }
                                             ?>
-                                            <form method="post" action="../controladores/eliminar_ingreso.php" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este ingreso?');">
+                                            <form method="post" action="../controladores/eliminar_ingreso.php" class="form-eliminar-ingreso">
                                                 <input type="hidden" class="forma-control" name="idIngreso" value="<?php echo $data_table['idIngreso']; ?>">
-                                                <button title="Eliminar ingreso" type="submit" class="btn btn-primary"><i class="fa-solid fa-trash"></i></button>
+                                                <button title="Eliminar ingreso" type="button" class="btn btn-primary btn-eliminar-ingreso"><i class="fa-solid fa-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>
@@ -396,7 +396,56 @@ if (isset($_POST['fkIdPaciente'])) {
     </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script>
+    // Evento delegado para marcar salida
+    $(document).on('click', '.btn-marcar-salida', function () {
+        const form = $(this).closest('.form-marcar-salida'); 
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¿Deseas marcar la salida de este paciente?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",  
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+            didOpen: () => {
+                document.querySelector('.swal2-icon.swal2-warning').style.fontSize = '20px';
+                document.querySelector('.swal2-icon.swal2-warning').style.lineHeight = '50px';
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+
+    // Evento delegado para eliminar ingreso
+    $(document).on('click', '.btn-eliminar-ingreso', function () {
+        const form = $(this).closest('.form-eliminar-ingreso');
+        Swal.fire({ 
+            title: "¿Estás seguro?",
+            text: "¿Deseas eliminar este ingreso?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar",
+            didOpen: () => {
+                document.querySelector('.swal2-icon.swal2-warning').style.fontSize = '20px';
+                document.querySelector('.swal2-icon.swal2-warning').style.lineHeight = '50px';
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+</script>
 
 <script>
     function showTab(tabName) {
