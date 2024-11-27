@@ -132,9 +132,6 @@ include('../controladores/sesion.php');
                                 <li class="list_inside">
                                     <a href="consultarEmpleado.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar empleado</a>
                                 </li>
-                                <li class="list_inside">
-                                    <a href="consultarEmpleado.php" class="nav_link nav_link--inside"><i class="fa-solid fa-trash"></i>Eliminar empleado</a>
-                                </li>
                             </ul>
                         </li>
 
@@ -152,24 +149,9 @@ include('../controladores/sesion.php');
                                 <li class="list_inside">
                                     <a href="ingresos.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
                                 </li>
-                                <li class="list_inside">
-                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-trash"></i>Eliminar paciente</a>
-                                </li>
                             </ul>
                         </li>
                         
-                        <li class="list_item">
-                            <div class="list_button">
-                                <a href="#" class="nav_link"><i class="fas fa-chart-bar"></i>Estadísticas</a>
-                            </div>
-                        </li>
-
-                        <li class="list_item">
-                            <div class="list_button">
-                                <a href="#" class="nav_link"><i class="fa-solid fa-bell"></i></i>Notificaciones</a>
-                            </div>
-                        </li>
-
                         <li class="list_item">
                             <div class="list_button">
                                 <a href="#" class="nav_link"><i class="fa-solid fa-gear"></i></i>Configuracion</a>

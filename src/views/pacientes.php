@@ -84,7 +84,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                         
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="paciente_pais">País</label>
+                                <label for="paciente_pais">País: </label>
                                 <select id="paciente_pais" name="paciente_pais" onchange="actualizarEstados('paciente')" disabled required>
                                     <option value="" disabled selected>Seleccione un país</option>
                                     <option value="Mexico" <?php echo (isset($data['paciente_pais']) && $data['paciente_pais'] == 'MEXICO') ? 'selected' : ''; ?>>MEXICO</option>
@@ -92,7 +92,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="paciente_estado">Estado</label>
+                                <label for="paciente_estado">Estado: </label>
                                 <select id="paciente_estado" name="paciente_estado" onchange="actualizarMunicipios('paciente')" disabled required>
                                     <option value="" disabled selected>Seleccione un estado</option>
                                     <?php if (isset($data['paciente_estado']) && !empty($data['paciente_estado'])): ?>
@@ -101,7 +101,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="paciente_municipio">Municipio</label>
+                                <label for="paciente_municipio">Municipio: </label>
                                 <select id="paciente_municipio" name="paciente_municipio" disabled required>
                                     <option value="" disabled selected>Seleccione un municipio</option>
                                     <?php if (isset($data['paciente_municipio']) && !empty($data['paciente_municipio'])): ?>
@@ -163,7 +163,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
 
                         
                         <div class="button-group">
-                            <button type="button" id="modificar-btn-paciente" onclick="habilitarEdicion('paciente')">Modificar</button>
+                            <button type="button" id="modificar-btn-paciente" onclick="habilitarEdicion('paciente')">Siguiente</button>
                             <button type="button" class="save-button" id="guardar-btn-paciente" style="display: none;" onclick="guardarCambios('paciente')">Guardar cambios</button>
                             <button type="reset" class="delete-button" id="descartar-btn-paciente" style="display: none;" onclick="deshabilitarEdicion('paciente')">Descartar cambios</button>
                         </div>
@@ -307,6 +307,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                             <button type="button" id="modificar-btn-responsable" onclick="habilitarEdicion('responsable')">Modificar</button>
                             <button type="button" class="save-button" id="guardar-btn-responsable" style="display: none;" onclick="guardarCambios('responsable')">Guardar cambios</button>
                             <button type="reset" class="delete-button" id="descartar-btn-responsable" style="display: none;" onclick="deshabilitarEdicion('responsable')">Descartar cambios</button>
+                            <button type="submit" class="delete-button">Eliminar paciente</button>
                         </div>
                         
                     </form>
