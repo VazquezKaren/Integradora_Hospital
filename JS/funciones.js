@@ -235,3 +235,16 @@ body: datosPaciente
     function cancelarCambio() {
         window.location.href = "empleado.php";
     }
+
+function toggleEspecialidad() {
+    const rol = document.getElementById("rol").value;
+    const especialidadGroup = document.getElementById("especialidad-group");
+
+    if (rol === "DOCTOR" || rol === "ENFERMERO") {
+        especialidadGroup.style.display = "block"; // Muestra el campo
+        document.getElementById("especialidad").setAttribute("required", "true");
+    } else {
+        especialidadGroup.style.display = "none"; // Oculta el campo
+        document.getElementById("especialidad").removeAttribute("required");
+    }
+}

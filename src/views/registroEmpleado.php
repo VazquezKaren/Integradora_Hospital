@@ -42,18 +42,29 @@ $pdo = $conn->connect();
                     <div class="form-row">
                         <div class="form-group">
                             <label for="telefono">Teléfono:</label>
-                            <input type="tel" id="telefono" name="telefono" required>
+                            <input type="number" id="telefono" name="telefono" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
                             <input type="email" id="email" name="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="especialidad">Especialidad:</label>
-                            <select id="especialidad" name="especialidad" required>
-                                <option value="CARDIOLOGIA">Cardiologia</option>
-                                <option value="PEDIATRIA">Pediatria</option>
-                                <option value="NEUROLOGIA">Neurologia</option>
+                            <label for="rol">Rol:</label>
+                            <select id="rol" name="rol" onchange="toggleEspecialidad()" required>
+                                <option value="">Seleccione un rol</option>
+                                <option value="DOCTOR">Doctor</option>
+                                <option value="ENFERMERO">Enfermero</option>
+                                <option value="TRABAJO_SOCIAL">Trabajo social</option>
+                                <option value="ADMIN">Administrador</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="especialidad-group" style="display: none;">
+                            <label for="especialidad">Area:</label>
+                            <select id="especialidad" name="especialidad">
+                                <option value="">Seleccione una especialidad</option>
+                                <option value="CARDIOLOGIA">Cardiología</option>
+                                <option value="PEDIATRIA">Pediatría</option>
+                                <option value="NEUROLOGIA">Neurología</option>
                             </select>
                         </div>
                     </div>
@@ -81,7 +92,7 @@ $pdo = $conn->connect();
                             <label for="usuario">Usuario:</label>
                             <input type="text" id="usuario" name="usuario" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="password">Contraseña:</label>
                             <input type="password" id="password" name="password" required>
@@ -90,23 +101,15 @@ $pdo = $conn->connect();
                             <label for="password2">Confirmar contraseña:</label>
                             <input type="password" id="password2" name="password2" required>
                         </div>
-                        <div class="form-group">
-                            <label for="rol">Rol:</label>
-                            <select id="rol" name="rol" required>
-                                <option value="DOCTOR">Doctor</option>
-                                <option value="ENFERMERO">Enfermero</option>
-                                <option value="TRABAJO_SOCIAL">Trabajo social</option>
-                                <option value="ADMIN">Administrador</option>
-                            </select>
-                        </div>
+
                     </div>
                 </div>
                 <div class="button-group">
                     <button type="submit">Registrar Empleado</button>
                 </div>
-                </div>
-            </form>
         </div>
+        </form>
+    </div>
     </div>
 </section>
 <section class="full-page-section">
