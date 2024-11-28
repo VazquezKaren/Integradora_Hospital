@@ -134,7 +134,7 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
 
 
 
-            <div id="historial" class="tab-content">
+            <!-- <div id="historial" class="tab-content">
                 <div class="content-grid">
                     <div class="contentbox">
                         <h2>Historial de Actividades</h2>
@@ -161,7 +161,7 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
                         </table>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </section>
