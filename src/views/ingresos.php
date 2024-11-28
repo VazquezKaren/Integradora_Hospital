@@ -129,14 +129,132 @@ include_once('../controladores/tabla_ingresos.php');
 
                     <div class="form-group-filter">
                         <label>Fecha hasta egreso:</label>
-                        <input type="date" placeholder="Fecha de hasta hasta" name="buscarfechahastaegreso" id="buscarfechahastaegreso" style="margin-right: 50px;" value="<?php echo $_GET["buscarfechahastaegreso"] ?? ''; ?>">
+                        <input type="date" placeholder="Fecha de hasta hasta" name="buscarfechahastaegreso" id="buscarfechahastaegreso" style="margin-right: 50px;" value="<?php echo $_POST["buscarfechahastaegreso"]; ?>">
                     </div>
                 </div>
+
+                <!-- FILTRADO POR HORA INGRESO Y EGRESO -->
+
+                <!-- <div class="form-row">
+                    <div class="form-group-filter">
+                        <label>Hora desde ingreso:</label>
+                        <input type="time" name="buscarhoradesdeingreso" id="buscarhoradesdeingreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_POST['buscarhoradesdeingreso']) ? $_POST['buscarhoradesdeingreso'] : ''; ?>">
+                    </div>
+
+                    <div class="form-group-filter">
+                        <label>Hora hasta ingreso:</label>
+                        <input type="time" name="buscarhorahastaingreso" id="buscarhorahastaingreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_POST['buscarhorahastaingreso']) ? $_POST['buscarhorahastaingreso'] : ''; ?>">
+                    </div>
+
+                    <div class="form-group-filter">
+                        <label>Hora desde egreso:</label>
+                        <input type="time" name="buscarhoradesdeegreso" id="buscarhoradesdeegreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_POST['buscarhoradesdeegreso']) ? $_POST['buscarhoradesdeegreso'] : ''; ?>">
+                    </div>
+
+                    <div class="form-group-filter">
+                        <label>Hora hasta egreso:</label>
+                        <input type="time" name="buscarhorahastaegreso" id="buscarhorahastaegreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_POST['buscarhorahastaegreso']) ? $_POST['buscarhorahastaegreso'] : ''; ?>">
+                    </div>
+                </div> -->
+
+                <!-- CONTENIDO DE OTRA DISPOSICION -->
+
+                <!-- <div class="form-row">
+                    <div class="form-group-filter">
+                        <label>Numero del Empleado:</label>
+                        <input type="text" placeholder="Numero del empleado" name="buscarempleado" id="buscarempleado" value="<?php echo $_POST["buscarempleado"]; ?>">
+                    </div>
+
+                    <div class="form-group-filter">
+                        <label>Estado del ingreso:</label>
+                        <select name="estadoingreso" id="status-item" id="estadoingreso">
+                            <?php if ($_POST["estadoingreso"] != '') { ?>
+                                <option value="<?php echo $_POST["estadoingreso"]; ?>"><?php echo $_POST["estadoingreso"]; ?></option>
+                            <?php } ?>
+                            <option value="">Todos</option>
+                            <option value="1">Dados de alta</option>
+                            <option value="0">Internados</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group-filter" style="margin-left: 15px;">
+                        <label>Turno de ingreso:</label>
+                        <select name="turnoingreso" id="status-item" id="turnoingreso">
+                            <?php if ($_POST["turnoingreso"] != '') { ?>
+                                <option value="<?php echo $_POST["turnoingreso"]; ?>"><?php echo $_POST["turnoingreso"]; ?></option>
+                            <?php } ?>
+                            <option value="">Todos</option>
+                            <option value="MATUTINO">Turno Matutino</option>
+                            <option value="VESPERTINO">Turno Vespertino</option>
+                            <option value="NOCTURNO">Turno Nocturno</option>
+                        </select>
+                    </div>
+                </div> -->
+                <!-- <hr>
+                <div class="form-row">
+                    <div class="form-group-filter">
+                        <h2>Ordenar por</h2>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group-filter">
+                        <label>Seleccione el orden:</label>
+                        <select name="orden" id="status-item" id="orden" style="min-width: 300px;">
+                            <?php if ($_POST["orden"] != '') { ?>
+                                <option value="<?php echo $_POST["orden"]; ?>"><?php echo $_POST["orden"]; ?>
+                                    <?php
+                                    if ($_POST["orden"] == '1') {
+                                        echo 'Ordenar por nombre';
+                                    }
+                                    if ($_POST["orden"] == '2') {
+                                        echo 'Ordenar por fecha ingreso mas reciente';
+                                    }
+                                    if ($_POST["orden"] == '3') {
+                                        echo 'Ordenar por fecha ingreso mas antigua';
+                                    }
+                                    if ($_POST["orden"] == '4') {
+                                        echo 'Ordenar por hora ingreso mas reciente';
+                                    }
+                                    if ($_POST["orden"] == '5') {
+                                        echo 'Ordenar por hora ingreso mas antigua';
+                                    }
+                                    if ($_POST["orden"] == '6') {
+                                        echo 'Ordenar por fecha egreso reciente';
+                                    }
+                                    if ($_POST["orden"] == '7') {
+                                        echo 'Ordenar por fecha egreso antigua';
+                                    }
+                                    if ($_POST["orden"] == '8') {
+                                        echo 'Ordenar por hora egreso mas reciente';
+                                    }
+                                    if ($_POST["orden"] == '9') {
+                                        echo 'Ordenar por hora egreso mas antigua';
+                                    }
+                                    if ($_POST["orden"] == '10') {
+                                        echo 'Ordenar por servicio solicitado';
+                                    }
+                                    ?>
+                                </option>
+                            <?php } ?>
+                            <option value="">Sin orden</option>
+                            <option value="1">Ordenar por nombre</option>
+                            <option value="2">Ordenar por fecha ingreso mas reciente</option>
+                            <option value="3">Ordenar por fecha ingreso mas antigua</option>
+                            <option value="4">Ordenar por hora ingreso mas reciente</option>
+                            <option value="5">Ordenar por hora ingreso mas antigua</option>
+                            <option value="6">Ordenar por fecha egreso reciente</option>
+                            <option value="7">Ordenar por fecha egreso antigua</option>
+                            <option value="8">Ordenar por hora egreso mas reciente</option>
+                            <option value="9">Ordenar por hora egreso mas antigua</option>
+                            <option value="10">Ordenar por servicio solicitado</option>
+                        </select>
+                    </div>
+                </div> -->
+
                 <hr>
-                            <!-- BOTON PARA ERESETEAR LOS FILTROS -->
+
                 <button type="submit">Buscar</button>
-                <a href="ingresos.php" class="btn-reset">Eliminar filtros</a>
-                                    
             </form>
         </div>
     </div>
