@@ -87,7 +87,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                                 <label for="paciente_pais">País: </label>
                                 <select id="paciente_pais" name="paciente_pais" onchange="actualizarEstados('paciente')" disabled required>
                                     <option value="" disabled selected>Seleccione un país</option>
-                                    <option value="Mexico" <?php echo (isset($data['paciente_pais']) && $data['paciente_pais'] == 'MEXICO') ? 'selected' : ''; ?>>MEXICO</option>
+                                    <option value="Mexico" <?php echo (isset($data['paciente_pais']) && $data['paciente_pais'] == 'Mexico') ? 'selected' : ''; ?>>MEXICO</option>
                                     <option value="Extranjero" <?php echo (isset($data['paciente_pais']) && $data['paciente_pais'] == 'EXTRANJERO') ? 'selected' : ''; ?>>EXTRANJERO</option>
                                 </select>
                             </div>

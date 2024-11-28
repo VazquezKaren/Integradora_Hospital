@@ -30,6 +30,13 @@ include('cabecera.php');
                                 <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
                             </div>
                         </div>
+                        <!-- numero de registro de paciente faltante en el insert -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="no_registro">No.Registro</label>
+                                <input type="text" id="no_registro" name="no_registro" required>
+                            </div>
+                        </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="edad">Edad:</label>

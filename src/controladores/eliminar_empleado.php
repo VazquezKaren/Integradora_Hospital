@@ -1,41 +1,55 @@
 <?php
 include '../config.php';
 
-if (isset($_POST['idEmpleado'])) {
-    $idEmpleado = $_POST['idEmpleado'];
+if (isset($_POST['telefono'])) {
+    $telefono = $_POST['telefono']; // Número de teléfono ingresado
 
-    if (empty($idEmpleado)) {
+    if (empty($telefono)) {
         echo "<script>
-                    alert('Ingrese un id para eliminar al empleado');
-                    window.location.href = '../views/consultarEmpleado.php';
-                </script>";
-            exit();
-    }else {
+                alert('Ingrese un número de teléfono para eliminar al empleado');
+                window.location.href = '../views/consultarEmpleado.php';
+            </script>";
+        exit();
+    } else {
         try {
             $conn = new conn();
             $pdo = $conn->connect();
-    
-            $sql = "DELETE FROM empleado WHERE idEmpleado = :idEmpleado";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute(['idEmpleado' => $idEmpleado]);
-    
-            $sqlUsuario = "DELETE FROM usuarios WHERE idUsuario = :idEmpleado";
-            $stmtUsuario = $pdo->prepare($sqlUsuario);
-            $stmtUsuario->execute(['idEmpleado' => $idEmpleado]);
-    
-            echo "<script>
-                    alert('Se ha eliminado con éxito al empleado');
-                    window.location.href = '../views/consultarEmpleado.php';
-                </script>";
-    
+
+            // Obtener el idEmpleado usando el teléfono
+            $sqlEmpleado = "SELECT idEmpleado FROM empleado WHERE telefono = :telefono";
+            $stmtEmpleado = $pdo->prepare($sqlEmpleado);
+            $stmtEmpleado->execute(['telefono' => $telefono]);
+            $empleadoData = $stmtEmpleado->fetch(PDO::FETCH_ASSOC);
+
+            if ($empleadoData) {
+                $idEmpleado = $empleadoData['idEmpleado'];
+
+                // Eliminar primero el registro relacionado en la tabla usuarios
+                $sqlUsuario = "DELETE FROM usuarios WHERE fk_idEmpleado = :idEmpleado";
+                $stmtUsuario = $pdo->prepare($sqlUsuario);
+                $stmtUsuario->execute(['idEmpleado' => $idEmpleado]);
+
+                // Luego eliminar el registro en la tabla empleado
+                $sqlEmpleadoDelete = "DELETE FROM empleado WHERE idEmpleado = :idEmpleado";
+                $stmtEmpleadoDelete = $pdo->prepare($sqlEmpleadoDelete);
+                $stmtEmpleadoDelete->execute(['idEmpleado' => $idEmpleado]);
+
+                echo "<script>
+                        alert('Se ha eliminado con éxito al empleado y su usuario asociado');
+                        window.location.href = '../views/consultarEmpleado.php';
+                    </script>";
+            } else {
+                echo "<script>
+                        alert('No se encontró un empleado con el número de teléfono proporcionado');
+                        window.location.href = '../views/consultarEmpleado.php';
+                    </script>";
+            }
         } catch (Exception $th) {
             echo "<script>
-                    alert('Error en el registro: " . addslashes($th->getMessage()) . "');
+                    alert('Error al eliminar: " . addslashes($th->getMessage()) . "');
                     window.location.href = '../views/consultarEmpleado.php';
                 </script>";
         }
     }
-
-    
 }
 ?>

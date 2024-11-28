@@ -55,7 +55,8 @@ include('../controladores/sesion.php');
                     <label for="btn-menu"><i class="fa-solid fa-bars"></i></label>
                 </div>
                 <div class="logo">
-                    <a href="inicio.php" style="text-decoration: none; color: inherit;">
+                    <a href="inicio.php" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                        <img src="../uploads/logo.png" style="max-width: 100px; max-height: 50px;">
                         <h1 class="centered-h1">Hospital del niño</h1>
                     </a>
                 </div>
@@ -156,7 +157,7 @@ include('../controladores/sesion.php');
                         
                         <li class="list_item">
                             <div class="list_button">
-                                <a href="#" class="nav_link"><i class="fa-solid fa-gear"></i></i>Configuracion</a>
+                                <a href="configuracion.php" class="nav_link"><i class="fa-solid fa-gear"></i></i>Configuracion</a>
                             </div>
                         </li>
 
