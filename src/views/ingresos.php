@@ -2,51 +2,8 @@
 // BARRA DE NAVEACION Y MENU DE INTERACCION ENTRE SECCIONES, MODIFICAR EN CASO DE CAMBIAR RUTAS DE LOCALIZACION DE LOS ARCHIVOS DEL PROYECTO
 include_once('cabecera.php');
 include_once('../config.php');
+include_once('../controladores/tabla_ingresos.php');
 ?>
-
-<?php
-if (!isset($_POST['buscar'])) {
-    $_POST['buscar'] = '';
-}
-if (!isset($_POST['buscarfechadesdeingreso'])) {
-    $_POST['buscarfechadesdeingreso'] = '';
-}
-if (!isset($_POST['buscarfechahastaingreso'])) {
-    $_POST['buscarfechahastaingreso'] = '';
-}
-if (!isset($_POST['buscarfechadesdeegreso'])) {
-    $_POST['buscarfechadesdeegreso'] = '';
-}
-if (!isset($_POST['buscarfechahastaegreso'])) {
-    $_POST['buscarfechahastaegreso'] = '';
-}
-if (!isset($_POST['estadoingreso'])) {
-    $_POST['estadoingreso'] = '';
-}
-if (!isset($_POST['orden'])) {
-    $_POST['orden'] = '';
-}
-if (!isset($_POST['buscarempleado'])) {
-    $_POST['buscarempleado'] = '';
-}
-// if (!isset($_POST['buscarhoradesdeingreso'])) {
-//     $_POST['buscarhoradesdeingreso'] = '';
-// }
-// if (!isset($_POST['buscarhorahastaingreso'])) {
-//     $_POST['buscarhorahastaingreso'] = '';
-// }
-// if (!isset($_POST['buscarhoradesdeegreso'])) {
-//     $_POST['buscarhoradesdeegreso'] = '';
-// }
-// if (!isset($_POST['buscarhorahastaegreso'])) {
-//     $_POST['buscarhorahastaegreso'] = '';
-// }
-if (!isset($_POST['turnoingreso'])) {
-    $_POST['turnoingreso'] = '';
-}
-?>
-
-
 
 <section class="main-content">
     <div class="content-grid">
@@ -54,23 +11,24 @@ if (!isset($_POST['turnoingreso'])) {
             <h1>Buscador</h1>
             <p>Ingrese el nombre del paciente o el numero del empleado que registro el ingreso o bien ajuste los filtros para buscar un ingreso</p>
             <hr>
-            <form method="POST" action="ingresos.php">
+            <form method="GET" action="ingresos.php">
                 <div class="form-row">
                     <div class="form-group-filter">
                         <label>Nombre del paciente:</label>
-                        <input type="text" placeholder="Nombre del paciente" name="buscar" id="buscar" value="<?php echo $_POST["buscar"]; ?>">
+                        <input type="text" placeholder="Nombre del paciente" name="buscar" id="buscar" value="<?php echo $_GET["buscar"] ?? ''; ?>">
+
                     </div>
 
                     <div class="form-group-filter">
                         <label>Numero del Empleado:</label>
-                        <input type="text" placeholder="Numero del empleado" name="buscarempleado" id="buscarempleado" value="<?php echo $_POST["buscarempleado"]; ?>">
+                        <input type="text" placeholder="Numero del empleado" name="buscarempleado" id="buscarempleado" value="<?php echo $_GET["buscarempleado"] ?? ''; ?>">
                     </div>
 
                     <div class="form-group-filter">
                         <label>Estado del ingreso:</label>
                         <select name="estadoingreso" id="status-item" id="estadoingreso">
-                            <?php if ($_POST["estadoingreso"] != '') { ?>
-                                <option value="<?php echo $_POST["estadoingreso"]; ?>"><?php echo $_POST["estadoingreso"]; ?></option>
+                            <?php if ($_GET["estadoingreso"] != '') { ?>
+                                <option value="<?php echo $_GET["estadoingreso"] ?? ''; ?>"><?php echo $_GET["estadoingreso"] ?? ''; ?></option>
                             <?php } ?>
                             <option value="">Todos</option>
                             <option value="1">Dados de alta</option>
@@ -81,8 +39,8 @@ if (!isset($_POST['turnoingreso'])) {
                     <div class="form-group-filter" style="margin-left: 15px;">
                         <label>Turno de ingreso:</label>
                         <select name="turnoingreso" id="status-item" id="turnoingreso">
-                            <?php if ($_POST["turnoingreso"] != '') { ?>
-                                <option value="<?php echo $_POST["turnoingreso"]; ?>"><?php echo $_POST["turnoingreso"]; ?></option>
+                            <?php if ($_GET["turnoingreso"] != '') { ?>
+                                <option value="<?php echo $_GET["turnoingreso"] ?? ''; ?>"><?php echo $_GET["turnoingreso"] ?? ''; ?></option>
                             <?php } ?>
                             <option value="">Todos</option>
                             <option value="MATUTINO">Turno Matutino</option>
@@ -90,41 +48,41 @@ if (!isset($_POST['turnoingreso'])) {
                             <option value="NOCTURNO">Turno Nocturno</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group-filter" style="margin-left: 15px;">
                         <label>Seleccione el orden:</label>
                         <select name="orden" id="status-item" id="orden" style="min-width: 300px;">
-                            <?php if ($_POST["orden"] != '') { ?>
-                                <option value="<?php echo $_POST["orden"]; ?>"><?php echo $_POST["orden"]; ?>
+                            <?php if ($_GET["orden"] != '') { ?>
+                                <option value="<?php echo $_GET["orden"] ?? ''; ?>"><?php echo $_GET["orden"] ?? ''; ?>
                                     <?php
-                                    if ($_POST["orden"] == '1') {
+                                    if ($_GET["orden"] == '1') {
                                         echo 'Ordenar por nombre';
                                     }
-                                    if ($_POST["orden"] == '2') {
+                                    if ($_GET["orden"] == '2') {
                                         echo 'Ordenar por fecha ingreso mas reciente';
                                     }
-                                    if ($_POST["orden"] == '3') {
+                                    if ($_GET["orden"] == '3') {
                                         echo 'Ordenar por fecha ingreso mas antigua';
                                     }
-                                    if ($_POST["orden"] == '4') {
+                                    if ($_GET["orden"] == '4') {
                                         echo 'Ordenar por hora ingreso mas reciente';
                                     }
-                                    if ($_POST["orden"] == '5') {
+                                    if ($_GET["orden"] == '5') {
                                         echo 'Ordenar por hora ingreso mas antigua';
                                     }
-                                    if ($_POST["orden"] == '6') {
+                                    if ($_GET["orden"] == '6') {
                                         echo 'Ordenar por fecha egreso reciente';
                                     }
-                                    if ($_POST["orden"] == '7') {
+                                    if ($_GET["orden"] == '7') {
                                         echo 'Ordenar por fecha egreso antigua';
                                     }
-                                    if ($_POST["orden"] == '8') {
+                                    if ($_GET["orden"] == '8') {
                                         echo 'Ordenar por hora egreso mas reciente';
                                     }
-                                    if ($_POST["orden"] == '9') {
+                                    if ($_GET["orden"] == '9') {
                                         echo 'Ordenar por hora egreso mas antigua';
                                     }
-                                    if ($_POST["orden"] == '10') {
+                                    if ($_GET["orden"] == '10') {
                                         echo 'Ordenar por servicio solicitado';
                                     }
                                     ?>
@@ -156,22 +114,22 @@ if (!isset($_POST['turnoingreso'])) {
                 <div class="form-row">
                     <div class="form-group-filter">
                         <label>Fecha desde ingreso:</label>
-                        <input type="date" placeholder="Fecha de ingreso desde" name="buscarfechadesdeingreso" id="buscarfechadesdeingreso" style="margin-right: 50px;" value="<?php echo $_POST["buscarfechadesdeingreso"]; ?>">
+                        <input type="date" placeholder="Fecha de ingreso desde" name="buscarfechadesdeingreso" id="buscarfechadesdeingreso" style="margin-right: 50px;" value="<?php echo $_GET["buscarfechadesdeingreso"] ?? ''; ?>">
                     </div>
 
                     <div class="form-group-filter">
                         <label>Fecha hasta ingreso:</label>
-                        <input type="date" placeholder="Fecha de ingreso hasta" name="buscarfechahastaingreso" id="buscarfechahastaingreso" style="margin-right: 50px;" value="<?php echo $_POST["buscarfechahastaingreso"]; ?>">
+                        <input type="date" placeholder="Fecha de ingreso hasta" name="buscarfechahastaingreso" id="buscarfechahastaingreso" style="margin-right: 50px;" value="<?php echo $_GET["buscarfechahastaingreso"] ?? ''; ?>">
                     </div>
 
                     <div class="form-group-filter">
                         <label>Fecha desde egreso:</label>
-                        <input type="date" placeholder="Fecha de egreso desde" name="buscarfechadesdeegreso" id="buscarfechadesdeegreso" style="margin-right: 50px;" value="<?php echo $_POST["buscarfechadesdeegreso"]; ?>">
+                        <input type="date" placeholder="Fecha de egreso desde" name="buscarfechadesdeegreso" id="buscarfechadesdeegreso" style="margin-right: 50px;" value="<?php echo $_GET["buscarfechadesdeegreso"] ?? ''; ?>">
                     </div>
 
                     <div class="form-group-filter">
                         <label>Fecha hasta egreso:</label>
-                        <input type="date" placeholder="Fecha de hasta hasta" name="buscarfechahastaegreso" id="buscarfechahastaegreso" style="margin-right: 50px;" value="<?php echo $_POST["buscarfechahastaegreso"]; ?>">
+                        <input type="date" placeholder="Fecha de hasta hasta" name="buscarfechahastaegreso" id="buscarfechahastaegreso" style="margin-right: 50px;" value="<?php echo $_GET["buscarfechahastaegreso"] ?? ''; ?>">
                     </div>
                 </div>
 
@@ -180,22 +138,22 @@ if (!isset($_POST['turnoingreso'])) {
                 <!-- <div class="form-row">
                     <div class="form-group-filter">
                         <label>Hora desde ingreso:</label>
-                        <input type="time" name="buscarhoradesdeingreso" id="buscarhoradesdeingreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_POST['buscarhoradesdeingreso']) ? $_POST['buscarhoradesdeingreso'] : ''; ?>">
+                        <input type="time" name="buscarhoradesdeingreso" id="buscarhoradesdeingreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_GET['buscarhoradesdeingreso']) ? $_GET['buscarhoradesdeingreso'] : ''; ?>">
                     </div>
 
                     <div class="form-group-filter">
                         <label>Hora hasta ingreso:</label>
-                        <input type="time" name="buscarhorahastaingreso" id="buscarhorahastaingreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_POST['buscarhorahastaingreso']) ? $_POST['buscarhorahastaingreso'] : ''; ?>">
+                        <input type="time" name="buscarhorahastaingreso" id="buscarhorahastaingreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_GET['buscarhorahastaingreso']) ? $_GET['buscarhorahastaingreso'] : ''; ?>">
                     </div>
 
                     <div class="form-group-filter">
                         <label>Hora desde egreso:</label>
-                        <input type="time" name="buscarhoradesdeegreso" id="buscarhoradesdeegreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_POST['buscarhoradesdeegreso']) ? $_POST['buscarhoradesdeegreso'] : ''; ?>">
+                        <input type="time" name="buscarhoradesdeegreso" id="buscarhoradesdeegreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_GET['buscarhoradesdeegreso']) ? $_GET['buscarhoradesdeegreso'] : ''; ?>">
                     </div>
 
                     <div class="form-group-filter">
                         <label>Hora hasta egreso:</label>
-                        <input type="time" name="buscarhorahastaegreso" id="buscarhorahastaegreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_POST['buscarhorahastaegreso']) ? $_POST['buscarhorahastaegreso'] : ''; ?>">
+                        <input type="time" name="buscarhorahastaegreso" id="buscarhorahastaegreso" style="margin-right: 81px;" min="00:00" max="23:59" value="<?php echo isset($_GET['buscarhorahastaegreso']) ? $_GET['buscarhorahastaegreso'] : ''; ?>">
                     </div>
                 </div> -->
 
@@ -204,14 +162,14 @@ if (!isset($_POST['turnoingreso'])) {
                 <!-- <div class="form-row">
                     <div class="form-group-filter">
                         <label>Numero del Empleado:</label>
-                        <input type="text" placeholder="Numero del empleado" name="buscarempleado" id="buscarempleado" value="<?php echo $_POST["buscarempleado"]; ?>">
+                        <input type="text" placeholder="Numero del empleado" name="buscarempleado" id="buscarempleado" value="<?php echo $_GET["buscarempleado"]; ?>">
                     </div>
 
                     <div class="form-group-filter">
                         <label>Estado del ingreso:</label>
                         <select name="estadoingreso" id="status-item" id="estadoingreso">
-                            <?php if ($_POST["estadoingreso"] != '') { ?>
-                                <option value="<?php echo $_POST["estadoingreso"]; ?>"><?php echo $_POST["estadoingreso"]; ?></option>
+                            <?php if ($_GET["estadoingreso"] != '') { ?>
+                                <option value="<?php echo $_GET["estadoingreso"] ?? ''; ?>"><?php echo $_GET["estadoingreso"] ?? ''; ?></option>
                             <?php } ?>
                             <option value="">Todos</option>
                             <option value="1">Dados de alta</option>
@@ -222,8 +180,8 @@ if (!isset($_POST['turnoingreso'])) {
                     <div class="form-group-filter" style="margin-left: 15px;">
                         <label>Turno de ingreso:</label>
                         <select name="turnoingreso" id="status-item" id="turnoingreso">
-                            <?php if ($_POST["turnoingreso"] != '') { ?>
-                                <option value="<?php echo $_POST["turnoingreso"]; ?>"><?php echo $_POST["turnoingreso"]; ?></option>
+                            <?php if ($_GET["turnoingreso"] != '') { ?>
+                                <option value="<?php echo $_GET["turnoingreso"] ?? ''; ?>"><?php echo $_GET["turnoingreso"] ?? ''; ?></option>
                             <?php } ?>
                             <option value="">Todos</option>
                             <option value="MATUTINO">Turno Matutino</option>
@@ -243,37 +201,37 @@ if (!isset($_POST['turnoingreso'])) {
                     <div class="form-group-filter">
                         <label>Seleccione el orden:</label>
                         <select name="orden" id="status-item" id="orden" style="min-width: 300px;">
-                            <?php if ($_POST["orden"] != '') { ?>
-                                <option value="<?php echo $_POST["orden"]; ?>"><?php echo $_POST["orden"]; ?>
+                            <?php if ($_GET["orden"] != '') { ?>
+                                <option value="<?php echo $_GET["orden"] ?? ''; ?>"><?php echo $_GET["orden"] ?? ''; ?>
                                     <?php
-                                    if ($_POST["orden"] == '1') {
+                                    if ($_GET["orden"] == '1') {
                                         echo 'Ordenar por nombre';
                                     }
-                                    if ($_POST["orden"] == '2') {
+                                    if ($_GET["orden"] == '2') {
                                         echo 'Ordenar por fecha ingreso mas reciente';
                                     }
-                                    if ($_POST["orden"] == '3') {
+                                    if ($_GET["orden"] == '3') {
                                         echo 'Ordenar por fecha ingreso mas antigua';
                                     }
-                                    if ($_POST["orden"] == '4') {
+                                    if ($_GET["orden"] == '4') {
                                         echo 'Ordenar por hora ingreso mas reciente';
                                     }
-                                    if ($_POST["orden"] == '5') {
+                                    if ($_GET["orden"] == '5') {
                                         echo 'Ordenar por hora ingreso mas antigua';
                                     }
-                                    if ($_POST["orden"] == '6') {
+                                    if ($_GET["orden"] == '6') {
                                         echo 'Ordenar por fecha egreso reciente';
                                     }
-                                    if ($_POST["orden"] == '7') {
+                                    if ($_GET["orden"] == '7') {
                                         echo 'Ordenar por fecha egreso antigua';
                                     }
-                                    if ($_POST["orden"] == '8') {
+                                    if ($_GET["orden"] == '8') {
                                         echo 'Ordenar por hora egreso mas reciente';
                                     }
-                                    if ($_POST["orden"] == '9') {
+                                    if ($_GET["orden"] == '9') {
                                         echo 'Ordenar por hora egreso mas antigua';
                                     }
-                                    if ($_POST["orden"] == '10') {
+                                    if ($_GET["orden"] == '10') {
                                         echo 'Ordenar por servicio solicitado';
                                     }
                                     ?>
@@ -297,29 +255,26 @@ if (!isset($_POST['turnoingreso'])) {
                 <hr>
 
                 <button type="submit">Buscar</button>
+<!--                 <a href="ingresos.php">Resetear</a>
+                Opcional CSS:
+
+                .btn-reset {
+                    display: inline-block;
+                    padding: 10px 20px;
+                    background-color: #ccc;
+                    color: #000;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    margin-left: 10px;
+                }
+
+                .btn-reset:hover {
+                    background-color: #bbb;
+                } -->
             </form>
         </div>
     </div>
 </section>
-<?php
-include_once('../controladores/tabla_ingresos.php');
-?>
-
-<?php
-// Número de registros por página
-$registros_por_pagina = 10;
-
-// Obtener la página actual desde la URL
-$pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-$offset = ($pagina - 1) * $registros_por_pagina;
-
-// Calcular el total de páginas
-$rowCount = count($ingresos);  // Ya tienes el total de registros en el array
-$paginas_totales = ceil($rowCount / $registros_por_pagina);
-
-// Obtener los ingresos para la página actual
-$ingresos_pagina = array_slice($ingresos, $offset, $registros_por_pagina);
-?>
 
 <section class="main-content">
     <div class="content-grid">
@@ -347,16 +302,16 @@ $ingresos_pagina = array_slice($ingresos, $offset, $registros_por_pagina);
 
                 <tbody>
                     <?php
-                    foreach ($ingresos_pagina as $ingresos) {
+                    foreach ($ingresos as $ingreso) {
                     ?>
                         <tr>
-                            <td><?php echo $ingresos['fechaIngreso'] ?></td>
-                            <td><?php echo $ingresos['horaIngreso'] ?></td>
-                            <td><?php echo $ingresos['nombrePaciente'] . " " . $ingresos['apellidoPaternoPaciente'] . " " . $ingresos['apellidoMaternoPaciente'] ?></td>
-                            <td><?php echo $ingresos['fechaEgreso'] ?></td>
-                            <td><?php echo $ingresos['horaEgreso'] ?></td>
+                            <td><?php echo $ingreso['fechaIngreso'] ?></td>
+                            <td><?php echo $ingreso['horaIngreso'] ?></td>
+                            <td><?php echo $ingreso['nombrePaciente'] . " " . $ingreso['apellidoPaternoPaciente'] . " " . $ingreso['apellidoMaternoPaciente'] ?></td>
+                            <td><?php echo $ingreso['fechaEgreso'] ?></td>
+                            <td><?php echo $ingreso['horaEgreso'] ?></td>
                             <td><?php
-                                if ($ingresos['egreso'] == 1) {
+                                if ($ingreso['egreso'] == 1) {
                                 ?> <i class="fa-solid fa-check"></i>
                                 <?php
                                 } else {
@@ -364,14 +319,14 @@ $ingresos_pagina = array_slice($ingresos, $offset, $registros_por_pagina);
                                 <?php
                                 }
                                 ?></td>
-                            <td><?php echo $ingresos['servicioSolicita'] ?></td>
-                            <td><?php echo $ingresos['idEmpleado'] ?></td>
+                            <td><?php echo $ingreso['servicioSolicita'] ?></td>
+                            <td><?php echo $ingreso['idEmpleado'] ?></td>
                             <td>
-                                <?php if (isset($ingresos['fkIdPaciente'])): ?>
+                                <?php if (isset($ingreso['fkIdPaciente'])): ?>
                                     <!-- Botón para abrir el modal -->
-                                    <!-- <input type="text" class="forma-control" name="idPaciente" value="<?php echo $ingresos['fkIdPaciente']; ?>">
-                                    <input type="text" class="forma-control" name="idPaciente" value="<?php echo $ingresos['idIngreso']; ?>"> -->
-                                    <button title="Mas informacion" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" data-fk-id-paciente="<?php echo $ingresos['fkIdPaciente']; ?>"><i class="fa-solid fa-plus"></i></button>
+                                    <!-- <input type="text" class="forma-control" name="idPaciente" value="<?php echo $ingreso['fkIdPaciente']; ?>">
+                                    <input type="text" class="forma-control" name="idPaciente" value="<?php echo $ingreso['idIngreso']; ?>"> -->
+                                    <button title="Mas informacion" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" data-fk-id-paciente="<?php echo $ingreso['fkIdPaciente']; ?>"><i class="fa-solid fa-plus"></i></button>
                                     <div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered modal-xl">
                                             <div class="modal-content">
@@ -397,13 +352,13 @@ $ingresos_pagina = array_slice($ingresos, $offset, $registros_por_pagina);
                                     <span>No disponible</span>
                                 <?php endif; ?>
                                 <?php
-                                if ($ingresos['egreso'] == 1) {
+                                if ($ingreso['egreso'] == 1) {
                                 ?>
                                 <?php
                                 } else {
                                 ?>
                                     <form method="post" action="../controladores/marcar_salida.php" class="form-marcar-salida">
-                                        <input type="hidden" class="forma-control" name="idIngreso" value="<?php echo $ingresos['idIngreso']; ?>">
+                                        <input type="hidden" class="forma-control" name="idIngreso" value="<?php echo $ingreso['idIngreso']; ?>">
                                         <button title="Registrar salida" type="button" class="btn btn-primary btn-marcar-salida">
                                             <i class="fa-solid fa-right-from-bracket"></i>
                                         </button>
@@ -412,7 +367,7 @@ $ingresos_pagina = array_slice($ingresos, $offset, $registros_por_pagina);
                                 }
                                 ?>
                                 <form method="post" action="../controladores/eliminar_ingreso.php" class="form-eliminar-ingreso">
-                                    <input type="hidden" class="forma-control" name="idIngreso" value="<?php echo $ingresos['idIngreso']; ?>">
+                                    <input type="hidden" class="forma-control" name="idIngreso" value="<?php echo $ingreso['idIngreso']; ?>">
                                     <button title="Eliminar ingreso" type="button" class="btn btn-primary btn-eliminar-ingreso">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
@@ -424,29 +379,32 @@ $ingresos_pagina = array_slice($ingresos, $offset, $registros_por_pagina);
                 </tbody>
             </table>
             <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center" >
-                        <!-- Botón de página anterior -->
-                        <li class="page-item <?php echo $pagina <= 1 ? 'disabled' : ''; ?>">
-                            <a class="page-link" href="?pagina=<?php echo $pagina - 1; ?>" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
+                <ul class="pagination justify-content-center">
+                    <!-- Botón de página anterior -->
+                    <li class="page-item <?php echo $pagina <= 1 ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="?<?php echo http_build_query(array_merge($_GET, ['pagina' => $pagina - 1])); ?>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
 
-                        <!-- Enlaces a las páginas -->
-                        <?php for ($i = 1; $i <= $paginas_totales; $i++): ?>
-                            <li class="page-item <?php echo $i == $pagina ? 'active' : ''; ?>">
-                                <a class="page-link" href="?pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
-                            </li>
-                        <?php endfor; ?>
 
-                        <!-- Botón de página siguiente -->
-                        <li class="page-item <?php echo $pagina >= $paginas_totales ? 'disabled' : ''; ?>">
-                            <a class="page-link" href="?pagina=<?php echo $pagina + 1; ?>" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
+                    <!-- Enlaces a las páginas -->
+                    <?php for ($i = 1; $i <= $paginas_totales; $i++): ?>
+                        <li class="page-item <?php echo $i == $pagina ? 'active' : ''; ?>">
+                            <a class="page-link" href="?<?php echo http_build_query(array_merge($_GET, ['pagina' => $i])); ?>"><?php echo $i; ?></a>
                         </li>
-                    </ul>
-                </nav>
+                    <?php endfor; ?>
+
+
+                    <!-- Botón de página siguiente -->
+                    <li class="page-item <?php echo $pagina >= $paginas_totales ? 'disabled' : ''; ?>">
+                        <a class="page-link" href="?<?php echo http_build_query(array_merge($_GET, ['pagina' => $pagina + 1])); ?>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
         </div>
     </div>
 </section>
