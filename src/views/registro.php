@@ -54,7 +54,7 @@ include('cabecera.php');
 
                         <div class="form-row">
                             <div class="form-group">
-                                    <label for="paciente_pais">País</label>
+                                    <label for="paciente_pais">País: </label>
                                     <select id="paciente_pais" name="paciente_pais"
                                         onchange="actualizarEstados('paciente')" required>
                                         <option value="" disabled selected>Seleccione un país</option>
@@ -63,7 +63,7 @@ include('cabecera.php');
                                     </select>
                             </div>
                             <div class="form-group">
-                                <label for="paciente_estado">Estado</label>
+                                <label for="paciente_estado">Estado: </label>
                                 <select id="paciente_estado" name="paciente_estado"
                                     onchange="actualizarMunicipios('paciente')" required>
                                     <option value="" disabled selected>Seleccione un estado</option>
@@ -71,7 +71,7 @@ include('cabecera.php');
                             </div>
 
                             <div class="form-group">
-                                <label for="paciente_municipio">Municipio</label>
+                                <label for="paciente_municipio">Municipio: </label>
                                 <select id="paciente_municipio" name="paciente_municipio" required>
                                     <option value="" disabled selected>Seleccione un municipio</option>
                                 </select>
@@ -142,7 +142,7 @@ include('cabecera.php');
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="responsable_pais">País</label>
+                                <label for="responsable_pais">País: </label>
                                 <select id="responsable_pais" name="responsable_pais" onchange="actualizarEstados('responsable')" required>
                                     <option value="" disabled selected>Seleccione un país</option>
                                     <option value="Mexico">México</option>
@@ -152,7 +152,7 @@ include('cabecera.php');
                             
                             <!-- Estado del Responsable -->
                             <div class="form-group">
-                                <label for="responsable_estado">Estado</label>
+                                <label for="responsable_estado">Estado: </label>
                                 <select id="responsable_estado" name="responsable_estado" onchange="actualizarMunicipios('responsable')" required>
                                     <option value="" disabled selected>Seleccione un estado</option>
                                 </select>
@@ -160,7 +160,7 @@ include('cabecera.php');
                             
                             <!-- Municipio del Responsable -->
                             <div class="form-group">
-                                <label for="responsable_municipio">Municipio</label>
+                                <label for="responsable_municipio">Municipio: </label>
                                 <select id="responsable_municipio" name="responsable_municipio" required>
                                     <option value="" disabled selected>Seleccione un municipio</option>
                                 </select>

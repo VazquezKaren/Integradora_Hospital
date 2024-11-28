@@ -223,6 +223,24 @@ body {
 .cerrar-sesion:hover {
     background-color: rgba(0, 0, 0, 0.3);
 }
+#cambiar-contrasena {
+    padding: 12px 17px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    background-color: green; 
+    text-align: center;
+    border: none; 
+    border-radius: 0px; 
+    cursor: pointer;
+    margin-right: 10px; 
+    transition: background-color 0.3s ease; 
+}
+
+#cambiar-contrasena:hover {
+    background-color: rgba(0, 128, 0, 0.8); 
+}
+
 
 .list_item--click > .list_button > .nav_link {
     justify-content: space-between;
@@ -462,6 +480,3 @@ button:hover {
     transition: none !important; /* Desactiva transiciones que puedan interferir */
 }
 
-.custom-button {
-    background-color: #080808;;
-}

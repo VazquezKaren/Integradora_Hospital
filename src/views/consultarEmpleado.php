@@ -10,12 +10,12 @@ if ($_SESSION['rol'] !== 'ADMIN') {
 }
 
 include('../controladores/mostrar_informacion_empleado.php')
-?>
+    ?>
 <section class="main-content">
     <div class="content-grid">
         <div class="contentbox patient-info">
             <h1>Consultar empleado</h1>
-            <p>Ingrese el No. de registro del empleado o su nombre</p>
+            <p>Ingrese el número de teléfono del empleado</p>
             <br>
             <form method="post" action="">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -49,11 +49,13 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
                     </div>
                     <div class="form-group">
                         <label for="apellidos">Apellido paterno:</label>
-                        <input type="text" id="apellidos" value="<?php echo $empleadoData['apellidoPaterno'] ?? ''; ?>" disabled>
+                        <input type="text" id="apellidos" value="<?php echo $empleadoData['apellidoPaterno'] ?? ''; ?>"
+                            disabled>
                     </div>
                     <div class="form-group">
                         <label for="apellidos">Apellido materno:</label>
-                        <input type="text" id="apellidos" value="<?php echo $empleadoData['apellidoPaterno'] ?? ''; ?>" disabled>
+                        <input type="text" id="apellidos" value="<?php echo $empleadoData['apellidoPaterno'] ?? ''; ?>"
+                            disabled>
                     </div>
                 </div>
                 <div class="form-row">
@@ -65,14 +67,16 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
                         <label for="email">Email:</label>
                         <input type="email" id="email" value="<?php echo $empleadoData['email'] ?? ''; ?>" disabled>
                     </div>
-                    <div class="form-group">
-                        <label for="especialidad">Especialidad:</label>
-                        <select id="rol" disabled>
-                            <option value="CARDIOLOGIA" <?php echo (isset($empleadoData['especialidad']) && $empleadoData['especialidad'] === 'CARDIOLOGIA') ? 'selected' : ''; ?>>Cardiologia</option>
-                            <option value="PEDIATRIA" <?php echo (isset($empleadoData['especialidad']) && $empleadoData['especialidad'] === 'PEDIATRIA') ? 'selected' : ''; ?>>Pediatria</option>
-                            <option value="NEUROLOGIA" <?php echo (isset($empleadoData['especialidad']) && $empleadoData['especialidad'] === 'NEUROLOGIA') ? 'selected' : ''; ?>>Neurologia</option>
-                        </select>
-                    </div>
+                    <?php if (isset($empleadoData['especialidad']) && $empleadoData['especialidad'] !== ''): ?>
+                        <div class="form-group">
+                            <label for="especialidad">Especialidad:</label>
+                            <select id="especialidad" disabled>
+                                <option value="CARDIOLOGIA" <?php echo $empleadoData['especialidad'] === 'CARDIOLOGIA' ? 'selected' : ''; ?>>Cardiología</option>
+                                <option value="PEDIATRIA" <?php echo $empleadoData['especialidad'] === 'PEDIATRIA' ? 'selected' : ''; ?>>Pediatría</option>
+                                <option value="NEUROLOGIA" <?php echo $empleadoData['especialidad'] === 'NEUROLOGIA' ? 'selected' : ''; ?>>Neurología</option>
+                            </select>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <hr>
@@ -80,15 +84,18 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="direccion_calle">Calle:</label>
-                        <input type="text" id="direccion_calle" value="<?php echo $empleadoData['calleDireccion'] ?? ''; ?>" disabled>
+                        <input type="text" id="direccion_calle"
+                            value="<?php echo $empleadoData['calleDireccion'] ?? ''; ?>" disabled>
                     </div>
                     <div class="form-group">
                         <label for="direccion_numero">Número:</label>
-                        <input type="text" id="direccion_numero" value="<?php echo $empleadoData['numeroDireccion'] ?? ''; ?>" disabled>
+                        <input type="text" id="direccion_numero"
+                            value="<?php echo $empleadoData['numeroDireccion'] ?? ''; ?>" disabled>
                     </div>
                     <div class="form-group">
                         <label for="direccion_colonia">Colonia o Fraccionamiento:</label>
-                        <input type="text" id="direccion_colonia" value="<?php echo $empleadoData['coloniaDireccion'] ?? ''; ?>" disabled>
+                        <input type="text" id="direccion_colonia"
+                            value="<?php echo $empleadoData['coloniaDireccion'] ?? ''; ?>" disabled>
                     </div>
                 </div>
 
@@ -111,12 +118,15 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
 
                 <div class="button-group">
                     <button type="button" id="modificar-btn" onclick="habilitarEdicion()">Modificar</button>
-                    <button type="submit" id="guardar-btn" class="save-button" style="display: none;" onclick="deshabilitarEdicion()">Guardar cambios</button>
-                    <button type="reset" id="descartar-btn" class="delete-button" style="display: none;" onclick="deshabilitarEdicion()">Descartar cambios</button>
+                    <button type="submit" id="guardar-btn" class="save-button" style="display: none;"
+                        onclick="deshabilitarEdicion()">Guardar cambios</button>
+                    <button type="reset" id="descartar-btn" class="delete-button" style="display: none;"
+                        onclick="deshabilitarEdicion()">Descartar cambios</button>
 
-                    <form method="post" action="../controladores/eliminar_empleado.php" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
+                    <form method="post" action="../controladores/eliminar_empleado.php"
+                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
                         <input type="hidden" name="idEmpleado" value="<?php echo $empleadoData['idEmpleado'] ?? ''; ?>">
-                        <button type="submit" class="delete-button" >Eliminar empleado</button>
+                        <button type="submit" class="delete-button">Eliminar empleado</button>
                     </form>
                 </div>
             </div>

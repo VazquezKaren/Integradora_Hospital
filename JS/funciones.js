@@ -14,34 +14,35 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error al cargar los datos JSON:", error);
         });
 
-    // Actualizar estados
-    window.actualizarEstados = function (prefix) {
-        const paisSelect = document.getElementById(`${prefix}_pais`);
-        const estadoSelect = document.getElementById(`${prefix}_estado`);
-        const municipioSelect = document.getElementById(`${prefix}_municipio`);
+window.actualizarEstados = function (prefix) {
+    const paisSelect = document.getElementById(`${prefix}_pais`);
+    const estadoSelect = document.getElementById(`${prefix}_estado`);
+    const municipioSelect = document.getElementById(`${prefix}_municipio`);
 
-        const paisSeleccionado = paisSelect.value;
+    const paisSeleccionado = paisSelect.value;
 
-        estadoSelect.innerHTML = '<option value="" disabled selected>Seleccione un estado</option>';
-        municipioSelect.innerHTML = '<option value="" disabled selected>Seleccione un municipio</option>';
+    estadoSelect.innerHTML = '<option value="" disabled selected>Seleccione un estado</option>';
+    municipioSelect.innerHTML = '<option value="" disabled selected>Seleccione un municipio</option>';
 
-        if (paisSeleccionado === "Mexico") {
-            estadoSelect.disabled = false;
-            municipioSelect.disabled = true;
+    if (paisSeleccionado === "Mexico") {
+        estadoSelect.disabled = false;
+        municipioSelect.disabled = false; // Mantener habilitado
 
-            for (const estado in data) {
-                const option = document.createElement("option");
-                option.value = estado;
-                option.textContent = estado;
-                estadoSelect.appendChild(option);
-            }
-        } else if (paisSeleccionado === "Extranjero") {
-            estadoSelect.innerHTML = '<option value="Extranjero" selected>Extranjero</option>';
-            municipioSelect.innerHTML = '<option value="Extranjero" selected>Extranjero</option>';
-            estadoSelect.disabled = true;
-            municipioSelect.disabled = true;
+        for (const estado in data) {
+            const option = document.createElement("option");
+            option.value = estado;
+            option.textContent = estado;
+            estadoSelect.appendChild(option);
         }
-    };
+    } else if (paisSeleccionado === "Extranjero") {
+        estadoSelect.innerHTML = '<option value="Extranjero" selected>Extranjero</option>';
+        municipioSelect.innerHTML = '<option value="Extranjero" selected>Extranjero</option>';
+        estadoSelect.disabled = true;
+        municipioSelect.disabled = true;
+    }
+};
+
+    
 
     // Actualizar municipios
     window.actualizarMunicipios = function (prefix) {
@@ -103,10 +104,25 @@ function habilitarEdicion() {
     const contextos = ['paciente', 'responsable'];
     contextos.forEach(contexto => {
         const inputs = document.querySelectorAll(`#${contexto} input, #${contexto} select, #${contexto} textarea`);
+
+        // Almacenar el valor original de cada campo en un atributo `data-original-value`
         inputs.forEach(input => {
+            if (!input.dataset.originalValue) {
+                input.dataset.originalValue = input.value || ""; // Guarda el valor original
+            }
             input.removeAttribute('readonly');
             input.removeAttribute('disabled');
         });
+
+        // Almacenar valores originales de los select de estado y municipio
+        const estadoSelect = document.getElementById(`${contexto}_estado`);
+        const municipioSelect = document.getElementById(`${contexto}_municipio`);
+        if (estadoSelect && !estadoSelect.dataset.originalValue) {
+            estadoSelect.dataset.originalValue = estadoSelect.value || "";
+        }
+        if (municipioSelect && !municipioSelect.dataset.originalValue) {
+            municipioSelect.dataset.originalValue = municipioSelect.value || "";
+        }
 
         document.getElementById(`guardar-btn-${contexto}`).style.display = 'inline';
         document.getElementById(`descartar-btn-${contexto}`).style.display = 'inline';
@@ -114,15 +130,39 @@ function habilitarEdicion() {
     });
 }
 
+
 function deshabilitarEdicion() {
-    // Selecciona ambos contextos
     const contextos = ['paciente', 'responsable'];
     contextos.forEach(contexto => {
-        const inputs = document.querySelectorAll(`#${contexto} input:not([name="busqueda"]), #${contexto} select, #${contexto} textarea`);
+        const inputs = document.querySelectorAll(`#${contexto} input, #${contexto} select, #${contexto} textarea`);
+
+        // Restaurar el valor original desde `data-original-value`
         inputs.forEach(input => {
+            if (input.dataset.originalValue !== undefined) {
+                input.value = input.dataset.originalValue; // Restaurar el valor original
+                if (input.tagName === "SELECT") {
+                    // Ajustar la selección para los dropdowns
+                    const options = Array.from(input.options);
+                    options.forEach(option => {
+                        option.selected = option.value === input.dataset.originalValue;
+                    });
+                }
+            }
             input.setAttribute('readonly', true);
             input.setAttribute('disabled', true);
         });
+
+        // Asegurar que los select de estado y municipio también se actualicen
+        const estadoSelect = document.getElementById(`${contexto}_estado`);
+        const municipioSelect = document.getElementById(`${contexto}_municipio`);
+        if (estadoSelect && municipioSelect) {
+            if (estadoSelect.dataset.originalValue) {
+                estadoSelect.innerHTML = `<option value="${estadoSelect.dataset.originalValue}" selected>${estadoSelect.dataset.originalValue}</option>`;
+            }
+            if (municipioSelect.dataset.originalValue) {
+                municipioSelect.innerHTML = `<option value="${municipioSelect.dataset.originalValue}" selected>${municipioSelect.dataset.originalValue}</option>`;
+            }
+        }
 
         document.getElementById(`guardar-btn-${contexto}`).style.display = 'none';
         document.getElementById(`descartar-btn-${contexto}`).style.display = 'none';
@@ -131,52 +171,98 @@ function deshabilitarEdicion() {
 }
 
 
+
 function guardarCambios(contexto) {
-const datosPaciente = new FormData();  
+    const datosPaciente = new FormData();  
 
-const idPaciente = document.getElementById('busqueda').value;
-if (idPaciente) {
-    datosPaciente.append('idPaciente', idPaciente);
-} else {
-    alert('ID del paciente no encontrado.');
-    return; 
-}
-
-const campos = [
-    'nombre', 'apellido_p', 'apellido_m', 'fecha_nacimiento', 'paciente_edad', 'sexo',
-    'paciente_pais', 'paciente_estado', 'paciente_municipio', 'calle', 'numero', 'colonia',
-    'derechoHabiente', 'dx', 'observaciones', 'hoja_frontal', 'hoja_compromiso',
-    'nombre_responsable', 'apellido_p_responsable', 'apellido_m_responsable',
-    'parentesco', 'telefono', 'ocupacion', 'tutor_pais', 'tutor_estado',
-    'tutor_municipio', 'calle_responsable', 'numero_responsable', 'colonia_responsable',
-    'personas_hogar', 'personas_apoyo', 'derechohabiente', 'ingresos', 'egresos',
-    'indice_economico'
-];
-
-campos.forEach(campo => {
-    const elemento = document.getElementById(campo);
-    if (elemento) {
-        datosPaciente.append(campo, elemento.value);
-    }
-});
-
-fetch('../controladores/modificar_paciente.php', {
-method: 'POST',
-body: datosPaciente
-})
-.then(response => response.json().catch(() => ({ success: false, message: 'Respuesta inválida del servidor' })))
-.then(data => {
-    if (data.success) {
-        alert(data.message);
-        deshabilitarEdicion(contexto);
+    const noRegistro = document.getElementById('busqueda').value;
+    if (noRegistro) {
+        datosPaciente.append('noRegistro', noRegistro);
     } else {
-        alert(data.message || 'Error al actualizar los datos.');
-        console.error('Error:', data.message);
+        alert('No. de registro del paciente no encontrado.');
+        return; 
     }
-    })
-    .catch(error => {
-    console.error('Error al guardar los cambios:', error);
-    alert("Ocurrió un error al guardar los cambios. Por favor, intenta de nuevo.");
+
+    const campos = [
+        'nombre', 'apellido_p', 'apellido_m', 'fecha_nacimiento', 'paciente_edad', 'sexo',
+        'paciente_pais', 'paciente_estado', 'paciente_municipio', 'calle', 'numero', 'colonia',
+        'derechoHabiente', 'dx', 'observaciones', 'hoja_frontal', 'hoja_compromiso',
+        'nombre_responsable', 'apellido_p_responsable', 'apellido_m_responsable',
+        'parentesco', 'telefono', 'ocupacion', 'tutor_pais', 'tutor_estado',
+        'tutor_municipio', 'calle_responsable', 'numero_responsable', 'colonia_responsable',
+        'personas_hogar', 'personas_apoyo', 'derechohabiente', 'ingresos', 'egresos',
+        'indice_economico'
+    ];
+
+    campos.forEach(campo => {
+        const elemento = document.getElementById(campo);
+        if (elemento) {
+            datosPaciente.append(campo, elemento.value);
+        }
     });
 
+    fetch('../controladores/modificar_paciente.php', {
+        method: 'POST',
+        body: datosPaciente
+    })
+    .then(response => response.json().catch(() => ({ success: false, message: 'Respuesta inválida del servidor' })))
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+
+            window.location.reload();
+        } else {
+            alert(data.message || 'Error al actualizar los datos.');
+            console.error('Error:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error al guardar los cambios:', error);
+        alert("Ocurrió un error al guardar los cambios. Por favor, intenta de nuevo.");
+    });
+}
+
+function confirmarCambio(event) {
+    event.preventDefault(); 
+    const confirmacion = confirm("¿Está seguro de que desea cambiar la contraseña?");
+    if (confirmacion) {
+        document.getElementById('form-cambiar-contrasena').submit();
+    } else {
+        window.location.href = "empleado.php";
     }
+}
+
+
+function toggleEspecialidad() {
+const rol = document.getElementById("rol").value;
+const especialidadGroup = document.getElementById("especialidad-group");
+
+if (rol === "DOCTOR" || rol === "ENFERMERO") {
+    especialidadGroup.style.display = "block"; // Muestra el campo
+    document.getElementById("especialidad").setAttribute("required", "true");
+} else {
+    especialidadGroup.style.display = "none"; // Oculta el campo
+    document.getElementById("especialidad").removeAttribute("required");
+}
+
+
+}
+
+function validarContrasenas() {
+    const nuevaContrasena = document.getElementById('nueva_contrasena').value;
+    const confirmarContrasena = document.getElementById('confirmar_contrasena').value;
+    const errorMensaje = document.getElementById('error-contrasena');
+    const botonActualizar = document.getElementById('btn-actualizar');
+
+    if (nuevaContrasena && confirmarContrasena && nuevaContrasena !== confirmarContrasena) {
+        errorMensaje.style.display = "block";
+        botonActualizar.disabled = true;
+    } else {
+        errorMensaje.style.display = "none";
+        botonActualizar.disabled = false;
+    }
+}
+
+function cancelarCambio() {
+    window.location.href = "empleado.php";
+}
