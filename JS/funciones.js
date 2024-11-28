@@ -247,7 +247,7 @@ if (rol === "DOCTOR" || rol === "ENFERMERO") {
 
 
 }
-
+//validar la contraseña del empleado
 function validarContrasenas() {
     const nuevaContrasena = document.getElementById('nueva_contrasena').value;
     const confirmarContrasena = document.getElementById('confirmar_contrasena').value;
@@ -263,6 +263,7 @@ function validarContrasenas() {
     }
 }
 
+//  cancelar cambio de contraseña
 function cancelarCambio() {
     window.location.href = "empleado.php";
 }
