@@ -173,63 +173,55 @@ function deshabilitarEdicion() {
 
 
 function guardarCambios(contexto) {
-const datosPaciente = new FormData();  
+    const datosPaciente = new FormData();  
 
-const idPaciente = document.getElementById('busqueda').value;
-if (idPaciente) {
-    datosPaciente.append('idPaciente', idPaciente);
-} else {
-    alert('ID del paciente no encontrado.');
-    return; 
-}
-
-const campos = [
-    'nombre', 'apellido_p', 'apellido_m', 'fecha_nacimiento', 'paciente_edad', 'sexo',
-    'paciente_pais', 'paciente_estado', 'paciente_municipio', 'calle', 'numero', 'colonia',
-    'derechoHabiente', 'dx', 'observaciones', 'hoja_frontal', 'hoja_compromiso',
-    'nombre_responsable', 'apellido_p_responsable', 'apellido_m_responsable',
-    'parentesco', 'telefono', 'ocupacion', 'tutor_pais', 'tutor_estado',
-    'tutor_municipio', 'calle_responsable', 'numero_responsable', 'colonia_responsable',
-    'personas_hogar', 'personas_apoyo', 'derechohabiente', 'ingresos', 'egresos',
-    'indice_economico'
-];
-
-campos.forEach(campo => {
-    const elemento = document.getElementById(campo);
-    if (elemento) {
-        datosPaciente.append(campo, elemento.value);
-    }
-});
-
-fetch('../controladores/modificar_paciente.php', {
-method: 'POST',
-body: datosPaciente
-})
-.then(response => response.json().catch(() => ({ success: false, message: 'Respuesta inválida del servidor' })))
-.then(data => {
-    if (data.success) {
-        alert(data.message);
-        deshabilitarEdicion(contexto);
+    const noRegistro = document.getElementById('busqueda').value;
+    if (noRegistro) {
+        datosPaciente.append('noRegistro', noRegistro);
     } else {
-        alert(data.message || 'Error al actualizar los datos.');
-        console.error('Error:', data.message);
+        alert('No. de registro del paciente no encontrado.');
+        return; 
     }
-    })
-    .catch(error => {
-    console.error('Error al guardar los cambios:', error);
-    alert("Ocurrió un error al guardar los cambios. Por favor, intenta de nuevo.");
+
+    const campos = [
+        'nombre', 'apellido_p', 'apellido_m', 'fecha_nacimiento', 'paciente_edad', 'sexo',
+        'paciente_pais', 'paciente_estado', 'paciente_municipio', 'calle', 'numero', 'colonia',
+        'derechoHabiente', 'dx', 'observaciones', 'hoja_frontal', 'hoja_compromiso',
+        'nombre_responsable', 'apellido_p_responsable', 'apellido_m_responsable',
+        'parentesco', 'telefono', 'ocupacion', 'tutor_pais', 'tutor_estado',
+        'tutor_municipio', 'calle_responsable', 'numero_responsable', 'colonia_responsable',
+        'personas_hogar', 'personas_apoyo', 'derechohabiente', 'ingresos', 'egresos',
+        'indice_economico'
+    ];
+
+    campos.forEach(campo => {
+        const elemento = document.getElementById(campo);
+        if (elemento) {
+            datosPaciente.append(campo, elemento.value);
+        }
     });
 
-    }
-    function confirmarCambio(event) {
-        event.preventDefault(); 
-        const confirmacion = confirm("¿Está seguro de que desea cambiar la contraseña?");
-        if (confirmacion) {
-            document.getElementById('form-cambiar-contrasena').submit();
+    fetch('../controladores/modificar_paciente.php', {
+        method: 'POST',
+        body: datosPaciente
+    })
+    .then(response => response.json().catch(() => ({ success: false, message: 'Respuesta inválida del servidor' })))
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+
+            window.location.reload();
         } else {
-            window.location.href = "empleado.php";
+            alert(data.message || 'Error al actualizar los datos.');
+            console.error('Error:', data.message);
         }
-    }
+    })
+    .catch(error => {
+        console.error('Error al guardar los cambios:', error);
+        alert("Ocurrió un error al guardar los cambios. Por favor, intenta de nuevo.");
+    });
+}
+
 
     // Función para redirigir al cancelar
     function cancelarCambio() {
@@ -241,10 +233,10 @@ function toggleEspecialidad() {
     const especialidadGroup = document.getElementById("especialidad-group");
 
     if (rol === "DOCTOR" || rol === "ENFERMERO") {
-        especialidadGroup.style.display = "block"; // Muestra el campo
+        especialidadGroup.style.display = "block"; 
         document.getElementById("especialidad").setAttribute("required", "true");
     } else {
-        especialidadGroup.style.display = "none"; // Oculta el campo
+        especialidadGroup.style.display = "none"; 
         document.getElementById("especialidad").removeAttribute("required");
     }
 }

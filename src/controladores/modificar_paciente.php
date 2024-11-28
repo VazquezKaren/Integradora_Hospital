@@ -7,68 +7,64 @@ include '../config.php';
 $database = new conn();
 $conn = $database->connect();
 
-$idPaciente = $_POST['idPaciente'] ?? null;
+$noRegistro = $_POST['noRegistro'] ?? null;
 
-if (!$idPaciente) {
-    echo json_encode(['success' => false, 'message' => 'ID del paciente no proporcionado']);
+if (!$noRegistro) {
+    echo json_encode(['success' => false, 'message' => 'NoRegistro (ID del paciente) no proporcionado']);
     exit;
 }
-
-// Capturar y sanitizar los datos del formulario y convertir a mayúsculas
-$nombre_paciente = strtoupper(filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_SPECIAL_CHARS));
-$apellido_paterno = strtoupper(filter_input(INPUT_POST, 'apellido_p', FILTER_SANITIZE_SPECIAL_CHARS));
-$apellido_materno = strtoupper(filter_input(INPUT_POST, 'apellido_m', FILTER_SANITIZE_SPECIAL_CHARS));
-$fecha_nacimiento = filter_input(INPUT_POST, 'fecha_nacimiento', FILTER_SANITIZE_SPECIAL_CHARS);
-$paciente_edad = filter_input(INPUT_POST, 'paciente_edad', FILTER_VALIDATE_INT);
-if ($paciente_edad === false) {
-    echo json_encode(['success' => false, 'message' => 'Edad no válida']);
-    exit;
-}
-$paciente_pais = strtoupper(filter_input(INPUT_POST, 'paciente_pais', FILTER_SANITIZE_SPECIAL_CHARS));
-$paciente_estado = strtoupper(filter_input(INPUT_POST, 'paciente_estado', FILTER_SANITIZE_SPECIAL_CHARS));
-$paciente_municipio = strtoupper(filter_input(INPUT_POST, 'paciente_municipio', FILTER_SANITIZE_SPECIAL_CHARS));
-$sexo = strtoupper(filter_input(INPUT_POST, 'sexo', FILTER_SANITIZE_SPECIAL_CHARS));
-$derecho_habiente = strtoupper(filter_input(INPUT_POST, 'derechoHabiente', FILTER_SANITIZE_SPECIAL_CHARS));
-$dx = strtoupper(filter_input(INPUT_POST, 'dx', FILTER_SANITIZE_SPECIAL_CHARS));
-$observaciones = strtoupper(filter_input(INPUT_POST, 'observaciones', FILTER_SANITIZE_SPECIAL_CHARS));
-
-// Dirección del paciente
-$paciente_calle = strtoupper(htmlspecialchars($_POST['calle'] ?? ''));
-$paciente_numero = strtoupper(htmlspecialchars($_POST['numero'] ?? ''));
-$paciente_colonia = strtoupper(htmlspecialchars($_POST['colonia'] ?? ''));
-
-// Información del tutor
-$tutor_nombre = strtoupper(htmlspecialchars($_POST['nombre_responsable'] ?? ''));
-$tutor_apellido_paterno = strtoupper(htmlspecialchars($_POST['apellido_p_responsable'] ?? ''));
-$tutor_apellido_materno = strtoupper(htmlspecialchars($_POST['apellido_m_responsable'] ?? ''));
-$parentesco = strtoupper(htmlspecialchars($_POST['parentesco'] ?? ''));
-$telefono = htmlspecialchars($_POST['telefono'] ?? '');
-$ocupacion = strtoupper(htmlspecialchars($_POST['ocupacion'] ?? ''));
-$tutor_pais = strtoupper(htmlspecialchars($_POST['tutor_pais'] ?? ''));
-$tutor_estado = strtoupper(htmlspecialchars($_POST['tutor_estado'] ?? ''));
-$tutor_municipio = strtoupper(htmlspecialchars($_POST['tutor_municipio'] ?? ''));
-$tutor_direccion_calle = strtoupper(htmlspecialchars($_POST['calle_responsable'] ?? ''));
-$tutor_direccion_numero = strtoupper(htmlspecialchars($_POST['numero_responsable'] ?? ''));
-$tutor_direccion_colonia = strtoupper(htmlspecialchars($_POST['colonia_responsable'] ?? ''));
-
-// Trabajo social
-$personas_hogar = (int) ($_POST['personas_hogar'] ?? 0);
-$personas_apoyo = (int) ($_POST['personas_apoyo'] ?? 0);
-$indice_economico = strtoupper(htmlspecialchars($_POST['indice_economico'] ?? ''));
-$ingresos = (float) ($_POST['ingresos'] ?? 0);
-$egresos = (float) ($_POST['egresos'] ?? 0);
 
 try {
     $conn->beginTransaction();
 
-    // Verificar si el paciente existe en la base de datos
-    $sql_check = "SELECT idPaciente FROM paciente WHERE idPaciente = :idPaciente";
+    $sql_check = "SELECT idPaciente FROM paciente WHERE noRegistro = :noRegistro";
     $stmt = $conn->prepare($sql_check);
-    $stmt->execute([':idPaciente' => $idPaciente]);
+    $stmt->execute([':noRegistro' => $noRegistro]);
     $idPacienteDB = $stmt->fetchColumn();
 
     if ($idPacienteDB) {
-        // Actualizar los datos del paciente
+        $nombre_paciente = strtoupper(filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_SPECIAL_CHARS));
+        $apellido_paterno = strtoupper(filter_input(INPUT_POST, 'apellido_p', FILTER_SANITIZE_SPECIAL_CHARS));
+        $apellido_materno = strtoupper(filter_input(INPUT_POST, 'apellido_m', FILTER_SANITIZE_SPECIAL_CHARS));
+        $fecha_nacimiento = filter_input(INPUT_POST, 'fecha_nacimiento', FILTER_SANITIZE_SPECIAL_CHARS);
+        $paciente_edad = filter_input(INPUT_POST, 'paciente_edad', FILTER_VALIDATE_INT);
+        if ($paciente_edad === false) {
+            echo json_encode(['success' => false, 'message' => 'Edad no válida']);
+            exit;
+        }
+        $paciente_pais = strtoupper(filter_input(INPUT_POST, 'paciente_pais', FILTER_SANITIZE_SPECIAL_CHARS));
+        $paciente_estado = strtoupper(filter_input(INPUT_POST, 'paciente_estado', FILTER_SANITIZE_SPECIAL_CHARS));
+        $paciente_municipio = strtoupper(filter_input(INPUT_POST, 'paciente_municipio', FILTER_SANITIZE_SPECIAL_CHARS));
+        $sexo = strtoupper(filter_input(INPUT_POST, 'sexo', FILTER_SANITIZE_SPECIAL_CHARS));
+        $derecho_habiente = strtoupper(filter_input(INPUT_POST, 'derechoHabiente', FILTER_SANITIZE_SPECIAL_CHARS));
+        $dx = strtoupper(filter_input(INPUT_POST, 'dx', FILTER_SANITIZE_SPECIAL_CHARS));
+        $observaciones = strtoupper(filter_input(INPUT_POST, 'observaciones', FILTER_SANITIZE_SPECIAL_CHARS));
+
+        // Dirección del paciente
+        $paciente_calle = strtoupper(htmlspecialchars($_POST['calle'] ?? ''));
+        $paciente_numero = strtoupper(htmlspecialchars($_POST['numero'] ?? ''));
+        $paciente_colonia = strtoupper(htmlspecialchars($_POST['colonia'] ?? ''));
+
+        // Información del tutor
+        $tutor_nombre = strtoupper(htmlspecialchars($_POST['nombre_responsable'] ?? ''));
+        $tutor_apellido_paterno = strtoupper(htmlspecialchars($_POST['apellido_p_responsable'] ?? ''));
+        $tutor_apellido_materno = strtoupper(htmlspecialchars($_POST['apellido_m_responsable'] ?? ''));
+        $parentesco = strtoupper(htmlspecialchars($_POST['parentesco'] ?? ''));
+        $telefono = htmlspecialchars($_POST['telefono'] ?? '');
+        $ocupacion = strtoupper(htmlspecialchars($_POST['ocupacion'] ?? ''));
+        $tutor_pais = strtoupper(htmlspecialchars($_POST['tutor_pais'] ?? ''));
+        $tutor_estado = strtoupper(htmlspecialchars($_POST['tutor_estado'] ?? ''));
+        $tutor_municipio = strtoupper(htmlspecialchars($_POST['tutor_municipio'] ?? ''));
+        $tutor_direccion_calle = strtoupper(htmlspecialchars($_POST['calle_responsable'] ?? ''));
+        $tutor_direccion_numero = strtoupper(htmlspecialchars($_POST['numero_responsable'] ?? ''));
+        $tutor_direccion_colonia = strtoupper(htmlspecialchars($_POST['colonia_responsable'] ?? ''));
+
+        $personas_hogar = (int) ($_POST['personas_hogar'] ?? 0);
+        $personas_apoyo = (int) ($_POST['personas_apoyo'] ?? 0);
+        $indice_economico = strtoupper(htmlspecialchars($_POST['indice_economico'] ?? ''));
+        $ingresos = (float) ($_POST['ingresos'] ?? 0);
+        $egresos = (float) ($_POST['egresos'] ?? 0);
+
         $sql_update_paciente = "UPDATE paciente SET 
             nombres = :nombre_paciente,
             apellidoPaterno = :apellido_paterno,
@@ -104,10 +100,9 @@ try {
             ':derecho_habiente' => $derecho_habiente,
             ':dx' => $dx,
             ':observaciones' => $observaciones,
-            ':idPaciente' => $idPaciente
+            ':idPaciente' => $idPacienteDB
         ]);
 
-        // Actualizar los datos del tutor
         $sql_update_tutor = "UPDATE tutor SET 
             nombres = :tutor_nombre,
             apellidoPaterno = :tutor_apellido_paterno,
@@ -147,7 +142,7 @@ try {
             ':indice_economico' => $indice_economico,
             ':ingresos' => $ingresos,
             ':egresos' => $egresos,
-            ':idPaciente' => $idPaciente
+            ':idPaciente' => $idPacienteDB
         ]);
 
         $conn->commit();
