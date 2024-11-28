@@ -222,21 +222,47 @@ function guardarCambios(contexto) {
     });
 }
 
-
-    // Función para redirigir al cancelar
-    function cancelarCambio() {
+function confirmarCambio(event) {
+    event.preventDefault(); 
+    const confirmacion = confirm("¿Está seguro de que desea cambiar la contraseña?");
+    if (confirmacion) {
+        document.getElementById('form-cambiar-contrasena').submit();
+    } else {
         window.location.href = "empleado.php";
     }
+}
+
 
 function toggleEspecialidad() {
-    const rol = document.getElementById("rol").value;
-    const especialidadGroup = document.getElementById("especialidad-group");
+const rol = document.getElementById("rol").value;
+const especialidadGroup = document.getElementById("especialidad-group");
 
-    if (rol === "DOCTOR" || rol === "ENFERMERO") {
-        especialidadGroup.style.display = "block"; 
-        document.getElementById("especialidad").setAttribute("required", "true");
+if (rol === "DOCTOR" || rol === "ENFERMERO") {
+    especialidadGroup.style.display = "block"; // Muestra el campo
+    document.getElementById("especialidad").setAttribute("required", "true");
+} else {
+    especialidadGroup.style.display = "none"; // Oculta el campo
+    document.getElementById("especialidad").removeAttribute("required");
+}
+
+
+}
+
+function validarContrasenas() {
+    const nuevaContrasena = document.getElementById('nueva_contrasena').value;
+    const confirmarContrasena = document.getElementById('confirmar_contrasena').value;
+    const errorMensaje = document.getElementById('error-contrasena');
+    const botonActualizar = document.getElementById('btn-actualizar');
+
+    if (nuevaContrasena && confirmarContrasena && nuevaContrasena !== confirmarContrasena) {
+        errorMensaje.style.display = "block";
+        botonActualizar.disabled = true;
     } else {
-        especialidadGroup.style.display = "none"; 
-        document.getElementById("especialidad").removeAttribute("required");
+        errorMensaje.style.display = "none";
+        botonActualizar.disabled = false;
     }
+}
+
+function cancelarCambio() {
+    window.location.href = "empleado.php";
 }
