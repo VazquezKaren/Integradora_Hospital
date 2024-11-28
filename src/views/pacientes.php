@@ -302,7 +302,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                             </select>
                             </div>
                         </div>
-                       
+                        
                         <div class="button-group">
                             <button type="button" id="modificar-btn-responsable" onclick="habilitarEdicion('responsable')">Modificar</button>
                             <button type="button" class="save-button" id="guardar-btn-responsable" style="display: none;" onclick="guardarCambios('responsable')">Guardar cambios</button>
@@ -316,7 +316,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
         </div>
     </section>
 
-    
+
 </body>
 </html>
 
