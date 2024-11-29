@@ -25,6 +25,7 @@ if (isset($_POST['busqueda'])) {
         paciente.derechoHabiente AS paciente_derechoHabiente, 
         paciente.dx AS paciente_dx, 
         paciente.observaciones AS paciente_observaciones,
+        paciente.status AS paciente_status,
         tutor.nombres AS tutor_nombres, 
         tutor.apellidoPaterno AS tutor_apellidoPaterno, 
         tutor.apellidoMaterno AS tutor_apellidoMaterno, 
@@ -58,49 +59,13 @@ if (isset($_POST['busqueda'])) {
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$data) {
-            // No se encontró ningún registro
-            $error = "El registro no existe."; 
-            echo "<html><head>
-                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-              </head><body>
-              <script>
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'El registro no existe.'
-                }).then(() => {
-                    window.location.href = '../views/pacientes.php';
-                });
-            </script>";
-        } else {
-            // Si se encontró un registro
-            echo "<html><head>
-                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-              </head><body>
-              <script>
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Encontrado',
-                    text: 'Se encontraron datos de paciente y tutor.'
-                }).then(() => {
-                    
-                });
-              </script>";
+            $error = "El registro no existe.";
+        } elseif ($data['paciente_status'] == 0) {
+            $error = "El registro no existe o no está activo.";
+            $data = []; // Limpiar los datos ya que no deben mostrarse.
         }
     } catch (PDOException $e) {
-        $error = "Error al buscar los datos: Porfavor ingrese correctamente la CURP";
-        echo "<html><head>
-                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-              </head><body>
-              <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error al buscar los datos: Porfavor ingrese correctamente la CURP'
-            }).then(() => {
-                window.location.href = '../views/pacientes.php';
-            });
-        </script>";
+        $error = "Error al buscar los datos: " . $e->getMessage();
     }
 }
 ?>
