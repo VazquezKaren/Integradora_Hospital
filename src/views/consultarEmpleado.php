@@ -42,98 +42,103 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
             </div>
 
             <div id="informacion" class="tab-content active">
-                <h2>Datos del Empleado</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="nombre">Nombre(s):</label>
-                        <input type="text" id="nombre" value="<?php echo $empleadoData['nombres'] ?? ''; ?>" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="apellidos">Apellido paterno:</label>
-                        <input type="text" id="apellidos" value="<?php echo $empleadoData['apellidoPaterno'] ?? ''; ?>"
-                            disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="apellidos">Apellido materno:</label>
-                        <input type="text" id="apellidos" value="<?php echo $empleadoData['apellidoPaterno'] ?? ''; ?>"
-                            disabled>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" value="<?php echo $empleadoData['telefono'] ?? ''; ?>" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" value="<?php echo $empleadoData['email'] ?? ''; ?>" disabled>
-                    </div>
-                    <?php if (isset($empleadoData['especialidad']) && $empleadoData['especialidad'] !== ''): ?>
+                <!-- Agregamos el formulario para encapsular los campos -->
+                <form id="formulario-empleado">
+                    <input type="hidden" name="idEmpleado" value="<?php echo $empleadoData['idEmpleado'] ?? ''; ?>">
+                    <h2>Datos del Empleado</h2>
+                    <div class="form-row">
                         <div class="form-group">
+                            <label for="nombre">Nombre(s):</label>
+                            <input type="text" id="nombre" name="nombres" data-nombre-campo="Nombre(s)"
+                                value="<?php echo $empleadoData['nombres'] ?? ''; ?>"
+                                data-original-value="<?php echo $empleadoData['nombres'] ?? ''; ?>" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellidoPaterno">Apellido paterno:</label>
+                            <input type="text" id="apellidoPaterno" name="apellidoPaterno" data-nombre-campo="Apellido paterno"
+                                value="<?php echo $empleadoData['apellidoPaterno'] ?? ''; ?>"
+                                data-original-value="<?php echo $empleadoData['apellidoPaterno'] ?? ''; ?>" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellidoMaterno">Apellido materno:</label>
+                            <input type="text" id="apellidoMaterno" name="apellidoMaterno" data-nombre-campo="Apellido materno"
+                                value="<?php echo $empleadoData['apellidoMaterno'] ?? ''; ?>"
+                                data-original-value="<?php echo $empleadoData['apellidoMaterno'] ?? ''; ?>" disabled>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="telefono">Teléfono:</label>
+                            <input type="tel" id="telefono" name="telefono" data-nombre-campo="Teléfono"
+                                value="<?php echo $empleadoData['telefono'] ?? ''; ?>"
+                                data-original-value="<?php echo $empleadoData['telefono'] ?? ''; ?>" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" data-nombre-campo="Email"
+                                value="<?php echo $empleadoData['email'] ?? ''; ?>"
+                                data-original-value="<?php echo $empleadoData['email'] ?? ''; ?>" disabled>
+                        </div>
+                        <div class="form-group" id="especialidad-group" style="display: none;">
                             <label for="especialidad">Especialidad:</label>
-                            <select id="especialidad" disabled>
-                                <option value="CARDIOLOGIA" <?php echo $empleadoData['especialidad'] === 'CARDIOLOGIA' ? 'selected' : ''; ?>>Cardiología</option>
-                                <option value="PEDIATRIA" <?php echo $empleadoData['especialidad'] === 'PEDIATRIA' ? 'selected' : ''; ?>>Pediatría</option>
-                                <option value="NEUROLOGIA" <?php echo $empleadoData['especialidad'] === 'NEUROLOGIA' ? 'selected' : ''; ?>>Neurología</option>
+                            <select id="especialidad" name="especialidad" data-nombre-campo="Especialidad" disabled>
+                                <option value="CARDIOLOGIA" <?php echo (isset($empleadoData['especialidad']) && $empleadoData['especialidad'] === 'CARDIOLOGIA') ? 'selected' : ''; ?>>Cardiología</option>
+                                <option value="PEDIATRIA" <?php echo (isset($empleadoData['especialidad']) && $empleadoData['especialidad'] === 'PEDIATRIA') ? 'selected' : ''; ?>>Pediatría</option>
+                                <option value="NEUROLOGIA" <?php echo (isset($empleadoData['especialidad']) && $empleadoData['especialidad'] === 'NEUROLOGIA') ? 'selected' : ''; ?>>Neurología</option>
                             </select>
                         </div>
-                    <?php endif; ?>
-                </div>
-
-                <hr>
-                <h3>Dirección</h3>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="direccion_calle">Calle:</label>
-                        <input type="text" id="direccion_calle"
-                            value="<?php echo $empleadoData['calleDireccion'] ?? ''; ?>" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="direccion_numero">Número:</label>
-                        <input type="text" id="direccion_numero"
-                            value="<?php echo $empleadoData['numeroDireccion'] ?? ''; ?>" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="direccion_colonia">Colonia o Fraccionamiento:</label>
-                        <input type="text" id="direccion_colonia"
-                            value="<?php echo $empleadoData['coloniaDireccion'] ?? ''; ?>" disabled>
-                    </div>
-                </div>
-
-                <hr>
-                <h3>Rol</h3>
-
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="rol">Rol:</label>
-                        <select id="rol" disabled>
-                            <option value="TRABAJO_SOCIAL" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'TRABAJO_SOCIAL') ? 'selected' : ''; ?>>Trabajo social</option>
-                            <option value="ADMIN" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'ADMIN') ? 'selected' : ''; ?>>Admin</option>
-                            <option value="ENFERMERA" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'ENFERMERA') ? 'selected' : ''; ?>>Enfermera</option>
-                            <option value="DOCTOR" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'DOCTOR') ? 'selected' : ''; ?>>Doctor</option>
-                        </select>
                     </div>
 
-                </div>
+                    <hr>
+                    <h3>Dirección</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="direccion_calle">Calle:</label>
+                            <input type="text" id="direccion_calle" name="calleDireccion" data-nombre-campo="Calle"
+                                value="<?php echo $empleadoData['calleDireccion'] ?? ''; ?>"
+                                data-original-value="<?php echo $empleadoData['calleDireccion'] ?? ''; ?>" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion_numero">Número:</label>
+                            <input type="text" id="direccion_numero" name="numeroDireccion" data-nombre-campo="Número"
+                                value="<?php echo $empleadoData['numeroDireccion'] ?? ''; ?>"
+                                data-original-value="<?php echo $empleadoData['numeroDireccion'] ?? ''; ?>" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion_colonia">Colonia o Fraccionamiento:</label>
+                            <input type="text" id="direccion_colonia" name="coloniaDireccion" data-nombre-campo="Colonia o Fraccionamiento"
+                                value="<?php echo $empleadoData['coloniaDireccion'] ?? ''; ?>"
+                                data-original-value="<?php echo $empleadoData['coloniaDireccion'] ?? ''; ?>" disabled>
+                        </div>
+                    </div>
 
-                <div class="button-group">
-                    <button type="button" id="modificar-btn" onclick="habilitarEdicion()">Modificar</button>
-                    <button type="submit" id="guardar-btn" class="save-button" style="display: none;"
-                        onclick="deshabilitarEdicion()">Guardar cambios</button>
-                    <button type="reset" id="descartar-btn" class="delete-button" style="display: none;"
-                        onclick="deshabilitarEdicion()">Descartar cambios</button>
+                    <hr>
+                    <h3>Rol</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rol">Rol:</label>
+                            <select id="rol" name="rol" data-nombre-campo="Rol" onchange="toggleEspecialidad()" disabled>
+                                <option value="TRABAJO_SOCIAL" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'TRABAJO_SOCIAL') ? 'selected' : ''; ?>>Trabajo social</option>
+                                <option value="ADMIN" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'ADMIN') ? 'selected' : ''; ?>>Admin</option>
+                                <option value="ENFERMERA" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'ENFERMERA') ? 'selected' : ''; ?>>Enfermera</option>
+                                <option value="DOCTOR" <?php echo (isset($empleadorol['rol']) && $empleadorol['rol'] === 'DOCTOR') ? 'selected' : ''; ?>>Doctor</option>
+                            </select>
+                        </div>
+                    </div>
 
-                    <form method="post" action="../controladores/eliminar_empleado.php"
-                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
-                        <input type="hidden" name="idEmpleado" value="<?php echo $empleadoData['idEmpleado'] ?? ''; ?>">
-                        <button type="submit" class="delete-button">Eliminar empleado</button>
-                    </form>
-                </div>
+                    <div class="button-group">
+                        <button type="button" id="modificar-btn" onclick="habilitarEdicionEmpleado()">Modificar</button>
+                        <button type="button" id="guardar-btn" class="save-button" style="display: none;" onclick="confirmarCambiosEmpleado(event)">Guardar cambios</button>
+                        <button type="reset" id="descartar-btn" class="delete-button" style="display: none;" onclick="deshabilitarEdicionEmpleado()">Descartar cambios</button>
+                    </div>
+                </form>
+
+                <!-- Formulario para eliminar empleado -->
+                <form method="post" action="../controladores/eliminar_empleado.php" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
+                    <input type="hidden" name="idEmpleado" value="<?php echo $empleadoData['idEmpleado'] ?? ''; ?>">
+                    <button type="submit" class="delete-button">Eliminar empleado</button>
+                </form>
             </div>
-
-
-
 
             <!-- <div id="historial" class="tab-content">
                 <div class="content-grid">
