@@ -203,7 +203,7 @@ try {
                   text: '" . addslashes($th->getMessage()) . "',
                   confirmButtonText: 'OK'
               }).then(() => {
-                  window.location.href = '../error_page.php';
+                  window.location.href = '../views/ingresos.php';
               });
           </script>";
     exit();
