@@ -16,21 +16,22 @@ try {
     // Obtener el valor del conteo
     $ingresos = $stmt->fetchColumn();
 
-    // Aquí podrías añadir algún código para mostrar el resultado si lo deseas
+    // Imprimir el resultado
+
 
 } catch (Exception $e) {
-    // Mostrar la alerta de SweetAlert2 para manejar el error
+    $pdo->rollBack();
     echo "<html><head>
-            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-          </head><body>
-          <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error en el registro: " . addslashes($e->getMessage()) . "',
-            }).then(() => {
-                window.location.href = '../views/registroEmpleado.php';
-            });
-          </script>";
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error en el registro: " . addslashes($e->getMessage()) . "'
+        }).then(() => {
+            window.location.href = '../views/registroEmpleado.php';
+        });
+    </script>";
 }
 ?>

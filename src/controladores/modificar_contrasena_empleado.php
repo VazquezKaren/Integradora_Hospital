@@ -4,6 +4,10 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
 
+
+
+
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -30,53 +34,50 @@ try {
             ]);
 
             echo "<html><head>
-                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                  </head><body>
-                  <script>
-                      Swal.fire({
-                          title: 'Éxito',
-                          text: 'La contraseña se ha cambiado correctamente.',
-                          icon: 'success',
-                          confirmButtonText: 'Aceptar'
-                      }).then(() => {
-                          window.location.href = '../views/empleado.php';
-                      });
-                  </script>
-                  </body></html>";
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                Swal.fire({
+                    title: '¡Contraseña actualizada!',
+                    text: 'La contraseña se ha cambiado correctamente.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    window.location.href = '../views/empleado.php';
+                });
+            </script>";
             exit();
         } else {
             echo "<html><head>
-                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                  </head><body>
-                  <script>
-                      Swal.fire({
-                          title: 'Error',
-                          text: 'Las contraseñas no coinciden. Por favor, inténtelo de nuevo.',
-                          icon: 'error',
-                          confirmButtonText: 'Aceptar'
-                      }).then(() => {
-                          window.location.href = '../views/formulario_cambiar_contrasena.php';
-                      });
-                  </script>
-                  </body></html>";
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Las contraseñas no coinciden. Por favor, inténtelo de nuevo.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    window.location.href = '../views/formulario_cambiar_contrasena.php';
+                });
+            </script>";
             exit();
         }
     }
 } catch (Throwable $th) {
     echo "<html><head>
-            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-          </head><body>
-          <script>
-              Swal.fire({
-                  title: 'Error',
-                  text: 'Error al procesar la solicitud: " . addslashes($th->getMessage()) . "',
-                  icon: 'error',
-                  confirmButtonText: 'Aceptar'
-              }).then(() => {
-                  window.location.href = '../views/empleado.php';
-              });
-          </script>
-          </body></html>";
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+        Swal.fire({
+            title: 'Error al procesar la solicitud',
+            text: 'Ocurrió un problema: " . $th->getMessage() . "',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            window.location.href = '../views/empleado.php';
+        });
+    </script>";
     exit();
 }
 ?>

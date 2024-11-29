@@ -169,58 +169,54 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $turno = 'NOCTURNO';
         }
 
-        $sqlIngreso = "INSERT INTO ingresos (
-            fkIdPaciente, fkIdUsuario, fechaIngreso, horaIngreso, turno, servicioSolicitado, egreso
+        $sqlIngreso = "INSERT INTO ingreso (
+            fechaIngreso, horaIngreso, turno, fkIdPaciente, fkIdUsuario, egreso, servicioSolicitado, motivo
         ) VALUES (
-            :fkIdPaciente, :fkIdUsuario, :fechaIngreso, :horaIngreso, :turno, :servicioSolicitado, :egreso
+            :fechaIngreso, :horaIngreso, :turno, :fkIdPaciente, :fkIdUsuario, :egreso, :servicioSolicitado, :motivo
         )";
 
         $stmtIngreso = $pdo->prepare($sqlIngreso);
         $stmtIngreso->execute([
-            'fkIdPaciente' => $idPaciente,
-            'fkIdUsuario' => $fkIdUsuario,
             'fechaIngreso' => $fechaIngreso,
             'horaIngreso' => $horaIngreso,
             'turno' => $turno,
+            'fkIdPaciente' => $idPaciente,
+            'fkIdUsuario' => $fkIdUsuario,
+            'egreso' => $egreso,
             'servicioSolicitado' => $servicio_solicitado,
-            'egreso' => $egreso
+            'motivo' => $motivo
         ]);
 
-        // Confirmar la transacción
+        // Confirmar transacción
         $pdo->commit();
 
-        echo json_encode(['success' => true, 'message' => 'Paciente registrado exitosamente.']);
-        
-        exit;
+        // Mensaje de éxito
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              <script>
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Registro exitoso',
+                      text: 'Los datos se han guardado correctamente.',
+                      confirmButtonText: 'OK'
+                  }).then(() => {
+                      window.location.href = '../views/registro.php';
+                  });
+              </script>";
+
     } catch (PDOException $e) {
-        // Revertir la transacción en caso de error
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
-
-        // Registrar el error en un archivo de log (opcional)
-        error_log('Error en la base de datos: ' . $e->getMessage());
-        echo json_encode(['success' => false, 'message' => 'Error al registrar el paciente. Por favor, inténtalo de nuevo más tarde.']);
-
-        exit;
-    } catch (Exception $e) {
-        // Revertir la transacción en caso de error
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
-
-        // Registrar el error en un archivo de log (opcional)
-        error_log('Error general: ' . $e->getMessage());
-        echo json_encode(['success' => false, 'message' => 'Error al registrar el paciente. Por favor, inténtalo de nuevo más tarde.']);
-
-        exit;
+        // Rollback en caso de error
+        $pdo->rollBack();
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              <script>
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error en la transacción',
+                      text: 'Hubo un problema al guardar los datos: " . addslashes($e->getMessage()) . "',
+                      confirmButtonText: 'OK'
+                  }).then(() => {
+                      window.location.href = '../views/registro.php';
+                  });
+              </script>";
     }
-} else {
-    // Método no permitido
-    echo json_encode(['success' => false, 'message' => 'Método no permitido.']);
-
-    $_SESSION['error_message'] = 'Método no permitido.';
-    header('Location: ../views/registro.php');
-    exit;
 }
 ?>

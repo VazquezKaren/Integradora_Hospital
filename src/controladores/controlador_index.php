@@ -1,11 +1,7 @@
 <?php
 require_once '../config.php';
 session_start();
-?>
-<!-- Incluye el script de SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $_POST['usuario'];
     $password = $_POST['password'];
@@ -14,18 +10,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = new conn();
         $pdo = $conn->connect();
 
+        // Verificar conexión a la base de datos
+        if (!$pdo) {
+            throw new Exception("No se pudo conectar a la base de datos.");
+        }
+
+        // Consultar datos del usuario
         $sql = "SELECT * FROM usuarios WHERE usuario = :usuario";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['usuario' => $usuario]);
         $usuarioData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($usuarioData && password_verify($password,  $usuarioData['contrasena'])) {
+        // Verificar si el usuario existe y la contraseña es válida
+        if ($usuarioData && password_verify($password, $usuarioData['contrasena'])) {
+            // Guardar datos en la sesión
             $_SESSION['usuario'] = $usuarioData['usuario'];
             $_SESSION['rol'] = $usuarioData['rol'];
             $_SESSION['idUsuario'] = $usuarioData['idUsuario'];
             $idEmpleado = $usuarioData['fkIdEmpleado'];
-            
-            $sqlEmpleado = "SELECT nombres, apellidoPaterno, apellidoMaterno, telefono, email FROM empleado WHERE idEmpleado = :idEmpleado";
+
+            // Consultar información del empleado asociado
+            $sqlEmpleado = "SELECT nombres, apellidoPaterno, apellidoMaterno, telefono, email 
+                            FROM empleado 
+                            WHERE idEmpleado = :idEmpleado";
             $stmtEmpleado = $pdo->prepare($sqlEmpleado);
             $stmtEmpleado->execute(['idEmpleado' => $idEmpleado]);
             $empleadoData = $stmtEmpleado->fetch(PDO::FETCH_ASSOC);
@@ -38,66 +45,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['emailEmpleado'] = $empleadoData['email'];
             }
 
-            // Redirección dependiendo del rol
-            if ($usuarioData['rol'] === "TRABAJO_SOCIAL" || $usuarioData['rol'] === 'DOCTOR' || $usuarioData['rol'] === 'ADMIN' || $usuarioData['rol'] === 'ENFERMERA') {
-                echo "
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Acceso concedido',
-                        text: 'Bienvenido, " . htmlspecialchars($usuarioData['usuario']) . "!',
-                        showConfirmButton: false,
-                        timer: 3000
-                    }).then(() => {
-                        window.location.href = '../views/inicio.php';
-                    });
-                </script>";
-                exit();
-            } else {
-                echo "
-                <script>
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Acceso denegado',
-                        text: 'No tienes permiso para acceder.',
-                        showConfirmButton: false,
-                        timer: 3000
-                    }).then(() => {
-                        window.location.href = '../../index.php';
-                    });
-                </script>";
-                exit();
+            // Redirigir según el rol del usuario
+            switch ($usuarioData['rol']) {
+                case 'TRABAJO_SOCIAL':
+                case 'DOCTOR':
+                case 'ADMIN':
+                case 'ENFERMERA':
+                    header("Location:../views/inicio.php");
+                    exit();
+                default:
+                    header('Location:../../index.php?error=Acceso denegado');
+                    exit();
             }
         } else {
-            echo "
-            <script>
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Credenciales incorrectas',
-                    text: 'Usuario o contraseña inválidos.',
-                    showConfirmButton: false,
-                    timer: 3000
-                }).then(() => {
-                    window.location.href = '../../index.php';
-                });
-            </script>";
+            // Mostrar alerta con SweetAlert cuando las credenciales son incorrectas
+            echo "<html><head>
+                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Credenciales incorrectas',
+                                text: 'Por favor verifique su usuario y contraseña.',
+                            }).then(function() {
+                                window.location.href = '../../index.php';
+                            });
+                        });
+                    </script>
+                  </head><body></body></html>";
             exit();
         }
-        
-    } catch (\Throwable $th) {
-        $error = "Error en la conexion: " . $th->getMessage();
-        echo "
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error en la conexión',
-                text: 'Ocurrió un error al conectar con la base de datos. Inténtalo más tarde.',
-                showConfirmButton: false,
-                timer: 3000
-            }).then(() => {
-                window.location.href = '../../index.php';
-            });
-        </script>";
+    } catch (Exception $e) {
+        // Mostrar alerta de error de conexión
+        echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error en la conexión',
+                            text: '". addslashes($e->getMessage()) ."',
+                        }).then(function() {
+                            window.location.href = '../../index.php';
+                        });
+                    });
+                </script>
+              </head><body></body></html>";
         exit();
     }
 }
