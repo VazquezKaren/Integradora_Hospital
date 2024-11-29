@@ -60,12 +60,36 @@ if (isset($_POST['busqueda'])) {
 
         if (!$data) {
             $error = "El registro no existe.";
+            echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El registro no existe.'
+                }).then(() => {
+                    window.location.href = '../views/pacientes.php';
+                });
+            </script>";
         } elseif ($data['paciente_status'] == 0) {
             $error = "El registro no existe o no está activo.";
             $data = []; // Limpiar los datos ya que no deben mostrarse.
         }
     } catch (PDOException $e) {
         $error = "Error al buscar los datos: " . $e->getMessage();
+        echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al buscar los datos: " . addslashes($e->getMessage()) . "'
+            }).then(() => {
+                window.location.href = '../views/pacientes.php';
+            });
+        </script>";
     }
 }
 ?>
