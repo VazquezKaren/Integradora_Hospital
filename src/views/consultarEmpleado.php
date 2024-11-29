@@ -1,5 +1,5 @@
 <?php
-include ('../controladores/sesion.php');
+include('../controladores/sesion.php');
 if (!isset($_SESSION['usuario'])) {
     header("location: ../../index.php");
 }
@@ -11,7 +11,7 @@ if ($_SESSION['rol'] !== 'ADMIN') {
 include("cabecera.php");
 
 include('../controladores/mostrar_informacion_empleado.php')
-    ?>
+?>
 <section class="main-content">
     <div class="content-grid">
         <div class="contentbox patient-info">
@@ -136,7 +136,8 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
                 <!-- Formulario para eliminar empleado -->
                 <form method="post" action="../controladores/eliminar_empleado.php" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
                     <input type="hidden" name="idEmpleado" value="<?php echo $empleadoData['idEmpleado'] ?? ''; ?>">
-                    <button type="submit" class="delete-button">Eliminar empleado</button>
+                    <!-- Botón para desactivar empleado -->
+                    <button type="button" class="delete-button" onclick="confirmarDesactivacionEmpleado()">Eliminar empleado</button>
                 </form>
             </div>
 
