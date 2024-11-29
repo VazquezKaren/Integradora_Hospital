@@ -88,7 +88,7 @@ if (isset($_POST['busqueda'])) {
               </script>";
         }
     } catch (PDOException $e) {
-        $error = "Error al buscar los datos: " . $e->getMessage();
+        $error = "Error al buscar los datos: Porfavor ingrese correctamente la CURP";
         echo "<html><head>
                 <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
               </head><body>
@@ -96,7 +96,7 @@ if (isset($_POST['busqueda'])) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Error al buscar los datos: " . addslashes($e->getMessage()) . "'
+                text: 'Error al buscar los datos: Porfavor ingrese correctamente la CURP'
             }).then(() => {
                 window.location.href = '../views/pacientes.php';
             });

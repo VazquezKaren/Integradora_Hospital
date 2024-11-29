@@ -211,7 +211,7 @@ try {
 
 // Mostrar datos
 foreach ($ingresos as $ingreso) {
-    echo "Nombre: " . htmlspecialchars($ingreso['nombrePaciente']) . "<br>";
+    echo "Nombre: " . htmlspecialchars($ingreso['nombrePaciente']);
     // Aquí agregar más información de cada ingreso
 }
 ?>
