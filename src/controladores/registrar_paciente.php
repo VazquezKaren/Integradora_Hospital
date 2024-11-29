@@ -61,11 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (count($errores) > 0) {
-        // Si hay errores, almacenarlos en la sesión y redirigir
-        $_SESSION['error_message'] = implode('<br>', $errores);
-        header('Location: ../views/registro.php');
+        // Devolver los errores como un arreglo
+        echo json_encode(['success' => false, 'errors' => $errores]);
         exit;
-    }
+    }    
 
     try {
         $conn = new conn();
@@ -182,10 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdo->commit();
 
         echo json_encode(['success' => true, 'message' => 'Paciente registrado exitosamente.']);
-
-        // Establecer mensaje de éxito y redirigir
-        $_SESSION['success_message'] = 'Paciente registrado exitosamente.';
-        header('Location: ../views/registro.php');
+        
         exit;
     } catch (PDOException $e) {
         // Revertir la transacción en caso de error
@@ -197,9 +193,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         error_log('Error en la base de datos: ' . $e->getMessage());
         echo json_encode(['success' => false, 'message' => 'Error al registrar el paciente. Por favor, inténtalo de nuevo más tarde.']);
 
-        // Establecer mensaje de error y redirigir
-        $_SESSION['error_message'] = 'Error al registrar el paciente. Por favor, inténtelo de nuevo más tarde.';
-        header('Location: ../views/registro.php');
         exit;
     } catch (Exception $e) {
         // Revertir la transacción en caso de error
@@ -211,9 +204,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         error_log('Error general: ' . $e->getMessage());
         echo json_encode(['success' => false, 'message' => 'Error al registrar el paciente. Por favor, inténtalo de nuevo más tarde.']);
 
-        // Establecer mensaje de error y redirigir
-        $_SESSION['error_message'] = 'Error general.';
-        header('Location: ../views/registro.php');
         exit;
     }
 } else {
