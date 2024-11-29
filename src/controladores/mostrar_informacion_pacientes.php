@@ -58,6 +58,7 @@ if (isset($_POST['busqueda'])) {
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$data) {
+            // No se encontró ningún registro
             $error = "El registro no existe."; 
             echo "<html><head>
                 <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
@@ -71,6 +72,20 @@ if (isset($_POST['busqueda'])) {
                     window.location.href = '../views/consultarPaciente.php';
                 });
             </script>";
+        } else {
+            // Si se encontró un registro
+            echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Encontrado',
+                    text: 'Se encontraron datos de paciente y tutor.'
+                }).then(() => {
+                    window.location.href = '../views/resultadoBusqueda.php';
+                });
+              </script>";
         }
     } catch (PDOException $e) {
         $error = "Error al buscar los datos: " . $e->getMessage();
