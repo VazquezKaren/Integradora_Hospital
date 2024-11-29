@@ -1,7 +1,11 @@
 <?php
 require_once '../config.php';
 session_start();
+?>
+<!-- Incluye el script de SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $_POST['usuario'];
     $password = $_POST['password'];
@@ -14,9 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['usuario' => $usuario]);
         $usuarioData = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Sustituir esta linea de codigo aca cuando tengamos el hashing, si no despues no va a jalar
-        // if ($usuarioData && password_verify($password,  $usuarioData['contrasena']))    o sin hash     if ($usuarioData && $password === $usuarioData['contrasena'])
 
         if ($usuarioData && password_verify($password,  $usuarioData['contrasena'])) {
             $_SESSION['usuario'] = $usuarioData['usuario'];
@@ -35,35 +36,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['apellidoMaternoEmpleado'] = $empleadoData['apellidoMaterno'];
                 $_SESSION['telefonoEmpleado'] = $empleadoData['telefono'];
                 $_SESSION['emailEmpleado'] = $empleadoData['email'];
-            };
+            }
 
-            if ($usuarioData['rol'] === "TRABAJO_SOCIAL") {
-                header("Location:../views/inicio.php");
+            // Redirección dependiendo del rol
+            if ($usuarioData['rol'] === "TRABAJO_SOCIAL" || $usuarioData['rol'] === 'DOCTOR' || $usuarioData['rol'] === 'ADMIN' || $usuarioData['rol'] === 'ENFERMERA') {
+                echo "
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Acceso concedido',
+                        text: 'Bienvenido, " . htmlspecialchars($usuarioData['usuario']) . "!',
+                        showConfirmButton: false,
+                        timer: 3000
+                    }).then(() => {
+                        window.location.href = '../views/inicio.php';
+                    });
+                </script>";
                 exit();
-            }elseif ($usuarioData['rol'] === 'DOCTOR') {
-                header("Location:../views/inicio.php");
-                exit();
-            }elseif ($usuarioData['rol'] === 'ADMIN') {
-                header("Location:../views/inicio.php");
-                exit();
-            }elseif ($usuarioData['rol'] === 'ENFERMERA') {
-                header("Location:../views/inicio.php");
+            } else {
+                echo "
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Acceso denegado',
+                        text: 'No tienes permiso para acceder.',
+                        showConfirmButton: false,
+                        timer: 3000
+                    }).then(() => {
+                        window.location.href = '../../index.php';
+                    });
+                </script>";
                 exit();
             }
-            else{
-                
-                header( 'Location:../../index.php?error=Acceso denegado');
-                exit();
-            }
-            exit();
-        }else {
-            header("Location: ../../index.php?error=Credenciales incorrectas");
+        } else {
+            echo "
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Credenciales incorrectas',
+                    text: 'Usuario o contraseña inválidos.',
+                    showConfirmButton: false,
+                    timer: 3000
+                }).then(() => {
+                    window.location.href = '../../index.php';
+                });
+            </script>";
             exit();
         }
         
     } catch (\Throwable $th) {
-        $error =  "Error en la conexion" . $th->getMessage();
-        exit;
+        $error = "Error en la conexion: " . $th->getMessage();
+        echo "
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error en la conexión',
+                text: 'Ocurrió un error al conectar con la base de datos. Inténtalo más tarde.',
+                showConfirmButton: false,
+                timer: 3000
+            }).then(() => {
+                window.location.href = '../../index.php';
+            });
+        </script>";
+        exit();
     }
 }
 ?>

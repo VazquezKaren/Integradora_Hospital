@@ -4,10 +4,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
 
-
-
-
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -33,24 +29,54 @@ try {
                 ':idUsuario' => $idUsuario,
             ]);
 
-            echo "<script>
-                alert('La contraseña se ha cambiado correctamente.');
-                window.location.href = '../views/empleado.php';
-            </script>";
+            echo "<html><head>
+                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                  </head><body>
+                  <script>
+                      Swal.fire({
+                          title: 'Éxito',
+                          text: 'La contraseña se ha cambiado correctamente.',
+                          icon: 'success',
+                          confirmButtonText: 'Aceptar'
+                      }).then(() => {
+                          window.location.href = '../views/empleado.php';
+                      });
+                  </script>
+                  </body></html>";
             exit();
         } else {
-            echo "<script>
-                alert('Las contraseñas no coinciden. Por favor, inténtelo de nuevo.');
-                window.location.href = '../views/formulario_cambiar_contrasena.php';
-            </script>";
+            echo "<html><head>
+                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                  </head><body>
+                  <script>
+                      Swal.fire({
+                          title: 'Error',
+                          text: 'Las contraseñas no coinciden. Por favor, inténtelo de nuevo.',
+                          icon: 'error',
+                          confirmButtonText: 'Aceptar'
+                      }).then(() => {
+                          window.location.href = '../views/formulario_cambiar_contrasena.php';
+                      });
+                  </script>
+                  </body></html>";
             exit();
         }
     }
 } catch (Throwable $th) {
-    echo "<script>
-        alert('Error al procesar la solicitud: " . $th->getMessage() . "');
-        window.location.href = '../views/empleado.php';
-    </script>";
+    echo "<html><head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          </head><body>
+          <script>
+              Swal.fire({
+                  title: 'Error',
+                  text: 'Error al procesar la solicitud: " . addslashes($th->getMessage()) . "',
+                  icon: 'error',
+                  confirmButtonText: 'Aceptar'
+              }).then(() => {
+                  window.location.href = '../views/empleado.php';
+              });
+          </script>
+          </body></html>";
     exit();
 }
 ?>

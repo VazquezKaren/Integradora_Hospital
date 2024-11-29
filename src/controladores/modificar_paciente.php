@@ -10,7 +10,20 @@ $conn = $database->connect();
 $paciente_CURP = $_POST['curp'] ?? null;
 
 if (!$paciente_CURP) {
-    echo json_encode(['success' => false, 'message' => 'paciente_CURP (ID del paciente) no proporcionado']);
+    echo "<html><head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          </head><body>
+          <script>
+              Swal.fire({
+                  title: 'Error',
+                  text: 'paciente_CURP (ID del paciente) no proporcionado',
+                  icon: 'error',
+                  confirmButtonText: 'Aceptar'
+              }).then(() => {
+                  window.location.href = '../views/formulario_actualizar_paciente.php';
+              });
+          </script>
+          </body></html>";
     exit;
 }
 
@@ -29,7 +42,20 @@ try {
         $fecha_nacimiento = filter_input(INPUT_POST, 'fecha_nacimiento', FILTER_SANITIZE_SPECIAL_CHARS);
         $paciente_edad = filter_input(INPUT_POST, 'paciente_edad', FILTER_VALIDATE_INT);
         if ($paciente_edad === false) {
-            echo json_encode(['success' => false, 'message' => 'Edad no válida']);
+            echo "<html><head>
+                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                  </head><body>
+                  <script>
+                      Swal.fire({
+                          title: 'Error',
+                          text: 'Edad no válida',
+                          icon: 'error',
+                          confirmButtonText: 'Aceptar'
+                      }).then(() => {
+                          window.location.href = '../views/formulario_actualizar_paciente.php';
+                      });
+                  </script>
+                  </body></html>";
             exit;
         }
         $paciente_pais = strtoupper(filter_input(INPUT_POST, 'paciente_pais', FILTER_SANITIZE_SPECIAL_CHARS));
@@ -73,12 +99,51 @@ try {
         ]);
 
         $conn->commit();
-        echo json_encode(['success' => true, 'message' => 'Datos del paciente actualizados correctamente']);
+        echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                  Swal.fire({
+                      title: 'Éxito',
+                      text: 'Datos del paciente actualizados correctamente',
+                      icon: 'success',
+                      confirmButtonText: 'Aceptar'
+                  }).then(() => {
+                      window.location.href = '../views/empleado.php';
+                  });
+              </script>
+              </body></html>";
     } else {
-        echo json_encode(['success' => false, 'message' => 'Paciente no encontrado']);
+        echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                  Swal.fire({
+                      title: 'Error',
+                      text: 'Paciente no encontrado',
+                      icon: 'error',
+                      confirmButtonText: 'Aceptar'
+                  }).then(() => {
+                      window.location.href = '../views/formulario_actualizar_paciente.php';
+                  });
+              </script>
+              </body></html>";
     }
 } catch (Exception $e) {
     $conn->rollBack();
-    echo json_encode(['success' => false, 'message' => 'Error al actualizar los datos del paciente: ' . $e->getMessage()]);
+    echo "<html><head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          </head><body>
+          <script>
+              Swal.fire({
+                  title: 'Error',
+                  text: 'Error al actualizar los datos del paciente: " . addslashes($e->getMessage()) . "',
+                  icon: 'error',
+                  confirmButtonText: 'Aceptar'
+              }).then(() => {
+                  window.location.href = '../views/empleado.php';
+              });
+          </script>
+          </body></html>";
 }
 ?>

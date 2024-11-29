@@ -63,7 +63,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (count($errores) > 0) {
         // Si hay errores, almacenarlos en la sesión y redirigir
         $_SESSION['error_message'] = implode('<br>', $errores);
-        header('Location: ../views/registro.php');
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              <script>
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Errores de validación',
+                      html: '" . addslashes(implode('<br>', $errores)) . "',
+                      confirmButtonText: 'OK'
+                  }).then(() => {
+                      window.location.href = '../views/registro.php';
+                  });
+              </script>";
         exit;
     }
 
@@ -159,62 +169,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $turno = 'NOCTURNO';
         }
 
-        // Insertar en la tabla ingresos
-        $sqlIngresos = "INSERT INTO ingresos (
-            fechaIngreso, horaIngreso, egreso, motivo, servicioSolicita, turno, fkIdPaciente, fkIdUsuario
+        $sqlIngreso = "INSERT INTO ingresos (
+            fkIdPaciente, fkIdUsuario, fechaIngreso, horaIngreso, turno, servicioSolicitado, egreso
         ) VALUES (
-            :fechaIngreso, :horaIngreso, :egreso, :motivo, :servicioSolicita, :turno, :fkIdPaciente, :fkIdUsuario
+            :fkIdPaciente, :fkIdUsuario, :fechaIngreso, :horaIngreso, :turno, :servicioSolicitado, :egreso
         )";
 
-        $stmtIngresos = $pdo->prepare($sqlIngresos);
-        $stmtIngresos->execute([
+        $stmtIngreso = $pdo->prepare($sqlIngreso);
+        $stmtIngreso->execute([
+            'fkIdPaciente' => $idPaciente,
+            'fkIdUsuario' => $fkIdUsuario,
             'fechaIngreso' => $fechaIngreso,
             'horaIngreso' => $horaIngreso,
-            'egreso' => $egreso,
-            'motivo' => $motivo,
-            'servicioSolicita' => $servicio_solicitado,
             'turno' => $turno,
-            'fkIdPaciente' => $idPaciente,
-            'fkIdUsuario' => $fkIdUsuario
+            'servicioSolicitado' => $servicio_solicitado,
+            'egreso' => $egreso
         ]);
 
         // Confirmar la transacción
         $pdo->commit();
 
-        // Establecer mensaje de éxito y redirigir
-        $_SESSION['success_message'] = 'Paciente registrado exitosamente.';
-        header('Location: ../views/registro.php');
-        exit;
+        // Mensaje de éxito usando SweetAlert2
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              <script>
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Registro exitoso',
+                      text: 'La información del paciente ha sido guardada correctamente.',
+                      confirmButtonText: 'OK'
+                  }).then(() => {
+                      window.location.href = '../views/registro.php';
+                  });
+              </script>";
     } catch (PDOException $e) {
-        // Revertir la transacción en caso de error
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
-
-        // Registrar el error en un archivo de log (opcional)
-        error_log('Error en la base de datos: ' . $e->getMessage());
-
-        // Establecer mensaje de error y redirigir
-        $_SESSION['error_message'] = 'Error al registrar el paciente. Por favor, inténtelo de nuevo más tarde.';
-        header('Location: ../views/registro.php');
-        exit;
-    } catch (Exception $e) {
-        // Revertir la transacción en caso de error
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
-
-        // Registrar el error en un archivo de log (opcional)
-        error_log('Error general: ' . $e->getMessage());
-
-        // Establecer mensaje de error y redirigir
-        $_SESSION['error_message'] = 'Error al registrar el paciente. Por favor, inténtelo de nuevo más tarde.';
-        header('Location: ../views/registro.php');
-        exit;
+        // En caso de error, revertir la transacción
+        $pdo->rollBack();
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              <script>
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: 'Hubo un problema al guardar la información: " . addslashes($e->getMessage()) . "',
+                      confirmButtonText: 'OK'
+                  }).then(() => {
+                      window.location.href = '../views/registro.php';
+                  });
+              </script>";
     }
-} else {
-    // Método no permitido
-    $_SESSION['error_message'] = 'Método no permitido.';
-    header('Location: ../views/registro.php');
-    exit;
 }
+?>

@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include '../config.php'; 
+include '../config.php';
 $database = new conn();
 $conn = $database->connect();
 
@@ -12,7 +12,18 @@ header('Content-Type: application/json');
 $paciente_CURP = $_POST['curp'] ?? null;
 
 if (!$paciente_CURP) {
-    echo json_encode(['success' => false, 'message' => 'CURP del paciente no proporcionada.']);
+    echo "<html><head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          </head><body>
+          <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'CURP del paciente no proporcionada.',
+            }).then(() => {
+                window.location.href = '../views/empleado.php';
+            });
+          </script>";
     exit;
 }
 
@@ -25,7 +36,18 @@ try {
     $idPacienteDB = $stmt->fetchColumn();
 
     if (!$idPacienteDB) {
-        echo json_encode(['success' => false, 'message' => 'Paciente no encontrado.']);
+        echo "<html><head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          </head><body>
+          <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Paciente no encontrado.',
+                }).then(() => {
+                    window.location.href = '../views/empleado.php';
+                });
+              </script>";
         $conn->rollBack();
         exit;
     }
@@ -94,15 +116,48 @@ try {
     ]);
 
     if ($stmt->rowCount() === 0) {
-        echo json_encode(['success' => false, 'message' => 'No se realizaron cambios en los datos del tutor.']);
+        echo "<html><head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          </head><body>
+          <script>
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Sin cambios',
+                    text: 'No se realizaron cambios en los datos del tutor.',
+                }).then(() => {
+                    window.location.href = '../views/empleado.php';
+                });
+              </script>";
         $conn->rollBack();
         exit;
     }
 
     $conn->commit();
-    echo json_encode(['success' => true, 'message' => 'Datos del tutor actualizados correctamente.']);
+    echo "<html><head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          </head><body>
+          <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Actualización exitosa',
+                text: 'Datos del tutor actualizados correctamente.',
+            }).then(() => {
+                window.location.href = '../views/empleado.php';
+            });
+          </script>";
 } catch (Exception $e) {
     $conn->rollBack();
-    echo json_encode(['success' => false, 'message' => 'Error al actualizar los datos del tutor: ' . $e->getMessage()]);
+    echo "<html><head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          </head><body>
+          <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al actualizar los datos del tutor: " . addslashes($e->getMessage()) . "',
+            }).then(() => {
+                window.location.href = '../views/empleado.php';
+            });
+          </script>";
 }
 ?>

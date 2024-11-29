@@ -27,18 +27,53 @@ try {
 
     $actividades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // foreach ($actividades as $actividad) {
-    //     echo "Fecha: " . htmlspecialchars($actividad['fecha']) . "<br>";
-    //     echo "Actividad: " . htmlspecialchars($actividad['actividad']) . "<br>";
-    //     echo "Usuario: " . htmlspecialchars($actividad['usuario']) . "<br>";
-    //     echo "Nombre Empleado: " . htmlspecialchars($actividad['nombreEmpleado']) . "<br>";
-    //     echo "Teléfono: " . htmlspecialchars($actividad['telefono']) . "<br>";
-    // }
+    // Si se necesitan mostrar los resultados en el navegador
+    if ($actividades) {
+        echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                  Swal.fire({
+                      title: 'Éxito',
+                      text: 'Historial de actividades cargado correctamente',
+                      icon: 'success',
+                      confirmButtonText: 'Aceptar'
+                  }).then(() => {
+                      window.location.href = '../views/historial.php';
+                  });
+              </script>
+              </body></html>";
+    } else {
+        echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                  Swal.fire({
+                      title: 'Sin datos',
+                      text: 'No se encontraron actividades en el historial',
+                      icon: 'info',
+                      confirmButtonText: 'Aceptar'
+                  }).then(() => {
+                      window.location.href = '../views/historial.php';
+                  });
+              </script>
+              </body></html>";
+    }
 } catch (Throwable $th) {
-    // Manejo de errores
-    echo "<script>
-            alert('Error en el registro del historial: " . addslashes($th->getMessage()) . "');
-            window.location.href = '../views/historial.php';
-        </script>";
+    // Manejo de errores con alerta de SweetAlert2
+    echo "<html><head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          </head><body>
+          <script>
+              Swal.fire({
+                  title: 'Error',
+                  text: 'Error en el registro del historial: " . addslashes($th->getMessage()) . "',
+                  icon: 'error',
+                  confirmButtonText: 'Aceptar'
+              }).then(() => {
+                  window.location.href = '../views/historial.php';
+              });
+          </script>
+          </body></html>";
 }
 ?>
