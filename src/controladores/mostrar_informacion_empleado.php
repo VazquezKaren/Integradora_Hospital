@@ -34,7 +34,7 @@ if (isset($_POST['busqueda'])) {
                             title: 'Rol encontrado',
                             text: 'El rol del empleado es: " . htmlspecialchars($empleadorol['rol']) . "',
                         }).then(() => {
-                            window.location.href = '../views/consultarEmpleado.php';
+                            
                         });
                       </script>";
             } else {
