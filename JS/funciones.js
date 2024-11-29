@@ -99,116 +99,109 @@ function showTab(tabName) {
     }
     event.currentTarget.classList.add("active");
 }
+function habilitarEdicion(contexto) {
+    const inputs = document.querySelectorAll(`#${contexto} input, #${contexto} select, #${contexto} textarea`);
 
-function habilitarEdicion() {
-    const contextos = ['paciente', 'responsable'];
-    contextos.forEach(contexto => {
-        const inputs = document.querySelectorAll(`#${contexto} input, #${contexto} select, #${contexto} textarea`);
-
-        // Almacenar el valor original de cada campo en un atributo `data-original-value`
-        inputs.forEach(input => {
-            if (!input.dataset.originalValue) {
-                input.dataset.originalValue = input.value || ""; // Guarda el valor original
-            }
-            input.removeAttribute('readonly');
-            input.removeAttribute('disabled');
-        });
-
-        // Almacenar valores originales de los select de estado y municipio
-        const estadoSelect = document.getElementById(`${contexto}_estado`);
-        const municipioSelect = document.getElementById(`${contexto}_municipio`);
-        if (estadoSelect && !estadoSelect.dataset.originalValue) {
-            estadoSelect.dataset.originalValue = estadoSelect.value || "";
+    inputs.forEach(input => {
+        if (!input.dataset.originalValue) {
+            input.dataset.originalValue = input.value || ""; // Guarda el valor original
         }
-        if (municipioSelect && !municipioSelect.dataset.originalValue) {
-            municipioSelect.dataset.originalValue = municipioSelect.value || "";
-        }
-
-        document.getElementById(`guardar-btn-${contexto}`).style.display = 'inline';
-        document.getElementById(`descartar-btn-${contexto}`).style.display = 'inline';
-        document.getElementById(`modificar-btn-${contexto}`).style.display = 'none';
+        input.removeAttribute('readonly');
+        input.removeAttribute('disabled');
     });
+
+    const estadoSelect = document.getElementById(`${contexto}_estado`);
+    const municipioSelect = document.getElementById(`${contexto}_municipio`);
+    if (estadoSelect && !estadoSelect.dataset.originalValue) {
+        estadoSelect.dataset.originalValue = estadoSelect.value || "";
+    }
+    if (municipioSelect && !municipioSelect.dataset.originalValue) {
+        municipioSelect.dataset.originalValue = municipioSelect.value || "";
+    }
+
+    document.getElementById(`guardar-btn-${contexto}`).style.display = 'inline';
+    document.getElementById(`descartar-btn-${contexto}`).style.display = 'inline';
+    document.getElementById(`modificar-btn-${contexto}`).style.display = 'none';
 }
 
 
-function deshabilitarEdicion() {
-    const contextos = ['paciente', 'responsable'];
-    contextos.forEach(contexto => {
-        const inputs = document.querySelectorAll(`#${contexto} input, #${contexto} select, #${contexto} textarea`);
+function deshabilitarEdicion(contexto) {
+    const inputs = document.querySelectorAll(`#${contexto} input, #${contexto} select, #${contexto} textarea`);
 
-        // Restaurar el valor original desde `data-original-value`
-        inputs.forEach(input => {
-            if (input.dataset.originalValue !== undefined) {
-                input.value = input.dataset.originalValue; // Restaurar el valor original
-                if (input.tagName === "SELECT") {
-                    // Ajustar la selección para los dropdowns
-                    const options = Array.from(input.options);
-                    options.forEach(option => {
-                        option.selected = option.value === input.dataset.originalValue;
-                    });
-                }
-            }
-            input.setAttribute('readonly', true);
-            input.setAttribute('disabled', true);
-        });
-
-        // Asegurar que los select de estado y municipio también se actualicen
-        const estadoSelect = document.getElementById(`${contexto}_estado`);
-        const municipioSelect = document.getElementById(`${contexto}_municipio`);
-        if (estadoSelect && municipioSelect) {
-            if (estadoSelect.dataset.originalValue) {
-                estadoSelect.innerHTML = `<option value="${estadoSelect.dataset.originalValue}" selected>${estadoSelect.dataset.originalValue}</option>`;
-            }
-            if (municipioSelect.dataset.originalValue) {
-                municipioSelect.innerHTML = `<option value="${municipioSelect.dataset.originalValue}" selected>${municipioSelect.dataset.originalValue}</option>`;
+    inputs.forEach(input => {
+        if (input.dataset.originalValue !== undefined) {
+            input.value = input.dataset.originalValue; 
+            if (input.tagName === "SELECT") {
+                const options = Array.from(input.options);
+                options.forEach(option => {
+                    option.selected = option.value === input.dataset.originalValue;
+                });
             }
         }
-
-        document.getElementById(`guardar-btn-${contexto}`).style.display = 'none';
-        document.getElementById(`descartar-btn-${contexto}`).style.display = 'none';
-        document.getElementById(`modificar-btn-${contexto}`).style.display = 'inline';
+        input.setAttribute('readonly', true);
+        input.setAttribute('disabled', true);
     });
+
+    const estadoSelect = document.getElementById(`${contexto}_estado`);
+    const municipioSelect = document.getElementById(`${contexto}_municipio`);
+    if (estadoSelect && municipioSelect) {
+        if (estadoSelect.dataset.originalValue) {
+            estadoSelect.innerHTML = `<option value="${estadoSelect.dataset.originalValue}" selected>${estadoSelect.dataset.originalValue}</option>`;
+        }
+        if (municipioSelect.dataset.originalValue) {
+            municipioSelect.innerHTML = `<option value="${municipioSelect.dataset.originalValue}" selected>${municipioSelect.dataset.originalValue}</option>`;
+        }
+    }
+
+    // Ocultar los botones 
+    document.getElementById(`guardar-btn-${contexto}`).style.display = 'none';
+    document.getElementById(`descartar-btn-${contexto}`).style.display = 'none';
+    document.getElementById(`modificar-btn-${contexto}`).style.display = 'inline';
 }
-
-
-
 function guardarCambios(contexto) {
-    const datosPaciente = new FormData();  
+    const datos = new FormData();  
 
-    const noRegistro = document.getElementById('busqueda').value;
-    if (noRegistro) {
-        datosPaciente.append('noRegistro', noRegistro);
+    const curp = document.getElementById('busqueda').value;
+    if (curp) {
+        datos.append('curp', curp);
     } else {
         alert('No. de registro del paciente no encontrado.');
         return; 
     }
 
-    const campos = [
+    const camposPaciente = [
         'nombre', 'apellido_p', 'apellido_m', 'fecha_nacimiento', 'paciente_edad', 'sexo',
         'paciente_pais', 'paciente_estado', 'paciente_municipio', 'calle', 'numero', 'colonia',
-        'derechoHabiente', 'dx', 'observaciones', 'hoja_frontal', 'hoja_compromiso',
+        'derechoHabiente', 'dx', 'observaciones'
+    ];
+
+    const camposResponsable = [
         'nombre_responsable', 'apellido_p_responsable', 'apellido_m_responsable',
         'parentesco', 'telefono', 'ocupacion', 'tutor_pais', 'tutor_estado',
         'tutor_municipio', 'calle_responsable', 'numero_responsable', 'colonia_responsable',
-        'personas_hogar', 'personas_apoyo', 'derechohabiente', 'ingresos', 'egresos',
-        'indice_economico'
+        'personas_hogar', 'personas_apoyo', 'indice_economico', 'ingresos', 'egresos'
     ];
 
-    campos.forEach(campo => {
+    const campos = contexto === 'paciente' ? camposPaciente : camposResponsable;
+
+ campos.forEach(campo => {
         const elemento = document.getElementById(campo);
         if (elemento) {
-            datosPaciente.append(campo, elemento.value);
+            datos.append(campo, elemento.value);
         }
     });
 
-    fetch('../controladores/modificar_paciente.php', {
+    const controlador = contexto === 'paciente' ? '../controladores/modificar_paciente.php' : '../controladores/modificar_responsable.php';
+
+    fetch(controlador, {
         method: 'POST',
-        body: datosPaciente
+        body: datos
     })
     .then(response => response.json().catch(() => ({ success: false, message: 'Respuesta inválida del servidor' })))
     .then(data => {
         if (data.success) {
             alert(data.message);
+            deshabilitarEdicion(contexto); 
 
             window.location.reload();
         } else {
@@ -217,7 +210,7 @@ function guardarCambios(contexto) {
         }
     })
     .catch(error => {
-        console.error('Error al guardar los cambios:', error);
+        console.error(`Error al guardar los cambios (${contexto}):`, error);
         alert("Ocurrió un error al guardar los cambios. Por favor, intenta de nuevo.");
     });
 }

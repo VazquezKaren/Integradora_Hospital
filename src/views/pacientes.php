@@ -181,7 +181,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                         </div>
 
                         
-                        <div class="button-group">
+                        <div class="button-group" id="paciente">
                             <button type="button" id="modificar-btn-paciente" onclick="habilitarEdicion('paciente')">Siguiente</button>
                             <button type="button" class="save-button" id="guardar-btn-paciente" style="display: none;" onclick="guardarCambios('paciente')">Guardar cambios</button>
                             <button type="reset" class="delete-button" id="descartar-btn-paciente" style="display: none;" onclick="deshabilitarEdicion('paciente')">Descartar cambios</button>
@@ -322,7 +322,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                             </div>
                         </div>
                         
-                        <div class="button-group">
+                        <div class="button-group" id="responsable">
                             <button type="button" id="modificar-btn-responsable" onclick="habilitarEdicion('responsable')">Modificar</button>
                             <button type="button" class="save-button" id="guardar-btn-responsable" style="display: none;" onclick="guardarCambios('responsable')">Guardar cambios</button>
                             <button type="reset" class="delete-button" id="descartar-btn-responsable" style="display: none;" onclick="deshabilitarEdicion('responsable')">Descartar cambios</button>
