@@ -49,7 +49,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                 </div>
                 <div id="paciente" class="tab-content active">
                     <h2>Datos personales del paciente</h2>
-                    <form method="post">
+                    <form action="">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nombre">Nombre(s):</label>
@@ -124,9 +124,14 @@ include('../controladores/mostrar_informacion_pacientes.php')
                                 <input type="text" name="paciente_CURP" id="paciente_CURP" value="<?php echo $data['paciente_CURP'] ?? ''; ?>" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="no_registro">No.Registro</label>
+                                <label for="no_registro">No.Registro:</label>
                                 <input type="text" id="no_registro" name="no_registro" value="<?php echo $data['no_registro'] ?? ''; ?>" readonly>
                             </div>
+                            <div class="form-group">
+                                <label for="status">Status:</label>
+                                <input type="text" id="status" name="status" value="<?php echo isset($data['paciente_status']) && $data['paciente_status'] == 1 ? 'ACTIVO' : ''; ?>" readonly>
+                            </div>
+
                            
                         </div>
                         <hr>
@@ -194,7 +199,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
 
 
                     <h2>Datos del Responsable</h2>
-                    <form method="post">
+                    <form action="">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nombre_responsable">Nombre(s):</label>
@@ -326,7 +331,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                             <button type="button" id="modificar-btn-responsable" onclick="habilitarEdicion('responsable')">Modificar</button>
                             <button type="button" class="save-button" id="guardar-btn-responsable" style="display: none;" onclick="guardarCambios('responsable')">Guardar cambios</button>
                             <button type="reset" class="delete-button" id="descartar-btn-responsable" style="display: none;" onclick="deshabilitarEdicion('responsable')">Descartar cambios</button>
-                            <button type="button" class="delete-button" onclick="confirmarEliminacionPaciente()">Eliminar paciente</button>
+                            <button type="submit" class="delete-button">Eliminar paciente</button>
                         </div>
                         
                     </form>
