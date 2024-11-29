@@ -1,5 +1,10 @@
 <?php
 include '../config.php';
+?>
+<!-- Incluye el script de SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Inicializar un arreglo para almacenar errores de validación
     $errores = [];
@@ -36,7 +41,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     // Si hay errores de validación, devolverlos al cliente
     if (count($errores) > 0) {
-        echo json_encode(['success' => false, 'message' => 'Errores de validación.', 'errors' => $errores]);
+        echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Errores de validación',
+                text: 'Por favor, corrija los errores e intente de nuevo.',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        </script>";
         exit;
     }
     try {
@@ -82,7 +97,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ]);
         // Confirmar la transacción
         $pdo->commit();
-        echo json_encode(['success' => true, 'message' => 'Empleado actualizado correctamente.']);
+        echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: 'Empleado actualizado correctamente.',
+                showConfirmButton: false,
+                timer: 3000
+            }).then(() => {
+                window.location.href = 'menu.php'; // Redirige al menú después de mostrar la alerta
+            });
+        </script>";
     } catch (Exception $e) {
         // Revertir la transacción en caso de error
         if ($pdo->inTransaction()) {
@@ -91,9 +118,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Registrar el error en un archivo de log (opcional)
         error_log($e->getMessage());
         // Devolver un mensaje genérico al cliente
-        echo json_encode(['success' => false, 'message' => 'Ocurrió un error al actualizar el empleado. Por favor, inténtelo de nuevo más tarde.']);
+        echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error al actualizar el empleado. Por favor, inténtelo de nuevo más tarde.',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        </script>";
     }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+    echo "
+    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Método no permitido',
+            text: 'El método de solicitud no es válido.',
+            showConfirmButton: false,
+            timer: 3000
+        });
+    </script>";
 }
 ?>

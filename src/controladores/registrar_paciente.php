@@ -61,8 +61,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (count($errores) > 0) {
-        // Devolver los errores como un arreglo
-        echo json_encode(['success' => false, 'errors' => $errores]);
+        // Si hay errores, almacenarlos en la sesión y redirigir
+        $_SESSION['error_message'] = implode('<br>', $errores);
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              <script>
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Errores de validación',
+                      html: '" . addslashes(implode('<br>', $errores)) . "',
+                      confirmButtonText: 'OK'
+                  }).then(() => {
+                      window.location.href = '../views/registro.php';
+                  });
+              </script>";
         exit;
     }    
 
@@ -158,23 +169,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $turno = 'NOCTURNO';
         }
 
-        // Insertar en la tabla ingresos
-        $sqlIngresos = "INSERT INTO ingresos (
-            fechaIngreso, horaIngreso, egreso, motivo, servicioSolicita, turno, fkIdPaciente, fkIdUsuario
+        $sqlIngreso = "INSERT INTO ingresos (
+            fkIdPaciente, fkIdUsuario, fechaIngreso, horaIngreso, turno, servicioSolicitado, egreso
         ) VALUES (
-            :fechaIngreso, :horaIngreso, :egreso, :motivo, :servicioSolicita, :turno, :fkIdPaciente, :fkIdUsuario
+            :fkIdPaciente, :fkIdUsuario, :fechaIngreso, :horaIngreso, :turno, :servicioSolicitado, :egreso
         )";
 
-        $stmtIngresos = $pdo->prepare($sqlIngresos);
-        $stmtIngresos->execute([
+        $stmtIngreso = $pdo->prepare($sqlIngreso);
+        $stmtIngreso->execute([
+            'fkIdPaciente' => $idPaciente,
+            'fkIdUsuario' => $fkIdUsuario,
             'fechaIngreso' => $fechaIngreso,
             'horaIngreso' => $horaIngreso,
-            'egreso' => $egreso,
-            'motivo' => $motivo,
-            'servicioSolicita' => $servicio_solicitado,
             'turno' => $turno,
-            'fkIdPaciente' => $idPaciente,
-            'fkIdUsuario' => $fkIdUsuario
+            'servicioSolicitado' => $servicio_solicitado,
+            'egreso' => $egreso
         ]);
 
         // Confirmar la transacción
@@ -214,3 +223,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: ../views/registro.php');
     exit;
 }
+?>

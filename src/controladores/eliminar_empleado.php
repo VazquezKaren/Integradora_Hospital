@@ -1,12 +1,27 @@
 <?php
 include '../config.php';
+?>
+<!-- Incluye el script de SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Obtener y validar el idEmpleado
     $idEmpleado = $_POST['idEmpleado'] ?? null;
 
     if (empty($idEmpleado) || !is_numeric($idEmpleado)) {
-        echo json_encode(['success' => false, 'message' => 'ID de empleado inválido.']);
+        echo "
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'ID de empleado inválido',
+                text: 'Por favor, proporcione un ID de empleado válido.',
+                showConfirmButton: false,
+                timer: 3000
+            }).then(() => {
+                window.location.href = '../../index.php';
+            });
+        </script>";
         exit;
     }
 
@@ -30,7 +45,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Confirmar transacción
         $pdo->commit();
 
-        echo json_encode(['success' => true, 'message' => 'Empleado eliminado correctamente.']);
+        echo "
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Empleado eliminado',
+                text: 'El empleado ha sido eliminado correctamente.',
+                showConfirmButton: false,
+                timer: 3000
+            }).then(() => {
+                window.location.href = '../views/empleados.php';
+            });
+        </script>";
+        exit;
     } catch (Exception $e) {
         // Revertir transacción en caso de error
         if ($pdo->inTransaction()) {
@@ -40,10 +67,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Registrar el error en un archivo de log (opcional)
         error_log($e->getMessage());
 
-        // Devolver un mensaje genérico al cliente
-        echo json_encode(['success' => false, 'message' => 'Ocurrió un error al eliminar el empleado. Por favor, inténtelo de nuevo más tarde.']);
+        echo "
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al eliminar',
+                text: 'Ocurrió un error al eliminar el empleado. Inténtelo de nuevo más tarde.',
+                showConfirmButton: false,
+                timer: 3000
+            }).then(() => {
+                window.location.href = '../../index.php';
+            });
+        </script>";
+        exit;
     }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+    echo "
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: 'Método no permitido',
+            text: 'Este método no es válido. Inténtelo de nuevo.',
+            showConfirmButton: false,
+            timer: 3000
+        }).then(() => {
+            window.location.href = '../../index.php';
+        });
+    </script>";
+    exit;
 }
 ?>

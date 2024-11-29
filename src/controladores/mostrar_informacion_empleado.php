@@ -1,7 +1,6 @@
 <?php
 include '../config.php';
 
-
 if (isset($_POST['busqueda'])) {
     $busqueda = $_POST['busqueda'];
 
@@ -26,21 +25,62 @@ if (isset($_POST['busqueda'])) {
 
             if ($empleadorol) {
                 // Rol encontrado
-                echo "El rol del empleado es: " . $empleadorol['rol'];
+                echo "<html><head>
+                        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                      </head><body>
+                      <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Rol encontrado',
+                            text: 'El rol del empleado es: " . htmlspecialchars($empleadorol['rol']) . "',
+                        }).then(() => {
+                            window.location.href = '../views/consultarEmpleado.php';
+                        });
+                      </script>";
             } else {
                 // No se encontró un usuario con esa fk_idEmpleado
-                echo "No se encontró un usuario asociado al empleado.";
+                echo "<html><head>
+                        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                      </head><body>
+                      <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'No encontrado',
+                            text: 'No se encontró un usuario asociado al empleado.',
+                        }).then(() => {
+                            window.location.href = '../views/consultarEmpleado.php';
+                        });
+                      </script>";
             }
         } else {
             // No se encontró un empleado con ese teléfono
-            echo "No se encontró un empleado con el número de teléfono proporcionado.";
+            echo "<html><head>
+                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                  </head><body>
+                  <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'No encontrado',
+                        text: 'No se encontró un empleado con el número de teléfono proporcionado.',
+                    }).then(() => {
+                        window.location.href = '../views/consultarEmpleado.php';
+                    });
+                  </script>";
         }
     } catch (Exception $th) {
         // Manejo de errores
-        echo "<script>
-                alert('Error en la búsqueda: " . addslashes($th->getMessage()) . "');
-                window.location.href = '../views/consultarEmpleado.php';
-            </script>";
+        echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error en la búsqueda: " . addslashes($th->getMessage()) . "',
+                }).then(() => {
+                    window.location.href = '../views/consultarEmpleado.php';
+                });
+              </script>";
     }
 }
 ?>
