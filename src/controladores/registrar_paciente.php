@@ -181,6 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Confirmar la transacción
         $pdo->commit();
 
+        echo json_encode(['success' => true, 'message' => 'Paciente registrado exitosamente.']);
+
         // Establecer mensaje de éxito y redirigir
         $_SESSION['success_message'] = 'Paciente registrado exitosamente.';
         header('Location: ../views/registro.php');
@@ -193,6 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Registrar el error en un archivo de log (opcional)
         error_log('Error en la base de datos: ' . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error al registrar el paciente. Por favor, inténtalo de nuevo más tarde.']);
 
         // Establecer mensaje de error y redirigir
         $_SESSION['error_message'] = 'Error al registrar el paciente. Por favor, inténtelo de nuevo más tarde.';
@@ -206,14 +209,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Registrar el error en un archivo de log (opcional)
         error_log('Error general: ' . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error al registrar el paciente. Por favor, inténtalo de nuevo más tarde.']);
 
         // Establecer mensaje de error y redirigir
-        $_SESSION['error_message'] = 'Error al registrar el paciente. Por favor, inténtelo de nuevo más tarde.';
+        $_SESSION['error_message'] = 'Error general.';
         header('Location: ../views/registro.php');
         exit;
     }
 } else {
     // Método no permitido
+    echo json_encode(['success' => false, 'message' => 'Método no permitido.']);
+
     $_SESSION['error_message'] = 'Método no permitido.';
     header('Location: ../views/registro.php');
     exit;

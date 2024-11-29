@@ -499,3 +499,48 @@ function validarContrasenas() {
 function cancelarCambio() {
     window.location.href = "empleado.php";
 }
+
+function handleFormSubmission(event) {
+    event.preventDefault(); // Prevenir el envío por defecto del formulario
+
+    const form = event.target; // Obtener el formulario
+    const formData = new FormData(form); // Recopilar los datos del formulario
+
+    // Enviar los datos del formulario mediante fetch
+    fetch(form.action, {
+        method: form.method,
+        body: formData
+    })
+        .then(response => response.json()) // Asumimos que el servidor devuelve JSON
+        .then(data => {
+            if (data.success) {
+                // Mostrar alerta de éxito
+                Swal.fire({
+                    title: 'Éxito',
+                    text: data.message,
+                    icon: 'success'
+                }).then(() => {
+                    // Opcional: redirigir o resetear el formulario
+                    form.reset();
+                });
+            } else {
+                // Mostrar alerta de error
+                Swal.fire({
+                    title: 'Error',
+                    text: data.message,
+                    icon: 'error'
+                });
+            }
+        })
+        .catch(error => {
+            // Manejar errores de red u otros
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Ocurrió un error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.',
+                icon: 'error'
+            });
+        });
+
+    return false; // Prevenir el envío por defecto del formulario
+}

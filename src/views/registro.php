@@ -8,7 +8,7 @@ include('cabecera.php');
     <!--<h1 class="page-title">Registro de Nuevo Paciente</h1> -->
     <div class="content-grid">
         <div class="contentbox patient-info">
-        <form action="../controladores/registrar_paciente.php" method="POST" enctype="multipart/form-data">
+        <form action="../controladores/registrar_paciente.php" method="POST" enctype="multipart/form-data" onsubmit="return handleFormSubmission(event);">
                 <h2>Datos del Paciente</h2>
                 <div class="form-row">
                     <div class="form-group">
