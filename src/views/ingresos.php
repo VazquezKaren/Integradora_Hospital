@@ -253,24 +253,11 @@ include_once('../controladores/tabla_ingresos.php');
                 </div> -->
 
                 <hr>
-
+                    
+                            <!-- BOTON PARA ERESETEAR LOS FILTROS -->
                 <button type="submit">Buscar</button>
-<!--                 <a href="ingresos.php">Resetear</a>
-                Opcional CSS:
+                <a href="ingresos.php" class="btn-reset">Eliminar filtros</a>
 
-                .btn-reset {
-                    display: inline-block;
-                    padding: 10px 20px;
-                    background-color: #ccc;
-                    color: #000;
-                    text-decoration: none;
-                    border-radius: 5px;
-                    margin-left: 10px;
-                }
-
-                .btn-reset:hover {
-                    background-color: #bbb;
-                } -->
             </form>
         </div>
     </div>
