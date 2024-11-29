@@ -1,6 +1,15 @@
 <?php
 // BARRA DE NAVEACION Y MENU DE INTERACCION ENTRE SECCIONES, MODIFICAR EN CASO DE CAMBIAR RUTAS DE LOCALIZACION DE LOS ARCHIVOS DEL PROYECTO
-include('cabecera.php');
+include ('../controladores/sesion.php');
+if (!isset($_SESSION['usuario'])) {
+    header("location: ../../index.php");
+}
+
+if ($_SESSION['rol'] !== 'ADMIN') {
+    header("location: inicio.php");
+    exit;
+}
+include("cabecera.php");
 ?>
 
 <section>

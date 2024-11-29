@@ -257,7 +257,7 @@ include_once('../controladores/tabla_ingresos.php');
                             <!-- BOTON PARA ERESETEAR LOS FILTROS -->
                 <button type="submit">Buscar</button>
                 <a href="ingresos.php" class="btn-reset">Eliminar filtros</a>
-
+                                    
             </form>
         </div>
     </div>
@@ -353,12 +353,14 @@ include_once('../controladores/tabla_ingresos.php');
                                 <?php
                                 }
                                 ?>
+                                <?php if ($privilegio == 'ADMIN') { ?>
                                 <form method="post" action="../controladores/eliminar_ingreso.php" class="form-eliminar-ingreso">
                                     <input type="hidden" class="forma-control" name="idIngreso" value="<?php echo $ingreso['idIngreso']; ?>">
                                     <button title="Eliminar ingreso" type="button" class="btn btn-primary btn-eliminar-ingreso">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </form>
+                                <?php }?>
                             </td>
                         </tr>
                     <?php } ?>

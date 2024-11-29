@@ -1,13 +1,14 @@
 <?php
-include("cabecera.php");
+include ('../controladores/sesion.php');
 if (!isset($_SESSION['usuario'])) {
     header("location: ../../index.php");
 }
 
 if ($_SESSION['rol'] !== 'ADMIN') {
-    echo ('Acceso denegado, solo personal autorizado');
+    header("location: inicio.php");
     exit;
 }
+include("cabecera.php");
 
 include('../controladores/mostrar_informacion_empleado.php')
     ?>

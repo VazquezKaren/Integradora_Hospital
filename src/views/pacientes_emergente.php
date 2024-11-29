@@ -1,4 +1,5 @@
 <?php
+include '../controladores/sesion.php';
 require_once '../config.php';
 
 //Eliminar esta consulta haciendo un include
@@ -378,11 +379,14 @@ if (isset($_POST['fkIdPaciente'])) {
                                                 </form>
                                             <?php
                                             }
+
                                             ?>
+                                            <?php if ($privilegio == 'ADMIN') { ?>
                                             <form method="post" action="../controladores/eliminar_ingreso.php" class="form-eliminar-ingreso">
                                                 <input type="hidden" class="forma-control" name="idIngreso" value="<?php echo $data_table['idIngreso']; ?>">
                                                 <button title="Eliminar ingreso" type="button" class="btn btn-primary btn-eliminar-ingreso"><i class="fa-solid fa-trash"></i></button>
                                             </form>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
