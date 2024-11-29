@@ -12,66 +12,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['logo'])) {
             // Mover el archivo al directorio
             if (move_uploaded_file($logo['tmp_name'], $uploadFile)) {
                 echo "<html><head>
-                        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                      </head><body>
-                      <script>
-                          Swal.fire({
-                              title: 'Éxito',
-                              text: 'Logo guardado con éxito',
-                              icon: 'success',
-                              confirmButtonText: 'Aceptar'
-                          }).then(() => {
-                              window.location.href = '../views/configuracion.php';
-                          });
-                      </script>
-                      </body></html>";
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                    Swal.fire({
+                        title: 'Logo guardado con éxito',
+                        text: 'El logo se ha guardado correctamente.',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        window.location.href = '../views/configuracion.php';
+                    });
+                </script>";
             } else {
                 echo "<html><head>
-                        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                      </head><body>
-                      <script>
-                          Swal.fire({
-                              title: 'Error',
-                              text: 'Error al guardar el logo',
-                              icon: 'error',
-                              confirmButtonText: 'Aceptar'
-                          }).then(() => {
-                              window.location.href = '../views/configuracion.php';
-                          });
-                      </script>
-                      </body></html>";
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                    Swal.fire({
+                        title: 'Error al guardar el logo',
+                        text: 'Hubo un problema al guardar el logo en el servidor.',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        window.location.href = '../views/configuracion.php';
+                    });
+                </script>";
             }
         } else {
             echo "<html><head>
-                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                  </head><body>
-                  <script>
-                      Swal.fire({
-                          title: 'Error',
-                          text: 'Tipo de archivo no permitido',
-                          icon: 'error',
-                          confirmButtonText: 'Aceptar'
-                      }).then(() => {
-                          window.location.href = '../views/configuracion.php';
-                      });
-                  </script>
-                  </body></html>";
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                Swal.fire({
+                    title: 'Tipo de archivo no permitido',
+                    text: 'Por favor, sube una imagen en formato JPEG, PNG o GIF.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    window.location.href = '../views/configuracion.php';
+                });
+            </script>";
         }
     } else {
         echo "<html><head>
                 <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
               </head><body>
               <script>
-                  Swal.fire({
-                      title: 'Error',
-                      text: 'Error al subir el archivo',
-                      icon: 'error',
-                      confirmButtonText: 'Aceptar'
-                  }).then(() => {
-                      window.location.href = '../views/configuracion.php';
-                  });
-              </script>
-              </body></html>";
+            Swal.fire({
+                title: 'Error al subir el archivo',
+                text: 'Hubo un error al intentar subir el archivo. Inténtalo nuevamente.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            }).then(() => {
+                window.location.href = '../views/configuracion.php';
+            });
+        </script>";
     }
 }
 ?>

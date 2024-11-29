@@ -11,19 +11,17 @@ $paciente_CURP = $_POST['curp'] ?? null;
 
 if (!$paciente_CURP) {
     echo "<html><head>
-            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-          </head><body>
-          <script>
-              Swal.fire({
-                  title: 'Error',
-                  text: 'paciente_CURP (ID del paciente) no proporcionado',
-                  icon: 'error',
-                  confirmButtonText: 'Aceptar'
-              }).then(() => {
-                  window.location.href = '../views/formulario_actualizar_paciente.php';
-              });
-          </script>
-          </body></html>";
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Paciente CURP no proporcionado',
+            text: 'Por favor, proporcione el CURP del paciente.'
+        }).then(function() {
+            window.location.href = '../views/consultarPaciente.php';
+        });
+    </script>";
     exit;
 }
 
@@ -46,16 +44,14 @@ try {
                     <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
                   </head><body>
                   <script>
-                      Swal.fire({
-                          title: 'Error',
-                          text: 'Edad no válida',
-                          icon: 'error',
-                          confirmButtonText: 'Aceptar'
-                      }).then(() => {
-                          window.location.href = '../views/formulario_actualizar_paciente.php';
-                      });
-                  </script>
-                  </body></html>";
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Edad no válida',
+                    text: 'Por favor ingrese una edad válida.'
+                }).then(function() {
+                    window.location.href = '../views/editarPaciente.php';
+                });
+              </script>";
             exit;
         }
         $paciente_pais = strtoupper(filter_input(INPUT_POST, 'paciente_pais', FILTER_SANITIZE_SPECIAL_CHARS));
@@ -103,47 +99,41 @@ try {
                 <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
               </head><body>
               <script>
-                  Swal.fire({
-                      title: 'Éxito',
-                      text: 'Datos del paciente actualizados correctamente',
-                      icon: 'success',
-                      confirmButtonText: 'Aceptar'
-                  }).then(() => {
-                      window.location.href = '../views/empleado.php';
-                  });
-              </script>
-              </body></html>";
+            Swal.fire({
+                icon: 'success',
+                title: 'Datos actualizados',
+                text: 'Los datos del paciente han sido actualizados correctamente.'
+            }).then(function() {
+                window.location.href = '../views/consultarPaciente.php';
+            });
+        </script>";
     } else {
         echo "<html><head>
                 <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
               </head><body>
               <script>
-                  Swal.fire({
-                      title: 'Error',
-                      text: 'Paciente no encontrado',
-                      icon: 'error',
-                      confirmButtonText: 'Aceptar'
-                  }).then(() => {
-                      window.location.href = '../views/formulario_actualizar_paciente.php';
-                  });
-              </script>
-              </body></html>";
+            Swal.fire({
+                icon: 'error',
+                title: 'Paciente no encontrado',
+                text: 'No se encontró un paciente con ese CURP.'
+            }).then(function() {
+                window.location.href = '../views/consultarPaciente.php';
+            });
+        </script>";
     }
 } catch (Exception $e) {
     $conn->rollBack();
     echo "<html><head>
-            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-          </head><body>
-          <script>
-              Swal.fire({
-                  title: 'Error',
-                  text: 'Error al actualizar los datos del paciente: " . addslashes($e->getMessage()) . "',
-                  icon: 'error',
-                  confirmButtonText: 'Aceptar'
-              }).then(() => {
-                  window.location.href = '../views/empleado.php';
-              });
-          </script>
-          </body></html>";
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al actualizar los datos del paciente: " . addslashes($e->getMessage()) . "'
+        }).then(function() {
+            window.location.href = '../views/consultarPaciente.php';
+        });
+    </script>";
 }
 ?>

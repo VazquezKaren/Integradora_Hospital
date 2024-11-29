@@ -3,6 +3,7 @@
 include_once('../config.php');
 
 try {
+
     $sql_table = "
     SELECT ingresos.*, 
         paciente.nombres AS nombrePaciente,
@@ -17,26 +18,25 @@ try {
     JOIN empleado ON usuarios.fkIdEmpleado = empleado.idEmpleado
     WHERE paciente.idPaciente = :busqueda";
 
-    $connObj = new conn();
-    $conn = $connObj->connect();
+$connObj = new conn();
+$conn = $connObj->connect();
 
-    $stmt_table = $conn->prepare($sql_table);
-    $stmt_table->bindParam(":busqueda", $busqueda, PDO::PARAM_INT);
-    $stmt_table->execute();
-    $data_table = $stmt_table->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $th) {
-    // Mostrar la alerta de SweetAlert2 para manejar el error
-    echo "<html><head>
-            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-          </head><body>
-          <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error en la búsqueda de los registros del paciente: " . addslashes($th->getMessage()) . "',
-            }).then(() => {
-                window.location.href = '../views/ingresos.php';
-            });
-          </script>";
-}
+$stmt_table = $conn->prepare($sql_table);
+$stmt_table->bindParam(":busqueda", $busqueda, PDO::PARAM_INT);
+$stmt_table->execute();
+$data_table = $stmt_table->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $th) {
+            echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error en la búsqueda de los registros del paciente: " . addslashes($th->getMessage()) . "'
+                }).then(() => {
+                    window.location.href = '../views/ingresos.php';
+                });
+            </script>";
+        }
 ?>

@@ -58,33 +58,19 @@ if (isset($_POST['busqueda'])) {
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$data) {
-            $error = "El registro no existe.";
+            $error = "El registro no existe."; 
             echo "<html><head>
-                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                  </head><body>
-                  <script>
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'No encontrado',
-                        text: '" . addslashes($error) . "',
-                    }).then(() => {
-                        window.location.href = '../views/consultarPaciente.php';
-                    });
-                  </script>";
-        } else {
-            // Aquí puedes mostrar la información del paciente o realizar otras acciones
-            echo "<html><head>
-                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                  </head><body>
-                  <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Datos encontrados',
-                        text: 'El registro se encontró exitosamente.',
-                    }).then(() => {
-                        window.location.href = '../views/consultarPaciente.php';
-                    });
-                  </script>";
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El registro no existe.'
+                }).then(() => {
+                    window.location.href = '../views/consultarPaciente.php';
+                });
+            </script>";
         }
     } catch (PDOException $e) {
         $error = "Error al buscar los datos: " . $e->getMessage();
@@ -92,14 +78,14 @@ if (isset($_POST['busqueda'])) {
                 <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
               </head><body>
               <script>
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: '" . addslashes($error) . "',
-                }).then(() => {
-                    window.location.href = '../views/consultarPaciente.php';
-                });
-              </script>";
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al buscar los datos: " . addslashes($e->getMessage()) . "'
+            }).then(() => {
+                window.location.href = '../views/consultarPaciente.php';
+            });
+        </script>";
     }
 }
 ?>
