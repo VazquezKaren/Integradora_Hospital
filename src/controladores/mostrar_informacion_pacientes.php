@@ -69,7 +69,7 @@ if (isset($_POST['busqueda'])) {
                     title: 'Error',
                     text: 'El registro no existe.'
                 }).then(() => {
-                    window.location.href = '../views/consultarPaciente.php';
+                    window.location.href = '../views/pacientes.php';
                 });
             </script>";
         } else {
@@ -83,7 +83,7 @@ if (isset($_POST['busqueda'])) {
                     title: 'Encontrado',
                     text: 'Se encontraron datos de paciente y tutor.'
                 }).then(() => {
-                    window.location.href = '../views/resultadoBusqueda.php';
+                    
                 });
               </script>";
         }
@@ -98,7 +98,7 @@ if (isset($_POST['busqueda'])) {
                 title: 'Error',
                 text: 'Error al buscar los datos: " . addslashes($e->getMessage()) . "'
             }).then(() => {
-                window.location.href = '../views/consultarPaciente.php';
+                window.location.href = '../views/pacientes.php';
             });
         </script>";
     }
