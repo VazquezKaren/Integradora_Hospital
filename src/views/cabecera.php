@@ -75,168 +75,174 @@ include('../controladores/sesion.php');
         <input type="checkbox" id="btn-menu" checked>
         <div class="container-menu">
             <div class="cont-menu">
-                <nav>
-                    <a href="empleado.php" class="empleado"><i class="fas fa-user"></i> <?php echo $_SESSION['nombreEmpleado'] . ' ' . $_SESSION['apellidoPaternoEmpleado']; ?></a>
+                
 
-                    <!-- Elementos de la pagina de Trabajo social -->
-                    <?php if ($privilegio == 'TRABAJO_SOCIAL') { ?>
-                        <ul class="no-padding-menu">
-                        <li class="list_item">
-                            <div class="list_button">
-                                <a href="../views/inicio.php" class="nav_link"><i class="fas fa-home"></i>Inicio</a>
-                            </div>
-                        </li>
 
-                        <li class="list_item list_item--click">
-                            <div class="list_button list_button--click">
-                                <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
-                            </div>
-                            <ul class="list_show">
-                                <li class="list_inside">
-                                    <a href="registro.php" class="nav_link nav_link--inside"><i class="fas fa-user-plus"></i>Registrar paciente</a>
+                    <nav>
+                        <div class="sidebar-content">
+                            <a href="empleado.php" class="empleado"><i class="fas fa-user"></i> <?php echo $_SESSION['nombreEmpleado'] . ' ' . $_SESSION['apellidoPaternoEmpleado']; ?></a>
+
+                            <!-- Elementos de la pagina de Trabajo social -->
+                            <?php if ($privilegio == 'TRABAJO_SOCIAL') { ?>
+                                <ul class="no-padding-menu">
+                                <li class="list_item">
+                                    <div class="list_button">
+                                        <a href="../views/inicio.php" class="nav_link"><i class="fas fa-home"></i>Inicio</a>
+                                    </div>
                                 </li>
-                                <li class="list_inside">
-                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar paciente</a>
-                                </li>
-                                <li class="list_inside">
-                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
+
+                                <li class="list_item list_item--click">
+                                    <div class="list_button list_button--click">
+                                        <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
+                                    </div>
+                                    <ul class="list_show">
+                                        <li class="list_inside">
+                                            <a href="registro.php" class="nav_link nav_link--inside"><i class="fas fa-user-plus"></i>Registrar paciente</a>
+                                        </li>
+                                        <li class="list_inside">
+                                            <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar paciente</a>
+                                        </li>
+                                        <li class="list_inside">
+                                            <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
+                                        </li>
+                                        
+                                    </ul>
                                 </li>
                                 
-                            </ul>
-                        </li>
-                        
 
-                        <li class="list_item">
-                            <div class="list_button">
-                                <a href="#" class="nav_link"><i class="fas fa-envelope"></i>Contacto</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <?php }; ?>
-
-
-                    <!-- Elementos de la pagina de ADMIN -->
-                    <?php if ($privilegio == 'ADMIN') { ?>
-                        <ul class="no-padding-menu">
-                        <li class="list_item">
-                            <div class="list_button">
-                                <a href="../views/inicio.php" class="nav_link"><i class="fas fa-home"></i>Inicio</a>
-                            </div>
-                        </li>
-
-                        <li class="list_item list_item--click">
-                            <div class="list_button list_button--click">
-                                <a class="nav_link"><i class="fas fa-briefcase"></i>Empleados<i class="fas fa-chevron-down arrow"></i></a>
-                            </div>
-                            <ul class="list_show">
-                                <li class="list_inside">
-                                    <a href="registroEmpleado.php" class="nav_link nav_link--inside"><i class="fas fa-user-plus"></i>Registrar empleado</a>
-                                </li>
-                                <li class="list_inside">
-                                    <a href="consultarEmpleado.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar empleado</a>
+                                <li class="list_item">
+                                    <div class="list_button">
+                                        <a href="#" class="nav_link"><i class="fas fa-envelope"></i>Contacto</a>
+                                    </div>
                                 </li>
                             </ul>
-                        </li>
+                            <?php }; ?>
 
-                        <li class="list_item list_item--click">
-                            <div class="list_button list_button--click">
-                                <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
-                            </div>
-                            <ul class="list_show">
-                                <li class="list_inside">
-                                    <a href="registro.php" class="nav_link nav_link--inside"><i class="fas fa-user-plus"></i>Registrar paciente</a>
+
+                            <!-- Elementos de la pagina de ADMIN -->
+                            <?php if ($privilegio == 'ADMIN') { ?>
+                                <ul class="no-padding-menu">
+                                <li class="list_item">
+                                    <div class="list_button">
+                                        <a href="../views/inicio.php" class="nav_link"><i class="fas fa-home"></i>Inicio</a>
+                                    </div>
                                 </li>
-                                <li class="list_inside">
-                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar paciente</a>
+
+                                <li class="list_item list_item--click">
+                                    <div class="list_button list_button--click">
+                                        <a class="nav_link"><i class="fas fa-briefcase"></i>Empleados<i class="fas fa-chevron-down arrow"></i></a>
+                                    </div>
+                                    <ul class="list_show">
+                                        <li class="list_inside">
+                                            <a href="registroEmpleado.php" class="nav_link nav_link--inside"><i class="fas fa-user-plus"></i>Registrar empleado</a>
+                                        </li>
+                                        <li class="list_inside">
+                                            <a href="consultarEmpleado.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar empleado</a>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <li class="list_inside">
-                                    <a href="ingresos.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
+
+                                <li class="list_item list_item--click">
+                                    <div class="list_button list_button--click">
+                                        <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
+                                    </div>
+                                    <ul class="list_show">
+                                        <li class="list_inside">
+                                            <a href="registro.php" class="nav_link nav_link--inside"><i class="fas fa-user-plus"></i>Registrar paciente</a>
+                                        </li>
+                                        <li class="list_inside">
+                                            <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar paciente</a>
+                                        </li>
+                                        <li class="list_inside">
+                                            <a href="ingresos.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
+                                <li class="list_item">
+                                    <div class="list_button">
+                                        <a href="configuracion.php" class="nav_link"><i class="fa-solid fa-gear"></i></i>Configuracion</a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                            <?php }; ?>
+
+                            <!-- Elementos de la pagina de ENFERMERA -->
+                            <?php if ($privilegio == 'ENFERMERA') { ?>
+                                <ul class="no-padding-menu">
+                                <li class="list_item">
+                                    <div class="list_button">
+                                        <a href="../views/inicio.php" class="nav_link"><i class="fas fa-home"></i>Inicio</a>
+                                    </div>
+                                </li>
+
+                                <li class="list_item list_item--click">
+                                    <div class="list_button list_button--click">
+                                        <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
+                                    </div>
+                                    <ul class="list_show">
+                                        <li class="list_inside">
+                                            <a href="registro.php" class="nav_link nav_link--inside"><i class="fas fa-user-plus"></i>Registrar paciente</a>
+                                        </li>
+                                        <li class="list_inside">
+                                            <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar paciente</a>
+                                        </li>
+                                        <li class="list_inside">
+                                            <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
+
+                                <li class="list_item">
+                                    <div class="list_button">
+                                        <a href="#" class="nav_link"><i class="fas fa-envelope"></i>Contacto</a>
+                                    </div>
                                 </li>
                             </ul>
-                        </li>
-                        
-                        <li class="list_item">
-                            <div class="list_button">
-                                <a href="configuracion.php" class="nav_link"><i class="fa-solid fa-gear"></i></i>Configuracion</a>
-                            </div>
-                        </li>
+                            <?php }; ?>
 
-                    </ul>
-                    <?php }; ?>
 
-                    <!-- Elementos de la pagina de ENFERMERA -->
-                    <?php if ($privilegio == 'ENFERMERA') { ?>
-                        <ul class="no-padding-menu">
-                        <li class="list_item">
-                            <div class="list_button">
-                                <a href="../views/inicio.php" class="nav_link"><i class="fas fa-home"></i>Inicio</a>
-                            </div>
-                        </li>
-
-                        <li class="list_item list_item--click">
-                            <div class="list_button list_button--click">
-                                <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
-                            </div>
-                            <ul class="list_show">
-                                <li class="list_inside">
-                                    <a href="registro.php" class="nav_link nav_link--inside"><i class="fas fa-user-plus"></i>Registrar paciente</a>
+                            <!-- Elementos de la pagina de DOCTOR -->
+                            <?php if ($privilegio == 'DOCTOR') { ?>
+                                <ul class="no-padding-menu">
+                                <li class="list_item">
+                                    <div class="list_button">
+                                        <a href="../views/inicio.php" class="nav_link"><i class="fas fa-home"></i>Inicio</a>
+                                    </div>
                                 </li>
-                                <li class="list_inside">
-                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar paciente</a>
-                                </li>
-                                <li class="list_inside">
-                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
-                                </li>
-                            </ul>
-                        </li>
-                        
 
-                        <li class="list_item">
-                            <div class="list_button">
-                                <a href="#" class="nav_link"><i class="fas fa-envelope"></i>Contacto</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <?php }; ?>
-
-
-                    <!-- Elementos de la pagina de DOCTOR -->
-                    <?php if ($privilegio == 'DOCTOR') { ?>
-                        <ul class="no-padding-menu">
-                        <li class="list_item">
-                            <div class="list_button">
-                                <a href="../views/inicio.php" class="nav_link"><i class="fas fa-home"></i>Inicio</a>
-                            </div>
-                        </li>
-
-                        <li class="list_item list_item--click">
-                            <div class="list_button list_button--click">
-                                <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
-                            </div>
-                            <ul class="list_show">
-                                <li class="list_inside">
-                                    <a href="registro.php" class="nav_link nav_link--inside"><i class="fas fa-user-plus"></i>Registrar paciente</a>
+                                <li class="list_item list_item--click">
+                                    <div class="list_button list_button--click">
+                                        <a class="nav_link"><i class="fa-solid fa-hospital-user"></i>Pacientes<i class="fas fa-chevron-down arrow"></i></a>
+                                    </div>
+                                    <ul class="list_show">
+                                        <li class="list_inside">
+                                            <a href="registro.php" class="nav_link nav_link--inside"><i class="fas fa-user-plus"></i>Registrar paciente</a>
+                                        </li>
+                                        <li class="list_inside">
+                                            <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar paciente</a>
+                                        </li>
+                                        <li class="list_inside">
+                                            <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <li class="list_inside">
-                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar paciente</a>
-                                </li>
-                                <li class="list_inside">
-                                    <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
+                                
+
+                                <li class="list_item">
+                                    <div class="list_button">
+                                        <a href="#" class="nav_link"><i class="fas fa-envelope"></i>Contacto</a>
+                                    </div>
                                 </li>
                             </ul>
-                        </li>
-                        
+                            <?php }; ?>
+                        </div>
+                    </nav>
 
-                        <li class="list_item">
-                            <div class="list_button">
-                                <a href="#" class="nav_link"><i class="fas fa-envelope"></i>Contacto</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <?php }; ?>
-
-                </nav>
-                <button class="cerrar-sesion" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
+                    
+                    <button class="cerrar-sesion" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
                 <!-- <a href="../controladores/CerrarSesion.php" class="cerrar-sesion" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a> -->
             </div>
         </div>

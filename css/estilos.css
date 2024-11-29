@@ -84,7 +84,6 @@ body {
 
 
 /*ESTILOS PARA EL NAVBAR LATERAL Y DE TODO LO RELACIONADO CON ESO*/
-
 .container-menu {
     position: fixed;
     top: 0;
@@ -97,14 +96,14 @@ body {
     flex-direction: column;
     justify-content: space-between;
     padding-top: 70px;
-}
-
-.cont-menu {
+  }
+  
+  .cont-menu {
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 100%;
-}
+  }
 
 .cont-menu nav {
     flex-grow: 1;
@@ -211,14 +210,44 @@ body {
     margin-bottom: 3px;
 }
 
-.cerrar-sesion {
+.sidebar-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: calc(100vh - 70px - 50px); /* Ajusta esto según la altura del header y el botón de cerrar sesión */
+  }
+  
+  /* Estilo para la barra de desplazamiento */
+  .sidebar-content::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .sidebar-content::-webkit-scrollbar-track {
+    background: #555;
+  }
+  
+  .sidebar-content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  .sidebar-content::-webkit-scrollbar-thumb:hover {
+    background: #999;
+  }
+  
+  /* Para navegadores Firefox */
+  .sidebar-content {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #555;
+  }
+
+  .cerrar-sesion {
     padding: 15px 20px;
     color: white;
     text-decoration: none;
     font-size: 16px;
     background-color: #555;
     text-align: center;
-}
+  }
 
 .cerrar-sesion:hover {
     background-color: rgba(0, 0, 0, 0.3);
