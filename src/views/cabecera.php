@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital del niño</title>
+    <title>Hospital Municipal del Niño</title>
     <link rel="stylesheet" href="../../css/estilos.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../../css/inicio.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../../css/pacientes.css?v=<?php echo time(); ?>">
@@ -57,7 +57,7 @@ include('../controladores/sesion.php');
                 <div class="logo">
                     <a href="inicio.php" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
                         <img src="../uploads/logo.png" style="max-width: 100px; max-height: 50px;">
-                        <h1 class="centered-h1">Hospital del niño</h1>
+                        <h1 class="centered-h1">Hospital Municipal del Niño</h1>
                     </a>
                 </div>
                 <nav class="menu">

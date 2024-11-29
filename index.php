@@ -21,7 +21,7 @@
             <img src="img/Hospital Municipal del Niño de Durango.jpeg" alt="Imagen del hospital">
         </div>
         <div class="right-panel">
-            <h2>Hospital del Niño</h2>
+            <h2>Hospital Municipal del Niño</h2>
             <p>Durango, Dgo.</p>
             <form action="src/controladores/controlador_index.php" method="POST">
 
