@@ -30,23 +30,23 @@ try {
         if ($dia < 0) $dia = 6;       // Mueve el domingo al final
         $arregloIngresos[$dia] = $row['totalIngresos'];
     }
-
-    // Muestra alerta de éxito y envía la respuesta en formato JSON
-    echo "<html><head>
-            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-          </head><body>
-          <script>
-              Swal.fire({
-                  title: 'Éxito',
-                  text: 'Datos de ingresos procesados correctamente',
-                  icon: 'success',
-                  confirmButtonText: 'Aceptar'
-              }).then(() => {
-                  // Devuelve la respuesta JSON
-                  console.log(" . json_encode($arregloIngresos) . ");
-              });
-          </script>
-          </body></html>";
+    echo json_encode($arregloIngresos);
+    // // Muestra alerta de éxito y envía la respuesta en formato JSON
+    // echo "<html><head>
+    //         <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    //       </head><body>
+    //       <script>
+    //           Swal.fire({
+    //               title: 'Éxito',
+    //               text: 'Datos de ingresos procesados correctamente',
+    //               icon: 'success',
+    //               confirmButtonText: 'Aceptar'
+    //           }).then(() => {
+    //               // Devuelve la respuesta JSON
+    //               console.log(" . json_encode($arregloIngresos) . ");
+    //           });
+    //       </script>
+    //       </body></html>";
 
 } catch (Exception $e) {
     // Muestra alerta de error
