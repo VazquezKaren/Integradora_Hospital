@@ -25,23 +25,23 @@ include('cabecera.php');
                                 <label for="apellido_materno">Apellido Materno:</label>
                                 <input type="text" id="apellido_materno" name="apellido_materno" required>
                             </div>
+                        </div>
+                        <!-- numero de CURP de paciente faltante en el insert -->
+                        <div class="form-row">
                             <div class="form-group">
                                 <label for="fecha_nacimiento">Fecha de nacimiento:</label>
                                 <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
                             </div>
-                        </div>
-                        <!-- numero de registro de paciente faltante en el insert -->
-                        <div class="form-row">
                             <div class="form-group">
-                                <label for="no_registro">No.Registro</label>
-                                <input type="text" id="no_registro" name="no_registro" required>
+                                <label for="CURP">CURP</label>
+                                <input type="text" id="CURP" name="CURP" required>
                             </div>
-                        </div>
-                        <div class="form-row">
                             <div class="form-group">
                                 <label for="edad">Edad:</label>
                                 <input type="number" id="edad" name="edad" min="0" required>
                             </div>
+                        </div>
+                        <div class="form-row">
                             <div class="form-group">
                                 <label for="sexo">Sexo:</label>
                                 <select id="sexo" name="sexo" required>
