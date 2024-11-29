@@ -42,8 +42,6 @@ try {
                     text: 'La contraseña se ha cambiado correctamente.',
                     icon: 'success',
                     confirmButtonText: 'Aceptar'
-                }).then(() => {
-                    window.location.href = '../views/empleado.php';
                 });
             </script>";
             exit();
