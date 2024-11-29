@@ -8,6 +8,8 @@ if (isset($_POST['busqueda'])) {
     $busqueda = $_POST['busqueda'];
 
     $sql = "SELECT 
+        paciente.noRegistro as no_registro,
+        paciente.curp AS paciente_CURP,
         paciente.nombres AS paciente_nombres, 
         paciente.apellidoPaterno AS paciente_apellidoPaterno, 
         paciente.apellidoMaterno AS paciente_apellidoMaterno, 
@@ -43,7 +45,7 @@ if (isset($_POST['busqueda'])) {
         tutor.indiceEconomico AS tutor_indiceEconomico
     FROM paciente
     LEFT JOIN tutor ON paciente.idPaciente = tutor.fkidPaciente
-    WHERE paciente.noRegistro = :busqueda";
+    WHERE paciente.curp = :busqueda";
 
     try {
         $connObj = new conn();

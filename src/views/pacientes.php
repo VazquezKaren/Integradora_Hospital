@@ -3,7 +3,14 @@
 include('cabecera.php'); 
 include('../controladores/mostrar_informacion_pacientes.php')
 ?>
+    
+<style>
+  input:focus {
+    outline: none; 
+  }
+</style>
 
+<input type="text" placeholder="Haz clic aquí">
 
     <script src="../../JS/funciones.js"></script>
 
@@ -109,6 +116,18 @@ include('../controladores/mostrar_informacion_pacientes.php')
                                     <?php endif; ?>
                                 </select>
                             </div>
+                        </div>
+                        <div class="form-row">
+            
+                            <div class="form-group">
+                                <label for="paciente_CURP">CURP: </label>
+                                <input type="text" name="paciente_CURP" id="paciente_CURP" value="<?php echo $data['paciente_CURP'] ?? ''; ?>" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="no_registro">No.Registro</label>
+                                <input type="text" id="no_registro" name="no_registro" value="<?php echo $data['no_registro'] ?? ''; ?>" readonly>
+                            </div>
+                           
                         </div>
                         <hr>
 
