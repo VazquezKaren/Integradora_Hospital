@@ -49,7 +49,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                 </div>
                 <div id="paciente" class="tab-content active">
                     <h2>Datos personales del paciente</h2>
-                    <form action="">
+                    <form method="post">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nombre">Nombre(s):</label>
@@ -194,7 +194,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
 
 
                     <h2>Datos del Responsable</h2>
-                    <form action="">
+                    <form method="post">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nombre_responsable">Nombre(s):</label>

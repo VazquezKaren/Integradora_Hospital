@@ -101,8 +101,10 @@ try {
 
     $conn->commit();
     echo json_encode(['success' => true, 'message' => 'Datos del tutor actualizados correctamente.']);
+    exit;
 } catch (Exception $e) {
     $conn->rollBack();
     echo json_encode(['success' => false, 'message' => 'Error al actualizar los datos del tutor: ' . $e->getMessage()]);
+    exit;
 }
 ?>
