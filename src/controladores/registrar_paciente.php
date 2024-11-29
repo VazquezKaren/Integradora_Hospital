@@ -1,131 +1,220 @@
 <?php
-// Establecer zona horaria
-date_default_timezone_set('America/Mexico_City');
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+include '../config.php';
+session_start();
 
-include('../config.php');
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Inicializar un arreglo para almacenar errores de validación
+    $errores = [];
 
-try {
-    $connObj = new conn();
-    $pdo = $connObj->connect();
+    // Validar y sanitizar los datos del formulario
+    $nombre = trim($_POST['nombre'] ?? '');
+    $apellido_paterno = trim($_POST['apellido_paterno'] ?? '');
+    $apellido_materno = trim($_POST['apellido_materno'] ?? '');
+    $fecha_nacimiento = $_POST['fecha_nacimiento'] ?? '';
+    $edad = $_POST['edad'] ?? '';
+    $sexo = strtoupper($_POST['sexo'] ?? '');
+    $curp = trim($_POST['curp'] ?? '');
+    $paciente_pais = trim($_POST['paciente_pais'] ?? '');
+    $paciente_estado = trim($_POST['paciente_estado'] ?? '');
+    $paciente_municipio = trim($_POST['paciente_municipio'] ?? '');
+    $direccion_calle = trim($_POST['direccion_calle'] ?? '');
+    $direccion_numero = trim($_POST['direccion_numero'] ?? '');
+    $direccion_colonia = trim($_POST['direccion_colonia'] ?? '');
+    $derechohabiente = trim($_POST['derechohabiente'] ?? '');
+    $dx = trim($_POST['dx'] ?? '');
+    $observaciones = trim($_POST['observaciones'] ?? '');
+    $servicio_solicitado = trim($_POST['servicio_solicitado'] ?? '');
+    $motivo = trim($_POST['motivo'] ?? '');
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Recolección de datos desde el formulario
-        $no_registro = htmlspecialchars($_POST['no_registro']);
-        $curp = htmlspecialchars($_POST['CURP']);
-        $nombres = htmlspecialchars($_POST['nombre']);
-        $apellido_paterno = htmlspecialchars($_POST['apellido_paterno']);
-        $apellido_materno = htmlspecialchars($_POST['apellido_materno']);
-        $fecha_nacimiento = htmlspecialchars($_POST['fecha_nacimiento']);
-        $paciente_pais = htmlspecialchars($_POST['paciente_pais']);
-        $paciente_estado = htmlspecialchars($_POST['paciente_estado']);
-        $paciente_municipio = htmlspecialchars($_POST['paciente_municipio']);
-        $edad = htmlspecialchars($_POST['edad']);
-        $sexo = htmlspecialchars($_POST['sexo']);
-        $direccion_calle = htmlspecialchars($_POST['direccion_calle']);
-        $direccion_numero = htmlspecialchars($_POST['direccion_numero']);
-        $direccion_colonia = htmlspecialchars($_POST['direccion_colonia']);
-        $derechohabiente = htmlspecialchars($_POST['derechohabiente']);
-        $dx = htmlspecialchars($_POST['dx']);
-        $observaciones = htmlspecialchars($_POST['observaciones']);
-        $status = 1; // Nuevo campo
+    // Datos del tutor (responsable)
+    $responsable_nombre = trim($_POST['responsable_nombre'] ?? '');
+    $responsable_apellido_paterno = trim($_POST['responsable_apellido_paterno'] ?? '');
+    $responsable_apellido_materno = trim($_POST['responsable_apellido_materno'] ?? '');
+    $parentesco = strtoupper($_POST['parentesco'] ?? '');
+    $telefono = trim($_POST['telefono'] ?? '');
+    $ocupacion = trim($_POST['ocupacion'] ?? '');
+    $responsable_pais = trim($_POST['responsable_pais'] ?? '');
+    $responsable_estado = trim($_POST['responsable_estado'] ?? '');
+    $responsable_municipio = trim($_POST['responsable_municipio'] ?? '');
+    $responsable_direccion_calle = trim($_POST['responsable_direccion_calle'] ?? '');
+    $responsable_direccion_numero = trim($_POST['responsable_direccion_numero'] ?? '');
+    $responsable_direccion_colonia = trim($_POST['responsable_direccion_colonia'] ?? '');
+    $personas_hogar = $_POST['personas_hogar'] ?? '';
+    $personas_apoyo = $_POST['personas_apoyo'] ?? '';
+    $indice_economico = strtoupper($_POST['indice_economico'] ?? '');
+    $clasificacion_trabajo_social = strtoupper($_POST['clasificacion_trabajo_social'] ?? '');
+    $total_ingresos = $_POST['total_ingresos'] ?? '';
+    $total_egresos = $_POST['total_egresos'] ?? '';
 
-        $servicio_solicitado = htmlspecialchars($_POST['servicio_solicitado']);
-        $motivo = htmlspecialchars($_POST['motivo']);
+    // Validaciones
+    if (empty($nombre)) $errores[] = 'El nombre del paciente es obligatorio.';
+    if (empty($apellido_paterno)) $errores[] = 'El apellido paterno del paciente es obligatorio.';
+    if (empty($fecha_nacimiento)) $errores[] = 'La fecha de nacimiento es obligatoria.';
+    if (empty($curp)) $errores[] = 'El CURP es obligatorio.';
+    if (empty($sexo) || !in_array($sexo, ['MASCULINO', 'FEMENINO'])) $errores[] = 'El sexo es obligatorio y debe ser MASCULINO o FEMENINO.';
+    // Agregar más validaciones según sea necesario
 
-        // Fechas de ingreso/egreso
-        $fecha_ingreso = date('Y-m-d');
-        $hora_ingreso = date('H:i:s');
-        $fecha_egreso = null;
-        $hora_egreso = null;
-        $egreso = 0;
-        
+    // Validación del usuario en sesión
+    $fkIdUsuario = $_SESSION['idUsuario'] ?? null;
+    if (!$fkIdUsuario) {
+        $errores[] = 'No se pudo obtener el ID del usuario de la sesión.';
+    }
 
-        //tutor
-        $tutor_nombres = htmlspecialchars($_POST['tutor_nombres']);
-        $tutor_apellido_paterno = htmlspecialchars($_POST['tutor_apellido_paterno']);
-        $tutor_apellido_materno = htmlspecialchars($_POST['tutor_apellido_materno']);
-        $tutor_no_personas_hogar = htmlspecialchars($_POST['tutor_no_personas_hogar']);
-        $tutor_no_apoyan_economia = htmlspecialchars($_POST['tutor_no_apoyan_economia']);
-        $tutor_total_ingresos = htmlspecialchars($_POST['tutor_total_ingresos']);
-        $tutor_total_egresos = htmlspecialchars($_POST['tutor_total_egresos']);
-        $tutor_indice_economico = htmlspecialchars($_POST['tutor_indice_economico']);
-        $tutor_trabajo_social = htmlspecialchars($_POST['tutor_trabajo_social']);
-        $tutor_parentesco = htmlspecialchars($_POST['tutor_parentesco']);
-        $tutor_pais = htmlspecialchars($_POST['tutor_pais']);
-        $tutor_estado = htmlspecialchars($_POST['tutor_estado']);
-        $tutor_municipio = htmlspecialchars($_POST['tutor_municipio']);
-        $tutor_calle = htmlspecialchars($_POST['tutor_calle']);
-        $tutor_numero = htmlspecialchars($_POST['tutor_numero']);
-        $tutor_colonia = htmlspecialchars($_POST['tutor_colonia']);
-        $tutor_telefono = htmlspecialchars($_POST['tutor_telefono']);
-        $tutor_ocupacion = htmlspecialchars($_POST['tutor_ocupacion']);
+    if (count($errores) > 0) {
+        // Si hay errores, almacenarlos en la sesión y redirigir
+        $_SESSION['error_message'] = implode('<br>', $errores);
+        header('Location: ../views/registro.php');
+        exit;
+    }
 
+    try {
+        $conn = new conn();
+        $pdo = $conn->connect();
+
+        // Iniciar transacción
         $pdo->beginTransaction();
 
-        // Inserción en la tabla `paciente` con los nuevos campos
-        $sqlPaciente = "INSERT INTO paciente 
-            (noRegistro, curp, nombres, apellidoPaterno, apellidoMaterno, fechaNacimiento, pais, estado, municipio, edad, sexo, calleDireccion, numeroDireccion, coloniaDireccion, derechoHabiente, dx, observaciones, status) 
-            VALUES 
-            (:no_registro, :curp, :nombres, :apellido_paterno, :apellido_materno, :fecha_nacimiento, :paciente_pais, :paciente_estado, :paciente_municipio, :edad, :sexo, :direccion_calle, :direccion_numero, :direccion_colonia, :derechohabiente, :dx, :observaciones, :status)";
+        // Establecer status inicial (1 = activo)
+        $status = 1;
+
+        // Insertar en la tabla paciente
+        $sqlPaciente = "INSERT INTO paciente (
+            curp, nombres, apellidoPaterno, apellidoMaterno, fechaNacimiento, pais, estado, municipio,
+            sexo, edad, calleDireccion, numeroDireccion, coloniaDireccion, derechoHabiente, dx, observaciones, status
+        ) VALUES (
+            :curp, :nombres, :apellidoPaterno, :apellidoMaterno, :fechaNacimiento, :pais, :estado, :municipio,
+            :sexo, :edad, :calleDireccion, :numeroDireccion, :coloniaDireccion, :derechoHabiente, :dx, :observaciones, :status
+        )";
+
         $stmtPaciente = $pdo->prepare($sqlPaciente);
         $stmtPaciente->execute([
-            'no_registro' => $no_registro,
             'curp' => $curp,
-            'nombres' => $nombres,
-            'apellido_paterno' => $apellido_paterno,
-            'apellido_materno' => $apellido_materno,
-            'fecha_nacimiento' => $fecha_nacimiento,
-            'paciente_pais' => $paciente_pais,
-            'paciente_estado' => $paciente_estado,
-            'paciente_municipio' => $paciente_municipio,
-            'edad' => $edad,
+            'nombres' => $nombre,
+            'apellidoPaterno' => $apellido_paterno,
+            'apellidoMaterno' => $apellido_materno,
+            'fechaNacimiento' => $fecha_nacimiento,
+            'pais' => $paciente_pais,
+            'estado' => $paciente_estado,
+            'municipio' => $paciente_municipio,
             'sexo' => $sexo,
-            'direccion_calle' => $direccion_calle,
-            'direccion_numero' => $direccion_numero,
-            'direccion_colonia' => $direccion_colonia,
-            'derechohabiente' => $derechohabiente,
+            'edad' => $edad,
+            'calleDireccion' => $direccion_calle,
+            'numeroDireccion' => $direccion_numero,
+            'coloniaDireccion' => $direccion_colonia,
+            'derechoHabiente' => $derechohabiente,
             'dx' => $dx,
             'observaciones' => $observaciones,
-            'status' => $status,
+            'status' => $status
         ]);
 
-        // Obtener el ID del paciente recién insertado
+        // Obtener el ID del paciente insertado
         $idPaciente = $pdo->lastInsertId();
 
-        // Inserción en la tabla `ingresos`
-        $sqlIngresos = "INSERT INTO ingresos 
-            (fechaIngreso, horaIngreso, fechaEgreso, horaEgreso, egreso, motivo, servicioSolicita, fkIdPaciente) 
-            VALUES 
-            (:fechaIngreso, :horaIngreso, :fechaEgreso, :horaEgreso, :egreso, :motivo, :servicioSolicita, :fkIdPaciente)";
+        // Insertar en la tabla tutor
+        $sqlTutor = "INSERT INTO tutor (
+            nombres, apellidoPaterno, apellidoMaterno, noPersonasHogar, noPersonasApoyanEconomiaHogar,
+            totalIngresos, totalEgresos, indiceEconomico, trabajoSocial, parentesco, pais, estado, municipio,
+            calleDireccion, numeroDireccion, coloniaDireccion, telefono, ocupacion, fkIdPaciente
+        ) VALUES (
+            :nombres, :apellidoPaterno, :apellidoMaterno, :noPersonasHogar, :noPersonasApoyanEconomiaHogar,
+            :totalIngresos, :totalEgresos, :indiceEconomico, :trabajoSocial, :parentesco, :pais, :estado, :municipio,
+            :calleDireccion, :numeroDireccion, :coloniaDireccion, :telefono, :ocupacion, :fkIdPaciente
+        )";
+
+        $stmtTutor = $pdo->prepare($sqlTutor);
+        $stmtTutor->execute([
+            'nombres' => $responsable_nombre,
+            'apellidoPaterno' => $responsable_apellido_paterno,
+            'apellidoMaterno' => $responsable_apellido_materno,
+            'noPersonasHogar' => $personas_hogar,
+            'noPersonasApoyanEconomiaHogar' => $personas_apoyo,
+            'totalIngresos' => $total_ingresos,
+            'totalEgresos' => $total_egresos,
+            'indiceEconomico' => $indice_economico,
+            'trabajoSocial' => $clasificacion_trabajo_social,
+            'parentesco' => $parentesco,
+            'pais' => $responsable_pais,
+            'estado' => $responsable_estado,
+            'municipio' => $responsable_municipio,
+            'calleDireccion' => $responsable_direccion_calle,
+            'numeroDireccion' => $responsable_direccion_numero,
+            'coloniaDireccion' => $responsable_direccion_colonia,
+            'telefono' => $telefono,
+            'ocupacion' => $ocupacion,
+            'fkIdPaciente' => $idPaciente
+        ]);
+
+        // Datos para la tabla ingresos
+        $fechaIngreso = date('Y-m-d');
+        $horaIngreso = date('H:i:s');
+        $egreso = 0; // No ha egresado aún
+
+        // Determinar el turno basado en la hora actual
+        $horaActual = (int)date('H');
+        if ($horaActual >= 6 && $horaActual < 14) {
+            $turno = 'MATUTINO';
+        } elseif ($horaActual >= 14 && $horaActual < 22) {
+            $turno = 'VESPERTINO';
+        } else {
+            $turno = 'NOCTURNO';
+        }
+
+        // Insertar en la tabla ingresos
+        $sqlIngresos = "INSERT INTO ingresos (
+            fechaIngreso, horaIngreso, egreso, motivo, servicioSolicita, turno, fkIdPaciente, fkIdUsuario
+        ) VALUES (
+            :fechaIngreso, :horaIngreso, :egreso, :motivo, :servicioSolicita, :turno, :fkIdPaciente, :fkIdUsuario
+        )";
+
         $stmtIngresos = $pdo->prepare($sqlIngresos);
         $stmtIngresos->execute([
-            'fechaIngreso' => $fecha_ingreso,
-            'horaIngreso' => $hora_ingreso,
-            'fechaEgreso' => $fecha_egreso,
-            'horaEgreso' => $hora_egreso,
+            'fechaIngreso' => $fechaIngreso,
+            'horaIngreso' => $horaIngreso,
             'egreso' => $egreso,
             'motivo' => $motivo,
             'servicioSolicita' => $servicio_solicitado,
+            'turno' => $turno,
             'fkIdPaciente' => $idPaciente,
+            'fkIdUsuario' => $fkIdUsuario
         ]);
 
+        // Confirmar la transacción
         $pdo->commit();
 
-        echo "<script>
-                alert('Paciente y registro de ingreso guardados correctamente');
-                window.location.href = '../views/registro.php';
-                </script>";
+        // Establecer mensaje de éxito y redirigir
+        $_SESSION['success_message'] = 'Paciente registrado exitosamente.';
+        header('Location: ../views/registro.php');
+        exit;
+    } catch (PDOException $e) {
+        // Revertir la transacción en caso de error
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+
+        // Registrar el error en un archivo de log (opcional)
+        error_log('Error en la base de datos: ' . $e->getMessage());
+
+        // Establecer mensaje de error y redirigir
+        $_SESSION['error_message'] = 'Error al registrar el paciente. Por favor, inténtelo de nuevo más tarde.';
+        header('Location: ../views/registro.php');
+        exit;
+    } catch (Exception $e) {
+        // Revertir la transacción en caso de error
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+
+        // Registrar el error en un archivo de log (opcional)
+        error_log('Error general: ' . $e->getMessage());
+
+        // Establecer mensaje de error y redirigir
+        $_SESSION['error_message'] = 'Error al registrar el paciente. Por favor, inténtelo de nuevo más tarde.';
+        header('Location: ../views/registro.php');
+        exit;
     }
-} catch (Exception $e) {
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
-    echo "<script>
-            alert('Error en el registro: " . addslashes($e->getMessage()) . "');
-            window.location.href = '../views/registro.php';
-            </script>";
+} else {
+    // Método no permitido
+    $_SESSION['error_message'] = 'Método no permitido.';
+    header('Location: ../views/registro.php');
+    exit;
 }
-?>
