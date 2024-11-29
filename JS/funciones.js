@@ -444,6 +444,53 @@ function confirmarCambio(event) {
     }
 }
 
+function confirmarEliminacionPaciente() {
+    Swal.fire({
+        title: '¿Está seguro?',
+        text: 'Esta acción eliminará al paciente de forma permanente.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarPaciente();
+        }
+    });
+}
+
+function eliminarPaciente() {
+    const curp = document.getElementById('paciente_CURP').value;
+    if (!curp) {
+        Swal.fire('Error', 'No se encontró el CURP del paciente.', 'error');
+        return;
+    }
+
+    fetch('../controladores/eliminar_paciente.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'curp=' + encodeURIComponent(curp)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire('Eliminado', data.message, 'success').then(() => {
+                    // Redirigir o actualizar la página
+                    window.location.href = 'pacientes.php';
+                });
+            } else {
+                Swal.fire('Error', data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Error', 'Ocurrió un error al eliminar el paciente.', 'error');
+        });
+}
+
+
 
 function toggleEspecialidad() {
     const rol = document.getElementById("rol").value;
