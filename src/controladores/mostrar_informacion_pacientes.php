@@ -45,14 +45,15 @@ if (isset($_POST['busqueda'])) {
         tutor.indiceEconomico AS tutor_indiceEconomico
     FROM paciente
     LEFT JOIN tutor ON paciente.idPaciente = tutor.fkidPaciente
-    WHERE paciente.curp = :busqueda";
+    WHERE paciente.curp = :curp OR paciente.noRegistro = :noRegistro";
 
     try {
         $connObj = new conn();
         $conn = $connObj->connect();
 
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":busqueda", $busqueda, PDO::PARAM_INT);
+        $stmt->bindParam(":curp", $busqueda, PDO::PARAM_STR);
+        $stmt->bindParam(":noRegistro", $busqueda, PDO::PARAM_STR);
         $stmt->execute();
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
