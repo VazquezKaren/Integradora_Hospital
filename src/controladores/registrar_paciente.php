@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   });
               </script>";
         exit;
-    }
+    }    
 
     try {
         $conn = new conn();
@@ -189,32 +189,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Confirmar la transacción
         $pdo->commit();
 
-        // Mensaje de éxito usando SweetAlert2
-        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-              <script>
-                  Swal.fire({
-                      icon: 'success',
-                      title: 'Registro exitoso',
-                      text: 'La información del paciente ha sido guardada correctamente.',
-                      confirmButtonText: 'OK'
-                  }).then(() => {
-                      window.location.href = '../views/registro.php';
-                  });
-              </script>";
+        echo json_encode(['success' => true, 'message' => 'Paciente registrado exitosamente.']);
+        
+        exit;
     } catch (PDOException $e) {
-        // En caso de error, revertir la transacción
-        $pdo->rollBack();
-        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-              <script>
-                  Swal.fire({
-                      icon: 'error',
-                      title: 'Error',
-                      text: 'Hubo un problema al guardar la información: " . addslashes($e->getMessage()) . "',
-                      confirmButtonText: 'OK'
-                  }).then(() => {
-                      window.location.href = '../views/registro.php';
-                  });
-              </script>";
+        // Revertir la transacción en caso de error
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+
+        // Registrar el error en un archivo de log (opcional)
+        error_log('Error en la base de datos: ' . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error al registrar el paciente. Por favor, inténtalo de nuevo más tarde.']);
+
+        exit;
+    } catch (Exception $e) {
+        // Revertir la transacción en caso de error
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+
+        // Registrar el error en un archivo de log (opcional)
+        error_log('Error general: ' . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error al registrar el paciente. Por favor, inténtalo de nuevo más tarde.']);
+
+        exit;
     }
+} else {
+    // Método no permitido
+    echo json_encode(['success' => false, 'message' => 'Método no permitido.']);
+
+    $_SESSION['error_message'] = 'Método no permitido.';
+    header('Location: ../views/registro.php');
+    exit;
 }
 ?>

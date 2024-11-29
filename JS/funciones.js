@@ -377,60 +377,55 @@ function eliminarEmpleado(idEmpleado) {
         });
 }
 
-function guardarCambios(contexto) {
-    const datos = new FormData();
+function handleFormSubmission(event) {
+    event.preventDefault(); // Prevenir el envío por defecto del formulario
 
-    const curp = document.getElementById('busqueda').value;
-    if (curp) {
-        datos.append('curp', curp);
-    } else {
-        alert('No. de registro del paciente no encontrado.');
-        return;
-    }
+    const form = event.target; // Obtener el formulario
+    const formData = new FormData(form); // Recopilar los datos del formulario
 
-    const camposPaciente = [
-        'nombre', 'apellido_p', 'apellido_m', 'fecha_nacimiento', 'paciente_edad', 'sexo',
-        'paciente_pais', 'paciente_estado', 'paciente_municipio', 'calle', 'numero', 'colonia',
-        'derechoHabiente', 'dx', 'observaciones'
-    ];
-
-    const camposResponsable = [
-        'nombre_responsable', 'apellido_p_responsable', 'apellido_m_responsable',
-        'parentesco', 'telefono', 'ocupacion', 'tutor_pais', 'tutor_estado',
-        'tutor_municipio', 'calle_responsable', 'numero_responsable', 'colonia_responsable',
-        'personas_hogar', 'personas_apoyo', 'indice_economico', 'ingresos', 'egresos'
-    ];
-
-    const campos = contexto === 'paciente' ? camposPaciente : camposResponsable;
-
-    campos.forEach(campo => {
-        const elemento = document.getElementById(campo);
-        if (elemento) {
-            datos.append(campo, elemento.value);
-        }
-    });
-
-    const controlador = contexto === 'paciente' ? '../controladores/modificar_paciente.php' : '../controladores/modificar_responsable.php';
-
-    fetch(controlador, {
-        method: 'POST',
-        body: datos
+    // Enviar los datos del formulario mediante fetch
+    fetch(form.action, {
+        method: form.method,
+        body: formData
     })
-        .then(response => response.json().catch(() => ({ success: false, message: 'Respuesta inválida del servidor' })))
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la red: ' + response.statusText);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
-                alert(data.message);
-                deshabilitarEdicion(contexto);
-
-                window.location.reload();
+                // Mostrar alerta de éxito
+                Swal.fire({
+                    title: 'Éxito',
+                    text: data.message,
+                    icon: 'success'
+                }).then(() => {
+                    // Opcional: redirigir o resetear el formulario
+                    form.reset();
+                });
             } else {
-                alert(data.message || 'Error al actualizar los datos.');
-                console.error('Error:', data.message);
+                // Mostrar alerta de error
+                let errorMessage = data.message || 'Ocurrió un error.';
+                if (data.errors && data.errors.length > 0) {
+                    errorMessage = data.errors.join('\n');
+                }
+                Swal.fire({
+                    title: 'Error',
+                    text: errorMessage,
+                    icon: 'error'
+                });
             }
         })
         .catch(error => {
-            console.error(`Error al guardar los cambios (${contexto}):`, error);
-            alert("Ocurrió un error al guardar los cambios. Por favor, intenta de nuevo.");
+            // Manejar errores de red u otros
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Ocurrió un error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.',
+                icon: 'error'
+            });
         });
 }
 
@@ -498,4 +493,49 @@ function validarContrasenas() {
 //  cancelar cambio de contraseña
 function cancelarCambio() {
     window.location.href = "empleado.php";
+}
+
+function handleFormSubmission(event) {
+    event.preventDefault(); // Prevenir el envío por defecto del formulario
+
+    const form = event.target; // Obtener el formulario
+    const formData = new FormData(form); // Recopilar los datos del formulario
+
+    // Enviar los datos del formulario mediante fetch
+    fetch(form.action, {
+        method: form.method,
+        body: formData
+    })
+        .then(response => response.json()) // Asumimos que el servidor devuelve JSON
+        .then(data => {
+            if (data.success) {
+                // Mostrar alerta de éxito
+                Swal.fire({
+                    title: 'Éxito',
+                    text: data.message,
+                    icon: 'success'
+                }).then(() => {
+                    // Opcional: redirigir o resetear el formulario
+                    form.reset();
+                });
+            } else {
+                // Mostrar alerta de error
+                Swal.fire({
+                    title: 'Error',
+                    text: data.message,
+                    icon: 'error'
+                });
+            }
+        })
+        .catch(error => {
+            // Manejar errores de red u otros
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Ocurrió un error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.',
+                icon: 'error'
+            });
+        });
+
+    return false; // Prevenir el envío por defecto del formulario
 }
