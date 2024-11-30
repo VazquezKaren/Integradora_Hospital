@@ -182,7 +182,6 @@ try {
 
     // Vincular los mismos parámetros
     foreach ($params as $key => $value) {
-        // Evitar vincular los parámetros de paginación en la consulta de conteo
         if ($key !== ':limit' && $key !== ':offset') {
             $stmtCount->bindValue($key, $value);
         }
@@ -195,9 +194,24 @@ try {
     $paginas_totales = ceil($rowCount / $registros_por_pagina);
 
 } catch (\Throwable $th) {
-    echo "<script>
-            alert('Error en la obtención de los registros: " . addslashes($th->getMessage()) . "');
-            window.location.href = '../views/registro.php';
-            </script>";
+    // Manejo de error con SweetAlert2
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          <script>
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error en la obtención de los registros',
+                  text: '" . addslashes($th->getMessage()) . "',
+                  confirmButtonText: 'OK'
+              }).then(() => {
+                  window.location.href = '../views/ingresos.php';
+              });
+          </script>";
+    exit();
+}
+
+// Mostrar datos
+foreach ($ingresos as $ingreso) {
+    echo "Nombre: " . htmlspecialchars($ingreso['nombrePaciente']);
+    // Aquí agregar más información de cada ingreso
 }
 ?>

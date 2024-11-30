@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include '../config.php'; 
+include '../config.php';
 $database = new conn();
 $conn = $database->connect();
 
@@ -101,8 +101,10 @@ try {
 
     $conn->commit();
     echo json_encode(['success' => true, 'message' => 'Datos del tutor actualizados correctamente.']);
+    exit;
 } catch (Exception $e) {
     $conn->rollBack();
     echo json_encode(['success' => false, 'message' => 'Error al actualizar los datos del tutor: ' . $e->getMessage()]);
+    exit;
 }
 ?>

@@ -21,9 +21,17 @@ try {
 
 } catch (Exception $e) {
     $pdo->rollBack();
-    echo "<script>
-        alert('Error en el registro: " . addslashes($e->getMessage()) . "');
-        window.location.href = '../views/registroEmpleado.php';
+    echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error en el registro: " . addslashes($e->getMessage()) . "'
+        }).then(() => {
+            window.location.href = '../views/registroEmpleado.php';
+        });
     </script>";
 }
 ?>

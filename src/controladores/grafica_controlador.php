@@ -30,14 +30,40 @@ try {
         if ($dia < 0) $dia = 6;       // Mueve el domingo al final
         $arregloIngresos[$dia] = $row['totalIngresos'];
     }
-
-    // Envía la respuesta en formato JSON
     echo json_encode($arregloIngresos);
+    // // Muestra alerta de éxito y envía la respuesta en formato JSON
+    // echo "<html><head>
+    //         <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    //       </head><body>
+    //       <script>
+    //           Swal.fire({
+    //               title: 'Éxito',
+    //               text: 'Datos de ingresos procesados correctamente',
+    //               icon: 'success',
+    //               confirmButtonText: 'Aceptar'
+    //           }).then(() => {
+    //               // Devuelve la respuesta JSON
+    //               console.log(" . json_encode($arregloIngresos) . ");
+    //           });
+    //       </script>
+    //       </body></html>";
 
 } catch (Exception $e) {
-    echo json_encode([
-        "error" => true,
-        "message" => $e->getMessage()
-    ]);
+    // Muestra alerta de error
+    echo "<html><head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          </head><body>
+          <script>
+              Swal.fire({
+                  title: 'Error',
+                  text: 'Ocurrió un error al procesar los datos: " . addslashes($e->getMessage()) . "',
+                  icon: 'error',
+                  confirmButtonText: 'Aceptar'
+              }).then(() => {
+                  // Redirige a otra página si es necesario o muestra el error
+                  window.location.href = '../views/ingresos.php';
+              });
+          </script>
+          </body></html>";
 }
 ?>

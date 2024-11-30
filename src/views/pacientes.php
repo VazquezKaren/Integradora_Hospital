@@ -124,9 +124,14 @@ include('../controladores/mostrar_informacion_pacientes.php')
                                 <input type="text" name="paciente_CURP" id="paciente_CURP" value="<?php echo $data['paciente_CURP'] ?? ''; ?>" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="no_registro">No.Registro</label>
+                                <label for="no_registro">No.Registro:</label>
                                 <input type="text" id="no_registro" name="no_registro" value="<?php echo $data['no_registro'] ?? ''; ?>" readonly>
                             </div>
+                            <div class="form-group">
+                                <label for="status">Status:</label>
+                                <input type="text" id="status" name="status" value="<?php echo isset($data['paciente_status']) && $data['paciente_status'] == 1 ? 'ACTIVO' : ''; ?>" readonly>
+                            </div>
+
                            
                         </div>
                         <hr>

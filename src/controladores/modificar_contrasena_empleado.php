@@ -33,23 +33,48 @@ try {
                 ':idUsuario' => $idUsuario,
             ]);
 
-            echo "<script>
-                alert('La contraseña se ha cambiado correctamente.');
-                window.location.href = '../views/empleado.php';
+            echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                Swal.fire({
+                    title: '¡Contraseña actualizada!',
+                    text: 'La contraseña se ha cambiado correctamente.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                });
             </script>";
             exit();
         } else {
-            echo "<script>
-                alert('Las contraseñas no coinciden. Por favor, inténtelo de nuevo.');
-                window.location.href = '../views/formulario_cambiar_contrasena.php';
+            echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Las contraseñas no coinciden. Por favor, inténtelo de nuevo.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    window.location.href = '../views/formulario_cambiar_contrasena.php';
+                });
             </script>";
             exit();
         }
     }
 } catch (Throwable $th) {
-    echo "<script>
-        alert('Error al procesar la solicitud: " . $th->getMessage() . "');
-        window.location.href = '../views/empleado.php';
+    echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+        Swal.fire({
+            title: 'Error al procesar la solicitud',
+            text: 'Ocurrió un problema: " . $th->getMessage() . "',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            window.location.href = '../views/empleado.php';
+        });
     </script>";
     exit();
 }

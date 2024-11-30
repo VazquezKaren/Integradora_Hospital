@@ -26,9 +26,17 @@ $stmt_table->bindParam(":busqueda", $busqueda, PDO::PARAM_INT);
 $stmt_table->execute();
 $data_table = $stmt_table->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $th) {
-            echo "<script>
-        alert('Error en la busqueda de los registros del paciente: " . addslashes($th->getMessage()) . "');
-        window.location.href = '../views/ingresos.php';
-    </script>";
+            echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error en la búsqueda de los registros del paciente: " . addslashes($th->getMessage()) . "'
+                }).then(() => {
+                    window.location.href = '../views/ingresos.php';
+                });
+            </script>";
         }
 ?>

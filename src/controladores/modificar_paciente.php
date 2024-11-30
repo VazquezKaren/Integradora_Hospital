@@ -74,11 +74,15 @@ try {
 
         $conn->commit();
         echo json_encode(['success' => true, 'message' => 'Datos del paciente actualizados correctamente']);
+        exit;
     } else {
+        $conn->rollBack();
         echo json_encode(['success' => false, 'message' => 'Paciente no encontrado']);
+        exit;
     }
 } catch (Exception $e) {
     $conn->rollBack();
     echo json_encode(['success' => false, 'message' => 'Error al actualizar los datos del paciente: ' . $e->getMessage()]);
+    exit;
 }
 ?>

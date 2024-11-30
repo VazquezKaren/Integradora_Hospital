@@ -36,9 +36,18 @@ try {
     // }
 } catch (Throwable $th) {
     // Manejo de errores
-    echo "<script>
-            alert('Error en el registro del historial: " . addslashes($th->getMessage()) . "');
+    echo "<html><head>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              </head><body>
+              <script>
+        Swal.fire({
+            title: 'Error en el registro del historial',
+            text: 'Hubo un error al registrar el historial: " . addslashes($th->getMessage()) . "',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
             window.location.href = '../views/historial.php';
-        </script>";
+        });
+    </script>";
 }
 ?>

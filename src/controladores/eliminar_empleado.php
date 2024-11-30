@@ -1,55 +1,56 @@
 <?php
 include '../config.php';
+session_start();
 
-if (isset($_POST['telefono'])) {
-    $telefono = $_POST['telefono']; // Número de teléfono ingresado
+header('Content-Type: application/json');
 
-    if (empty($telefono)) {
-        echo "<script>
-                alert('Ingrese un número de teléfono para eliminar al empleado');
-                window.location.href = '../views/consultarEmpleado.php';
-            </script>";
-        exit();
-    } else {
-        try {
-            $conn = new conn();
-            $pdo = $conn->connect();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            // Obtener el idEmpleado usando el teléfono
-            $sqlEmpleado = "SELECT idEmpleado FROM empleado WHERE telefono = :telefono";
-            $stmtEmpleado = $pdo->prepare($sqlEmpleado);
-            $stmtEmpleado->execute(['telefono' => $telefono]);
-            $empleadoData = $stmtEmpleado->fetch(PDO::FETCH_ASSOC);
+    // Obtener y validar el idEmpleado
+    $idEmpleado = $_POST['idEmpleado'] ?? null;
 
-            if ($empleadoData) {
-                $idEmpleado = $empleadoData['idEmpleado'];
-
-                // Eliminar primero el registro relacionado en la tabla usuarios
-                $sqlUsuario = "DELETE FROM usuarios WHERE fk_idEmpleado = :idEmpleado";
-                $stmtUsuario = $pdo->prepare($sqlUsuario);
-                $stmtUsuario->execute(['idEmpleado' => $idEmpleado]);
-
-                // Luego eliminar el registro en la tabla empleado
-                $sqlEmpleadoDelete = "DELETE FROM empleado WHERE idEmpleado = :idEmpleado";
-                $stmtEmpleadoDelete = $pdo->prepare($sqlEmpleadoDelete);
-                $stmtEmpleadoDelete->execute(['idEmpleado' => $idEmpleado]);
-
-                echo "<script>
-                        alert('Se ha eliminado con éxito al empleado y su usuario asociado');
-                        window.location.href = '../views/consultarEmpleado.php';
-                    </script>";
-            } else {
-                echo "<script>
-                        alert('No se encontró un empleado con el número de teléfono proporcionado');
-                        window.location.href = '../views/consultarEmpleado.php';
-                    </script>";
-            }
-        } catch (Exception $th) {
-            echo "<script>
-                    alert('Error al eliminar: " . addslashes($th->getMessage()) . "');
-                    window.location.href = '../views/consultarEmpleado.php';
-                </script>";
-        }
+    if (!$idEmpleado) {
+        echo json_encode(['success' => false, 'message' => 'ID del empleado no proporcionado.']);
+        exit;
     }
+
+    try {
+        $conn = new conn();
+        $pdo = $conn->connect();
+
+        // Iniciar transacción
+        $pdo->beginTransaction();
+
+        // Verificar si el empleado existe y está activo
+        $sql_check = "SELECT u.idUsuario FROM usuarios u JOIN empleado e ON u.fkIdEmpleado = e.idEmpleado WHERE e.idEmpleado = :idEmpleado AND u.status = 1";
+        $stmt = $pdo->prepare($sql_check);
+        $stmt->execute([':idEmpleado' => $idEmpleado]);
+        $idUsuario = $stmt->fetchColumn();
+
+        if (!$idUsuario) {
+            $pdo->rollBack();
+            echo json_encode(['success' => false, 'message' => 'Empleado no encontrado o ya inactivo.']);
+            exit;
+        }
+
+        // Actualizar el 'status' del usuario a 0 (inactivo)
+        $sql_update_usuario = "UPDATE usuarios SET status = 0 WHERE idUsuario = :idUsuario";
+        $stmt = $pdo->prepare($sql_update_usuario);
+        $stmt->execute([':idUsuario' => $idUsuario]);
+
+        $pdo->commit();
+        echo json_encode(['success' => true, 'message' => 'Empleado desactivado correctamente.']);
+        exit;
+    } catch (Exception $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log('Error al desactivar empleado: ' . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error al desactivar el empleado. Por favor, inténtalo de nuevo más tarde.']);
+        exit;
+    }
+} else {
+    echo json_encode(['success' => false, 'message' => 'Método no permitido.']);
+    exit;
 }
 ?>
