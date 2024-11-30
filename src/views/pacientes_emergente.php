@@ -60,7 +60,7 @@ if (isset($_POST['fkIdPaciente'])) {
 
 
 <section class="main-content">
-    <div class="content-grid">
+    <div class="content-grid" style="margin-top: 0px;">
         <div class="contentbox patient-info">
 
             <div class="tabs">
