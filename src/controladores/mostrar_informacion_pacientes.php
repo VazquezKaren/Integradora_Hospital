@@ -8,7 +8,18 @@ if (isset($_POST['busqueda'])) {
     $busqueda = trim($_POST['busqueda']); 
 
     if (empty($busqueda)) {
-        $error = "Por favor, ingrese un CURP o Número de Registro válido.";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+              <script>
+                  Swal.fire({
+                      icon: 'warning',
+                      title: 'Búsqueda Vacía',
+                      text: 'Por favor, ingrese un CURP o Número de Registro válido.',
+                      confirmButtonText: 'OK'
+                  }).then(() => {
+                      window.history.back();
+                  });
+              </script>";
+        exit;
     } else {
         $esCURP = (strlen($busqueda) === 18 && preg_match('/^[A-Z0-9]{18}$/', $busqueda));
         $esNoRegistro = preg_match('/^\d{4}\/\d{2}$/', $busqueda);
@@ -18,7 +29,18 @@ if (isset($_POST['busqueda'])) {
         } elseif ($esNoRegistro) {
             $criterio = "paciente.noRegistro = :busqueda";
         } else {
-            $error = "El formato de búsqueda no corresponde a un CURP ni a un Número de Registro válido.";
+            echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                  <script>
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Formato Incorrecto',
+                          text: 'El formato de búsqueda no corresponde a un CURP ni a un Número de Registro válido.',
+                          confirmButtonText: 'OK'
+                      }).then(() => {
+                          window.history.back();
+                      });
+                  </script>";
+            exit;
         }
 
         if (empty($error)) {
@@ -73,14 +95,45 @@ if (isset($_POST['busqueda'])) {
                 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if (!$data) {
-                    $error = "No se encontró un registro con el CURP o Número de Registro proporcionado.";
+                    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                          <script>
+                              Swal.fire({
+                                  icon: 'info',
+                                  title: 'No Encontrado',
+                                  text: 'No se encontró un registro con el CURP o Número de Registro proporcionado.',
+                                  confirmButtonText: 'OK'
+                              }).then(() => {
+                                  window.history.back();
+                              });
+                          </script>";
+                    exit;
                 } elseif ($data['paciente_status'] == 0) {
-                    $error = "El registro existe pero no está activo.";
-                    $data = []; 
+                    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                          <script>
+                              Swal.fire({
+                                  icon: 'warning',
+                                  title: 'Registro Inactivo',
+                                  text: 'El registro existe pero no está activo.',
+                                  confirmButtonText: 'OK'
+                              }).then(() => {
+                                  window.history.back();
+                              });
+                          </script>";
+                    exit;
                 }
             } catch (PDOException $e) {
-                $error = "Error al buscar los datos: " . $e->getMessage();
-                error_log("Error al buscar datos: " . $e->getMessage());
+                echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                      <script>
+                          Swal.fire({
+                              icon: 'error',
+                              title: 'Error en la Consulta',
+                              text: 'Error al buscar los datos: " . addslashes($e->getMessage()) . "',
+                              confirmButtonText: 'OK'
+                          }).then(() => {
+                              window.history.back();
+                          });
+                      </script>";
+                exit;
             }
         }
     }

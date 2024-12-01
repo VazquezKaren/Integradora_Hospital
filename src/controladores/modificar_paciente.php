@@ -7,82 +7,90 @@ include '../config.php';
 $database = new conn();
 $conn = $database->connect();
 
-$paciente_CURP = $_POST['curp'] ?? null;
+header('Content-Type: application/json');
 
-if (!$paciente_CURP) {
-    echo json_encode(['success' => false, 'message' => 'paciente_CURP (ID del paciente) no proporcionado']);
+$paciente_CURP = $_POST['curp'] ?? null;
+$paciente_noRegistro = $_POST['noRegistro'] ?? null;
+
+if ($paciente_CURP && !preg_match('/^[A-Z0-9]{18}$/', $paciente_CURP)) {
+    echo json_encode(['success' => false, 'message' => 'El formato del CURP es inválido. Debe contener 18 caracteres.']);
     exit;
 }
+
+if ($paciente_noRegistro && !preg_match('/^\d{4}\/\d{2}$/', $paciente_noRegistro)) {
+    echo json_encode(['success' => false, 'message' => 'El formato de No. de Registro es inválido. Debe tener el formato 0000/00.']);
+    exit;
+}
+
+if (!$paciente_CURP && !$paciente_noRegistro) {
+    echo json_encode(['success' => false, 'message' => 'Identificador (CURP o No. de Registro) no proporcionado.']);
+    exit;
+}
+
+$identificador = $paciente_CURP ?: $paciente_noRegistro;
+$column = $paciente_CURP ? 'curp' : 'noRegistro';
 
 try {
     $conn->beginTransaction();
 
-    $sql_check = "SELECT idPaciente FROM paciente WHERE curp = :paciente_CURP";
+    $sql_check = "SELECT idPaciente FROM paciente WHERE $column = :identificador";
     $stmt = $conn->prepare($sql_check);
-    $stmt->execute([':paciente_CURP' => $paciente_CURP]);
+    $stmt->execute([':identificador' => $identificador]);
     $idPacienteDB = $stmt->fetchColumn();
 
-    if ($idPacienteDB) {
-        $nombre_paciente = strtoupper(filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_SPECIAL_CHARS));
-        $apellido_paterno = strtoupper(filter_input(INPUT_POST, 'apellido_p', FILTER_SANITIZE_SPECIAL_CHARS));
-        $apellido_materno = strtoupper(filter_input(INPUT_POST, 'apellido_m', FILTER_SANITIZE_SPECIAL_CHARS));
-        $fecha_nacimiento = filter_input(INPUT_POST, 'fecha_nacimiento', FILTER_SANITIZE_SPECIAL_CHARS);
-        $paciente_edad = filter_input(INPUT_POST, 'paciente_edad', FILTER_VALIDATE_INT);
-        if ($paciente_edad === false) {
-            echo json_encode(['success' => false, 'message' => 'Edad no válida']);
-            exit;
-        }
-        $paciente_pais = strtoupper(filter_input(INPUT_POST, 'paciente_pais', FILTER_SANITIZE_SPECIAL_CHARS));
-        $paciente_estado = strtoupper(filter_input(INPUT_POST, 'paciente_estado', FILTER_SANITIZE_SPECIAL_CHARS));
-        $paciente_municipio = strtoupper(filter_input(INPUT_POST, 'paciente_municipio', FILTER_SANITIZE_SPECIAL_CHARS));
-        $sexo = strtoupper(filter_input(INPUT_POST, 'sexo', FILTER_SANITIZE_SPECIAL_CHARS));
-        $derecho_habiente = strtoupper(filter_input(INPUT_POST, 'derechoHabiente', FILTER_SANITIZE_SPECIAL_CHARS));
-        $dx = strtoupper(filter_input(INPUT_POST, 'dx', FILTER_SANITIZE_SPECIAL_CHARS));
-        $observaciones = strtoupper(filter_input(INPUT_POST, 'observaciones', FILTER_SANITIZE_SPECIAL_CHARS));
-
-        $sql_update_paciente = "UPDATE paciente SET
-            nombres = :nombre_paciente,
-            apellidoPaterno = :apellido_paterno,
-            apellidoMaterno = :apellido_materno,
-            fechaNacimiento = :fecha_nacimiento,
-            edad = :paciente_edad, 
-            sexo = :sexo, 
-            pais = :paciente_pais,
-            estado = :paciente_estado,
-            municipio = :paciente_municipio,
-            derechoHabiente = :derecho_habiente,
-            dx = :dx,
-            observaciones = :observaciones
-            WHERE idPaciente = :idPaciente";
-
-        $stmt = $conn->prepare($sql_update_paciente);
-        $stmt->execute([
-            ':nombre_paciente' => $nombre_paciente,
-            ':apellido_paterno' => $apellido_paterno,
-            ':apellido_materno' => $apellido_materno,
-            ':fecha_nacimiento' => $fecha_nacimiento,
-            ':paciente_edad' => $paciente_edad,
-            ':sexo' => $sexo,
-            ':paciente_pais' => $paciente_pais,
-            ':paciente_estado' => $paciente_estado,
-            ':paciente_municipio' => $paciente_municipio,
-            ':derecho_habiente' => $derecho_habiente,
-            ':dx' => $dx,
-            ':observaciones' => $observaciones,
-            ':idPaciente' => $idPacienteDB
-        ]);
-
-        $conn->commit();
-        echo json_encode(['success' => true, 'message' => 'Datos del paciente actualizados correctamente']);
-        exit;
-    } else {
+    if (!$idPacienteDB) {
+        echo json_encode(['success' => false, 'message' => 'Paciente no encontrado.']);
         $conn->rollBack();
-        echo json_encode(['success' => false, 'message' => 'Paciente no encontrado']);
         exit;
     }
+
+    error_log("Datos recibidos: " . print_r($_POST, true));
+
+    $sql_update_paciente = "UPDATE paciente SET 
+        nombres = :nombre,
+        apellidoPaterno = :apellido_p,
+        apellidoMaterno = :apellido_m,
+        curp = :curp,
+        noRegistro = :no_registro,
+        fechaNacimiento = :fecha_nacimiento,
+        edad = :edad,
+        sexo = :sexo,
+        pais = :pais,
+        estado = :estado,
+        municipio = :municipio,
+        calleDireccion = :calle,
+        numeroDireccion = :numero,
+        coloniaDireccion = :colonia,
+        derechoHabiente = :derechoHabiente,
+        dx = :dx,
+        observaciones = :observaciones
+        WHERE idPaciente = :idPaciente";
+
+    $stmt = $conn->prepare($sql_update_paciente);
+    $stmt->execute([
+        ':nombre' => strtoupper($_POST['nombre'] ?? ''),
+        ':apellido_p' => strtoupper($_POST['apellido_p'] ?? ''),
+        ':apellido_m' => strtoupper($_POST['apellido_m'] ?? ''),
+        ':curp' => strtoupper($_POST['curp'] ?? ''),
+        ':no_registro' => $_POST['no_registro'] ?? null,
+        ':fecha_nacimiento' => $_POST['fecha_nacimiento'] ?? null,
+        ':edad' => (int) ($_POST['paciente_edad'] ?? 0),
+        ':sexo' => strtoupper($_POST['sexo'] ?? ''),
+        ':pais' => strtoupper($_POST['paciente_pais'] ?? ''),
+        ':estado' => strtoupper($_POST['paciente_estado'] ?? ''),
+        ':municipio' => strtoupper($_POST['paciente_municipio'] ?? ''),
+        ':calle' => strtoupper($_POST['calle'] ?? ''),
+        ':numero' => strtoupper($_POST['numero'] ?? ''),
+        ':colonia' => strtoupper($_POST['colonia'] ?? ''),
+        ':derechoHabiente' => strtoupper($_POST['derechoHabiente'] ?? ''),
+        ':dx' => strtoupper($_POST['dx'] ?? ''),
+        ':observaciones' => strtoupper($_POST['observaciones'] ?? ''),
+        ':idPaciente' => $idPacienteDB
+    ]);
+
+    $conn->commit();
+    echo json_encode(['success' => true, 'message' => 'Datos del paciente actualizados correctamente.']);
 } catch (Exception $e) {
     $conn->rollBack();
-    echo json_encode(['success' => false, 'message' => 'Error al actualizar los datos del paciente: ' . $e->getMessage()]);
-    exit;
+    echo json_encode(['success' => false, 'message' => 'Error al procesar la solicitud: ' . $e->getMessage()]);
 }
-?>
