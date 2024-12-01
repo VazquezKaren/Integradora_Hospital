@@ -43,14 +43,13 @@ try {
     $tutor_direccion_numero = strtoupper(htmlspecialchars($_POST['numero_responsable'] ?? ''));
     $tutor_direccion_colonia = strtoupper(htmlspecialchars($_POST['colonia_responsable'] ?? ''));
 
-    // Datos económicos y de hogar
     $personas_hogar = (int) ($_POST['personas_hogar'] ?? 0);
     $personas_apoyo = (int) ($_POST['personas_apoyo'] ?? 0);
     $indice_economico = strtoupper(htmlspecialchars($_POST['indice_economico'] ?? ''));
     $ingresos = (float) ($_POST['ingresos'] ?? 0);
     $egresos = (float) ($_POST['egresos'] ?? 0);
 
-    // Consulta para actualizar los datos del tutor
+    // Actualizar datos del tutor
     $sql_update_tutor = "UPDATE tutor SET 
         nombres = :tutor_nombre,
         apellidoPaterno = :tutor_apellido_paterno,
@@ -93,18 +92,10 @@ try {
         ':idPaciente' => $idPacienteDB
     ]);
 
-    if ($stmt->rowCount() === 0) {
-        echo json_encode(['success' => false, 'message' => 'No se realizaron cambios en los datos del tutor.']);
-        $conn->rollBack();
-        exit;
-    }
-
     $conn->commit();
     echo json_encode(['success' => true, 'message' => 'Datos del tutor actualizados correctamente.']);
-    exit;
 } catch (Exception $e) {
     $conn->rollBack();
-    echo json_encode(['success' => false, 'message' => 'Error al actualizar los datos del tutor: ' . $e->getMessage()]);
-    exit;
+    echo json_encode(['success' => false, 'message' => 'Error al procesar la solicitud: ' . $e->getMessage()]);
 }
 ?>

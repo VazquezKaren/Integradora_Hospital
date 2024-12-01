@@ -423,17 +423,15 @@ function desactivarEmpleado() {
         });
 }
 
-
 function guardarCambios(contexto) {
     const datos = new FormData();
 
-    const curp = document.getElementById('paciente_CURP').value;
-    if (curp) {
-        datos.append('curp', curp);
-    } else {
-        alert('No. de registro del paciente no encontrado.');
+    const identificador = document.getElementById('busqueda').value;
+    if (!identificador) {
+        alert('Debe ingresar el CURP o No. de Registro del paciente.');
         return;
     }
+    datos.append('curp', identificador);
 
     const camposPaciente = [
         'nombre', 'apellido_p', 'apellido_m', 'fecha_nacimiento', 'paciente_edad', 'sexo',
@@ -453,11 +451,13 @@ function guardarCambios(contexto) {
     campos.forEach(campo => {
         const elemento = document.getElementById(campo);
         if (elemento) {
-            datos.append(campo, elemento.value);
+            datos.append(campo, elemento.value.trim());
         }
     });
 
-    const controlador = contexto === 'paciente' ? '../controladores/modificar_paciente.php' : '../controladores/modificar_responsable.php';
+    const controlador = contexto === 'paciente'
+        ? '../controladores/modificar_paciente.php'
+        : '../controladores/modificar_responsable.php';
 
     fetch(controlador, {
         method: 'POST',
@@ -468,21 +468,22 @@ function guardarCambios(contexto) {
             if (data.success) {
                 alert(data.message);
                 deshabilitarEdicion(contexto);
-
+                console.log(`Datos del ${contexto} actualizados correctamente.`);
                 window.location.reload();
             } else {
                 alert(data.message || 'Error al actualizar los datos.');
-                console.error('Error:', data.message);
+                console.error(`Error del servidor: ${data.message}`);
             }
         })
         .catch(error => {
             console.error(`Error al guardar los cambios (${contexto}):`, error);
-            alert("Ocurrió un error al guardar los cambios. Por favor, intenta de nuevo.");
+            alert('Ocurrió un error al guardar los cambios. Por favor, intenta de nuevo.');
         });
 }
 
+
 function confirmarCambio(event) {
-    event.preventDefault();
+    event.preventDefault(); 
     const confirmacion = confirm("¿Está seguro de que desea cambiar la contraseña?");
     if (confirmacion) {
         document.getElementById('form-cambiar-contrasena').submit();
@@ -524,7 +525,6 @@ function eliminarPaciente() {
         .then(data => {
             if (data.success) {
                 Swal.fire('Eliminado', data.message, 'success').then(() => {
-                    // Redirigir o actualizar la página
                     window.location.href = 'pacientes.php';
                 });
             } else {
