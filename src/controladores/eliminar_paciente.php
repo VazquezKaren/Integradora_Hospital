@@ -17,6 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdo = $conn->connect();
         $pdo->beginTransaction();
 
+        $stmt = $pdo->prepare("SET @usuario_actual = :usuario");
+        $stmt->execute([':usuario' => $_SESSION['idUsuario']]); // Usuario logueado en la sesión PHP
+
         // Verificar si el paciente existe y está activo
         $sql_check = "SELECT idPaciente FROM paciente WHERE curp = :curp AND status = 1";
         $stmt = $pdo->prepare($sql_check);
