@@ -40,26 +40,60 @@ $pdo = $conn->connect();
 				<p>Una guía rápida de cómo usar el sistema.</p>
 				<button id="toggle-button">Ocultar sección</button>
 				<div class="manual-usuario" id="manual-content">
+				<?php if (in_array($privilegio, ['ADMIN', 'DOCTOR', 'TRABAJO_SOCIAL','ENFERMERA'])) { ?>
 					<div class="manual-section">
 						<img src="../../img/manual/img-1.png" alt="Paso 1">
-						<p>Paso 1: Explicación detallada del primer paso en el uso del sistema.</p>
+						<p> Inicio de sesión para el programa | Ingresar credenciales correctas.</p>
 					</div>
+				<?php } ?>
+				<?php if ($privilegio == 'ADMIN') { ?>
 					<div class="manual-section">
-						<img src="../../img/manual/img-1.png" alt="Paso 2">
-						<p>Paso 2: Explicación detallada del segundo paso en el uso del sistema.</p>
+						<img src="../../img/manual/ingresar empleado.png" alt="Paso 2">
+						<p>Para registrar a un empleado deberá ir al apartado de "Empleados" y dar click en "Registrar empleado" para llenar los campos necesarios.</p>
 					</div>
+				<?php } ?>
+				<?php if (in_array($privilegio, ['ADMIN'])) { ?>
 					<div class="manual-section">
-						<img src="../../img/manual/img-1.png" alt="Paso 3">
-						<p>Paso 3: Explicación detallada del tercer paso en el uso del sistema.</p>
+						<img src="../../img/manual/consultarempl.png" alt="Paso 3">
+						<p>Para consultar a un empleado, deberá ir al apartado de "Empleados" y dar click en "Consultar empleado" para buscarlo con el número telefónico correspondiente.</p>
 					</div>
+				<?php } ?>
+				<?php if (in_array($privilegio, ['ADMIN', 'DOCTOR','TRABAJO_SOCIAL'])) { ?>
 					<div class="manual-section">
-						<img src="../../img/manual/img-1.png" alt="Paso 4">
-						<p>Paso 4: Explicación detallada del cuarto paso en el uso del sistema.</p>
+						<img src="../../img/manual/registrarpaciente.png" alt="Paso 4">
+						<p>Para registrar a un paciente deberá ir al apartado de "Pacientes" y dar click en "Registrar paciente" para llenar los campos necesarios.</p>
 					</div>
+				<?php } ?>
+				<?php if (in_array($privilegio, ['ADMIN', 'DOCTOR','TRABAJO_SOCIAL','ENFERMERA'])) { ?>
 					<div class="manual-section">
-						<img src="../../img/manual/img-1.png" alt="Paso 5">
-						<p>Paso 5: Explicación detallada del quinto paso en el uso del sistema.</p>
+						<img src="../../img/manual/consultarpaciente.png" alt="Paso 5">
+						<p>Para consultar a un paciente, deberá ir al apartado de "Pacientes" y dar click en "Consultar paciente" para buscarlo con el No. de registro del paciente correspondiente.</p>
 					</div>
+				<?php } ?>
+				<?php if (in_array($privilegio, ['ADMIN', 'DOCTOR','TRABAJO_SOCIAL','ENFERMERA'])) { ?>
+					<div class="manual-section">
+						<img src="../../img/manual/ingresos.png" alt="Paso 5">
+						<p>Para consultar los Ingresos de los pacientes, deberá de ir al apartado de "Pacientes" y dar click en "Ingresos" para buscar los ingresos que necesite..</p>
+					</div>
+				<?php } ?>
+				<?php if (in_array($privilegio, ['ADMIN', 'DOCTOR','TRABAJO_SOCIAL','ENFERMERA'])) { ?>
+					<div class="manual-section">
+						<img src="../../img/manual/perfilusuario.png" alt="Paso 5">
+						<p>Para consultar la información de su Usuario o cambiar su contraseña, deberá de ir a la sección de su nombre y dar click para realizar las acciones anteriormente mencionadas.</p>
+					</div>
+				<?php } ?>
+				<?php if ($privilegio == 'ADMIN') { ?>
+					<div class="manual-section">
+						<img src="../../img/manual/cambiarlogo.png" alt="Paso 5">
+						<p>Para cambiar el logotipo de la pagina, deberá de ir al apartado de "Configuración" y seleccionar la imagen del nuevo logo y dar click en "Guardar cambios".</p>
+					</div>
+				<?php } ?>
+				<?php if (in_array($privilegio, ['ADMIN', 'TRABAJO_SOCIAL','ENFERMERA','DOCTOR'])) { ?>
+					<div class="manual-section">
+						<img src="../../img/manual/historial.png" alt="Paso 5">
+						<p>Para consultar el historial de las actividades realizadas, deberá ir al apartado de "Historial"en la parte de arriba.</p>
+					</div>
+				<?php } ?>
 				</div>
 			</div>
 			<script src="../../JS/manual.js"></script>
@@ -86,3 +120,4 @@ $pdo = $conn->connect();
 	</section>
 </body>
 </html>
+
