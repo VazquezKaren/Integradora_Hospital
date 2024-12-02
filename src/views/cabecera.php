@@ -191,7 +191,7 @@ include('../controladores/sesion.php');
                                             <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar paciente</a>
                                         </li>
                                         <li class="list_inside">
-                                            <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
+                                            <a href="ingresos.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -227,7 +227,7 @@ include('../controladores/sesion.php');
                                             <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fas fa-search"></i>Consultar paciente</a>
                                         </li>
                                         <li class="list_inside">
-                                            <a href="pacientes.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
+                                            <a href="ingresos.php" class="nav_link nav_link--inside"><i class="fa-solid fa-arrow-right"></i>Ingresos</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -254,7 +254,7 @@ include('../controladores/sesion.php');
             <i class="fas fa-plus"></i> Nuevo Ingreso
         </button>
         <div class="modal fade" id="newAdmissionModal" tabindex="-1" aria-labelledby="newAdmissionModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="newAdmissionModalLabel">Registrar Nuevo Ingreso</h5>
@@ -263,7 +263,6 @@ include('../controladores/sesion.php');
                             <?php include('Ventanas_Modales/ingresos_emergente.php')?>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" id="saveNewAdmission">Guardar</button>
                     </div>
                 </div>
             </div>

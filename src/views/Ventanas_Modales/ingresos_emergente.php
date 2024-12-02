@@ -1,47 +1,91 @@
 <div class="modal-body">
-    <form id="nueva_adminsion">
+    <form id="nueva_admision" action="../controladores/registrar_ingreso.php" method="POST">
         <section class="main-content">
             <div class="content-grid" style="margin-top: 0px;">
                 <div class="contentbox patient-info">
-                    <h4>Registara nuevo ingreso</h4>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="nombre">Nombre(s):</label>
-                            <input type="text" name="nombre" id="nombre" value="<?php echo $data['paciente_nombres'] ?? ''; ?>" disabled>
+                    <h4>Registrar nuevo ingreso</h4>
+                    <p>Ingrese la CURP del paciente que desea ingresar</p>
+                        <!-- Campo de CURP -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="curp">CURP:</label>
+                                <input
+                                    type="text"
+                                    name="curp"
+                                    id="curp"
+                                    class="form-control"
+                                    value="<?php echo $_POST['curp'] ?? ''; ?>"
+                                    placeholder="Ingrese la CURP"
+                                    required />
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="apellido_p">Apellido paterno:</label>
-                            <input type="text" name="apellido_p" id="apellido_p" value="<?php echo $data['paciente_apellidoPaterno'] ?? ''; ?>" disabled>
+
+                        <!-- Campo de Motivo -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="motivo">Motivo:</label>
+                                <textarea
+                                    name="motivo"
+                                    id="motivo"
+                                    class="form-control"
+                                    placeholder="Ingrese el motivo de ingreso"
+                                    rows="3"
+                                    required><?php echo $_POST['motivo'] ?? ''; ?></textarea>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="apellido_m">Apellido materno:</label>
-                            <input type="text" name="apellido_m" id="apellido_m" value="<?php echo $data['paciente_apellidoMaterno'] ?? ''; ?>" disabled>
+
+                        <!-- Campo de Servicio Solicitado -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="servicio_solicitado">Servicio que solicita:</label>
+                                <input
+                                    type="text"
+                                    name="servicio_solicitado"
+                                    id="servicio_solicitado"
+                                    class="form-control"
+                                    value="<?php echo $_POST['servicio_solicitado'] ?? ''; ?>"
+                                    placeholder="Servicio solicitado"
+                                    required />
+                            </div>
                         </div>
-                    </div>
+
+                        <!-- Campo de Turno (Automático) -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="turno">Turno:</label>
+                                <input
+                                    type="text"
+                                    name="turno"
+                                    id="turno"
+                                    class="form-control"
+                                    value="<?php
+                                            // Obtener hora actual
+                                            date_default_timezone_set('America/Mexico_City'); // Ajusta según tu zona horaria
+                                            $horaActual = date('H:i');
+                                            $turno = '';
+
+                                            // Asignar turno según la hora
+                                            if ($horaActual >= '06:00' && $horaActual <= '11:59') {
+                                                $turno = 'MATUTINO';
+                                            } elseif ($horaActual >= '12:00' && $horaActual <= '19:59') {
+                                                $turno = 'VESPERTINO';
+                                            } else {
+                                                $turno = 'NOCTURNO';
+                                            }
+                                            echo $turno;
+                                            ?>"
+                                    readonly />
+                            </div>
+                        </div>
+
+                        <!-- Botón de envío -->
+                        <div class="form-row mt-3">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Ingresar paciente</button>
+                            </div>
+                        </div>
                 </div>
             </div>
         </section>
     </form>
 </div>
-
-<!-- 
-                    <div class="mb-3">
-                                <label for="patientId" class="form-label">ID del Paciente</label>
-                                <input type="text" class="form-control" id="patientId" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="admissionDate" class="form-label">Fecha de Ingreso</label>
-                                <input type="date" class="form-control" id="admissionDate" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="admissionTime" class="form-label">Hora de Ingreso</label>
-                                <input type="time" class="form-control" id="admissionTime" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="requestedService" class="form-label">Servicio Solicitado</label>
-                                <input type="text" class="form-control" id="requestedService" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="admissionReason" class="form-label">Motivo de Ingreso</label>
-                                <textarea class="form-control" id="admissionReason" rows="3" required></textarea>
-                            </div> -->
