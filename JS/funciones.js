@@ -637,3 +637,23 @@ function handleFormSubmission(event) {
 
     return false; // Prevenir el envío por defecto del formulario
 }
+
+function generarHojaConsentimiento() {
+    // Ruta relativa al PDF almacenado en 'uploads'
+    var pdfPath = '../../pdfs/hoja_consentimiento.pdf'; // Cambia 'consentimiento.pdf' al nombre real del archivo
+
+    // Abrir el PDF en una nueva ventana
+    var printWindow = window.open(pdfPath, '_blank');
+
+    // Asegurarse de que la ventana se haya abierto correctamente
+    if (printWindow) {
+        printWindow.focus();
+
+        // Esperar a que el contenido del PDF se haya cargado antes de imprimir
+        printWindow.onload = function () {
+            printWindow.print();
+        };
+    } else {
+        alert('No se pudo abrir la ventana de impresión. Por favor, verifica los permisos del navegador.');
+    }
+}
