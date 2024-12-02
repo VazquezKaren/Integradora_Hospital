@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital Municipal del Niño</title>
+    <link rel="icon" href="../../img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../../css/estilos.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../../css/inicio.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../../css/pacientes.css?v=<?php echo time(); ?>">
