@@ -331,9 +331,8 @@ include('../controladores/mostrar_informacion_pacientes.php')
                             <button type="button" id="modificar-btn-responsable" onclick="habilitarEdicion('responsable')">Modificar</button>
                             <button type="button" class="save-button" id="guardar-btn-responsable" style="display: none;" onclick="guardarCambios('responsable')">Guardar cambios</button>
                             <button type="reset" class="delete-button" id="descartar-btn-responsable" style="display: none;" onclick="deshabilitarEdicion('responsable')">Descartar cambios</button>
-                            <button type="submit" class="delete-button">Eliminar paciente</button>
+                            <button type="button" class="delete-button" onclick="confirmarEliminacionPaciente()">Eliminar paciente</button>
                         </div>
-                        
                     </form>
                 </div>
             </div>
