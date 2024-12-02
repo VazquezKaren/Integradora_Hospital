@@ -8,7 +8,7 @@ include('cabecera.php');
     <!--<h1 class="page-title">Registro de Nuevo Paciente</h1> -->
     <div class="content-grid">
         <div class="contentbox patient-info">
-        <form action="../controladores/registrar_paciente.php" method="POST" enctype="multipart/form-data" onsubmit="return handleFormSubmission(event);">
+            <form action="../controladores/registrar_paciente.php" method="POST" enctype="multipart/form-data" onsubmit="return handleFormSubmission(event);">
                 <h2>Datos del Paciente</h2>
                 <div class="form-row">
                     <div class="form-group">
@@ -179,7 +179,7 @@ include('cabecera.php');
                     </div>
                     <div class="form-group">
                         <label for="responsable_direccion_numero">Número:</label>
-                        <input type="text" id="responsable_direccion_numero"
+                        <input type="number" id="responsable_direccion_numero"
                             name="responsable_direccion_numero" required>
                     </div>
                     <div class="form-group">
@@ -264,7 +264,7 @@ include('cabecera.php');
                 </div>
 
                 <div class="button-group">
-                    <button type="button">Generar Hoja de Consentimiento</button>
+                    <button type="button" onclick="generarHojaConsentimiento()">Generar Hoja de Consentimiento</button>
                 </div>
 
                 <div class="button-group">

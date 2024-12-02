@@ -21,26 +21,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Iniciar transacción
         $pdo->beginTransaction();
 
-        // Verificar si el empleado existe y está activo
-        $sql_check = "SELECT u.idUsuario FROM usuarios u JOIN empleado e ON u.fkIdEmpleado = e.idEmpleado WHERE e.idEmpleado = :idEmpleado AND u.status = 1";
-        $stmt = $pdo->prepare($sql_check);
+        // Verificar si el empleado existe y obtener el idUsuario
+        $stmt = $pdo->prepare("CALL sp_verificar_empleado_activo(:idEmpleado, @idUsuario)");
         $stmt->execute([':idEmpleado' => $idEmpleado]);
-        $idUsuario = $stmt->fetchColumn();
 
-        if (!$idUsuario) {
+        // Obtener el resultado de la variable de salida
+        $stmt = $pdo->query("SELECT @idUsuario AS idUsuario");
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $idUsuario = $result['idUsuario'] ?? 0;
+
+        if ($idUsuario == 0) {
             $pdo->rollBack();
             echo json_encode(['success' => false, 'message' => 'Empleado no encontrado o ya inactivo.']);
             exit;
         }
 
-        // Actualizar el 'status' del usuario a 0 (inactivo)
-        $sql_update_usuario = "UPDATE usuarios SET status = 0 WHERE idUsuario = :idUsuario";
-        $stmt = $pdo->prepare($sql_update_usuario);
+        // Desactivar al usuario asociado
+        $stmt = $pdo->prepare("CALL sp_desactivar_usuario(:idUsuario)");
         $stmt->execute([':idUsuario' => $idUsuario]);
 
         $pdo->commit();
         echo json_encode(['success' => true, 'message' => 'Empleado desactivado correctamente.']);
         exit;
+
     } catch (Exception $e) {
         if ($pdo->inTransaction()) {
             $pdo->rollBack();

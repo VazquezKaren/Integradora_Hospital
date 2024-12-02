@@ -3,8 +3,9 @@ require_once '../config.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario = $_POST['usuario'];
-    $password = $_POST['password'];
+    // Obtener datos del formulario
+    $usuario = trim($_POST['usuario']);
+    $password = trim($_POST['password']);
 
     try {
         $conn = new conn();
@@ -21,77 +22,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute(['usuario' => $usuario]);
         $usuarioData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Verificar si el usuario existe y la contraseña es válida
-        if ($usuarioData && password_verify($password, $usuarioData['contrasena'])) {
-            // Guardar datos en la sesión
-            $_SESSION['usuario'] = $usuarioData['usuario'];
-            $_SESSION['rol'] = $usuarioData['rol'];
-            $_SESSION['idUsuario'] = $usuarioData['idUsuario'];
-            $idEmpleado = $usuarioData['fkIdEmpleado'];
+        // Verificar si el usuario existe
+        if ($usuarioData) {
+            // Verificar si el usuario está activo
+            if ($usuarioData['status'] == 1) {
+                // Verificar la contraseña
+                if (password_verify($password, $usuarioData['contrasena'])) {
+                    // Verificar si la cuenta está activa (opcional si ya verificaste 'status')
+                    // Guardar datos en la sesión
+                    $_SESSION['usuario'] = $usuarioData['usuario'];
+                    $_SESSION['rol'] = $usuarioData['rol'];
+                    $_SESSION['idUsuario'] = $usuarioData['idUsuario'];
+                    $idEmpleado = $usuarioData['fkIdEmpleado'];
 
-            // Consultar información del empleado asociado
-            $sqlEmpleado = "SELECT nombres, apellidoPaterno, apellidoMaterno, telefono, email 
-                            FROM empleado 
-                            WHERE idEmpleado = :idEmpleado";
-            $stmtEmpleado = $pdo->prepare($sqlEmpleado);
-            $stmtEmpleado->execute(['idEmpleado' => $idEmpleado]);
-            $empleadoData = $stmtEmpleado->fetch(PDO::FETCH_ASSOC);
+                    // Consultar información del empleado asociado
+                    $sqlEmpleado = "SELECT nombres, apellidoPaterno, apellidoMaterno, telefono, email 
+                                    FROM empleado 
+                                    WHERE idEmpleado = :idEmpleado";
+                    $stmtEmpleado = $pdo->prepare($sqlEmpleado);
+                    $stmtEmpleado->execute(['idEmpleado' => $idEmpleado]);
+                    $empleadoData = $stmtEmpleado->fetch(PDO::FETCH_ASSOC);
 
-            if ($empleadoData) {
-                $_SESSION['nombreEmpleado'] = $empleadoData['nombres'];
-                $_SESSION['apellidoPaternoEmpleado'] = $empleadoData['apellidoPaterno'];
-                $_SESSION['apellidoMaternoEmpleado'] = $empleadoData['apellidoMaterno'];
-                $_SESSION['telefonoEmpleado'] = $empleadoData['telefono'];
-                $_SESSION['emailEmpleado'] = $empleadoData['email'];
-            }
+                    if ($empleadoData) {
+                        $_SESSION['nombreEmpleado'] = $empleadoData['nombres'];
+                        $_SESSION['apellidoPaternoEmpleado'] = $empleadoData['apellidoPaterno'];
+                        $_SESSION['apellidoMaternoEmpleado'] = $empleadoData['apellidoMaterno'];
+                        $_SESSION['telefonoEmpleado'] = $empleadoData['telefono'];
+                        $_SESSION['emailEmpleado'] = $empleadoData['email'];
+                    }
 
-            // Redirigir según el rol del usuario
-            switch ($usuarioData['rol']) {
-                case 'TRABAJO_SOCIAL':
-                case 'DOCTOR':
-                case 'ADMIN':
-                case 'ENFERMERA':
-                    header("Location:../views/inicio.php");
-                    exit();
-                default:
-                    header('Location:../../index.php?error=Acceso denegado');
-                    exit();
+                    // Redirigir según el rol del usuario
+                    switch ($usuarioData['rol']) {
+                        case 'TRABAJO_SOCIAL':
+                        case 'DOCTOR':
+                        case 'ADMIN':
+                        case 'ENFERMERA':
+                            header("Location:../views/inicio.php");
+                            exit();
+                        default:
+                            header('Location:../../index.php?error=Acceso denegado');
+                            exit();
+                    }
+                } else {
+                    // Contraseña incorrecta
+                    mostrarAlerta('Credenciales incorrectas', 'Por favor verifique su usuario y contraseña.');
+                }
+            } else {
+                // Usuario inactivo
+                mostrarAlerta('Cuenta Inactiva', 'Tu cuenta está inactiva. Por favor, contacta al administrador.');
             }
         } else {
-            // Mostrar alerta con SweetAlert cuando las credenciales son incorrectas
-            echo "<html><head>
-                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Credenciales incorrectas',
-                                text: 'Por favor verifique su usuario y contraseña.',
-                            }).then(function() {
-                                window.location.href = '../../index.php';
-                            });
-                        });
-                    </script>
-                  </head><body></body></html>";
-            exit();
+            // Usuario no encontrado
+            mostrarAlerta('Credenciales incorrectas', 'Por favor verifique su usuario y contraseña.');
         }
     } catch (Exception $e) {
-        // Mostrar alerta de error de conexión
-        echo "<html><head>
-                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error en la conexión',
-                            text: '". addslashes($e->getMessage()) ."',
-                        }).then(function() {
-                            window.location.href = '../../index.php';
-                        });
-                    });
-                </script>
-              </head><body></body></html>";
-        exit();
+        // Manejar errores de conexión u otros
+        mostrarAlerta('Error en la conexión', addslashes($e->getMessage()));
     }
+}
+
+// Función para mostrar alertas con SweetAlert
+function mostrarAlerta($titulo, $mensaje) {
+    echo "<html><head>
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '". addslashes($titulo) ."',
+                        text: '". addslashes($mensaje) ."',
+                    }).then(function() {
+                        window.location.href = '../../index.php';
+                    });
+                });
+            </script>
+          </head><body></body></html>";
+    exit();
 }
 ?>

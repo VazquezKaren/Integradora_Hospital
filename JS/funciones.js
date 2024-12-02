@@ -392,6 +392,37 @@ function confirmarDesactivacionEmpleado() {
     });
 }
 
+function desactivarEmpleado() {
+    const idEmpleado = document.querySelector('input[name="idEmpleado"]').value;
+    if (!idEmpleado) {
+        Swal.fire('Error', 'No se encontró el ID del empleado.', 'error');
+        return;
+    }
+
+    fetch('../controladores/eliminar_empleado.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'idEmpleado=' + encodeURIComponent(idEmpleado)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire('Eliminado', data.message, 'success').then(() => {
+                    // Redirigir o actualizar la página
+                    window.location.href = 'consultarEmpleado.php';
+                });
+            } else {
+                Swal.fire('Error', data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Error', 'Ocurrió un error al desactivar el empleado.', 'error');
+        });
+}
+
 function guardarCambios(contexto) {
     const datos = new FormData();
 
@@ -636,4 +667,24 @@ function handleFormSubmission(event) {
         });
 
     return false; // Prevenir el envío por defecto del formulario
+}
+
+function generarHojaConsentimiento() {
+    // Ruta relativa al PDF almacenado en 'uploads'
+    var pdfPath = '../../pdfs/hoja_consentimiento.pdf'; // Cambia 'consentimiento.pdf' al nombre real del archivo
+
+    // Abrir el PDF en una nueva ventana
+    var printWindow = window.open(pdfPath, '_blank');
+
+    // Asegurarse de que la ventana se haya abierto correctamente
+    if (printWindow) {
+        printWindow.focus();
+
+        // Esperar a que el contenido del PDF se haya cargado antes de imprimir
+        printWindow.onload = function () {
+            printWindow.print();
+        };
+    } else {
+        alert('No se pudo abrir la ventana de impresión. Por favor, verifica los permisos del navegador.');
+    }
 }
