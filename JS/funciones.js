@@ -392,6 +392,37 @@ function confirmarDesactivacionEmpleado() {
     });
 }
 
+function desactivarEmpleado() {
+    const idEmpleado = document.querySelector('input[name="idEmpleado"]').value;
+    if (!idEmpleado) {
+        Swal.fire('Error', 'No se encontró el ID del empleado.', 'error');
+        return;
+    }
+
+    fetch('../controladores/eliminar_empleado.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'idEmpleado=' + encodeURIComponent(idEmpleado)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire('Eliminado', data.message, 'success').then(() => {
+                    // Redirigir o actualizar la página
+                    window.location.href = 'consultarEmpleado.php';
+                });
+            } else {
+                Swal.fire('Error', data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Error', 'Ocurrió un error al desactivar el empleado.', 'error');
+        });
+}
+
 function guardarCambios(contexto) {
     const datos = new FormData();
 
