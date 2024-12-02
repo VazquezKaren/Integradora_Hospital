@@ -79,7 +79,7 @@ $pdo = $conn->connect();
                         </div>
                         <div class="form-group">
                             <label for="direccion_numero">Número:</label>
-                            <input type="text" id="direccion_numero" name="direccion_numero" required>
+                            <input type="number" id="direccion_numero" name="direccion_numero" required>
                         </div>
                         <div class="form-group">
                             <label for="direccion_colonia">Colonia o Fraccionamiento:</label>

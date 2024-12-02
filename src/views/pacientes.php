@@ -163,24 +163,14 @@ include('../controladores/mostrar_informacion_pacientes.php')
                             <textarea name="observaciones" id="observaciones" rows="5" readonly><?php echo $data['paciente_observaciones'] ?? ''; ?></textarea>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="hoja_frontal">Hoja frontal:</label>
-                            <input type="file" name="hoja_frontal" id="hoja_frontal" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="hoja_compromiso">Hoja de compromiso:</label>
-                            <input type="file" name="hoja_compromiso" id="hoja_compromiso" readonly>
-                        </div>
-                    </div>
-
+<!-- 
                     <div class="button-group">
-                        <button type="button">Generar Hoja Frontal</button>
-                        <button type="button">Generar Hoja de Compromiso</button>
-                    </div>
+                        <button type="button">Observar hoja de consentimiento</button>
+                    </div> -->
 
                     <div class="button-group" id="paciente">
-                        <button type="button" id="modificar-btn-paciente" onclick="habilitarEdicion('paciente')">Siguiente</button>
+                        <button type="button" class="delete-button" onclick="confirmarEliminacionPaciente()">Eliminar paciente</button>
+                        <button type="button" id="modificar-btn-paciente" onclick="habilitarEdicion('paciente')">Modificar</button>
                         <button type="button" class="save-button" id="guardar-btn-paciente" style="display: none;" onclick="guardarCambios('paciente')">Guardar cambios</button>
                         <button type="reset" class="delete-button" id="descartar-btn-paciente" style="display: none;" onclick="deshabilitarEdicion('paciente')">Descartar cambios</button>
                     </div>
@@ -324,7 +314,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
                         <button type="button" id="modificar-btn-responsable" onclick="habilitarEdicion('responsable')">Modificar</button>
                         <button type="button" class="save-button" id="guardar-btn-responsable" style="display: none;" onclick="guardarCambios('responsable')">Guardar cambios</button>
                         <button type="reset" class="delete-button" id="descartar-btn-responsable" style="display: none;" onclick="deshabilitarEdicion('responsable')">Descartar cambios</button>
-                        <button type="button" class="delete-button" onclick="confirmarEliminacionPaciente()">Eliminar paciente</button>
+
                     </div>
                 </form>
             </div>
