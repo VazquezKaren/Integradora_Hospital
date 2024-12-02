@@ -453,7 +453,7 @@ function guardarCambios(contexto) {
     }
 
     const camposPaciente = [
-        'nombre', 'apellido_p', 'apellido_m', 'paciente_CURP', 'no_registro',
+        'nombres', 'apellidoPaterno', 'apellidoMaterno', 'paciente_CURP', 'no_registro',
         'fecha_nacimiento', 'paciente_edad', 'sexo', 'paciente_pais',
         'paciente_estado', 'paciente_municipio', 'calle', 'numero', 'colonia',
         'derechoHabiente', 'dx', 'observaciones'

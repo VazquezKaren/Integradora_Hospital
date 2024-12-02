@@ -50,16 +50,16 @@ include('../controladores/mostrar_informacion_pacientes.php')
                 <form action="">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="nombre">Nombre(s):</label>
-                            <input type="text" name="nombre" id="nombre" value="<?php echo htmlspecialchars($data['paciente_nombres'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" readonly>
+                            <label for="nombres">Nombre(s):</label>
+                            <input type="text" name="nombres" id="nombres" value="<?php echo htmlspecialchars($data['paciente_nombres'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="apellido_p">Apellido paterno:</label>
-                            <input type="text" name="apellido_p" id="apellido_p" value="<?php echo htmlspecialchars($data['paciente_apellidoPaterno'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" readonly>
+                            <label for="apellidoPaterno">Apellido paterno:</label>
+                            <input type="text" name="apellidoPaterno" id="apellidoPaterno" value="<?php echo htmlspecialchars($data['paciente_apellidoPaterno'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="apellido_m">Apellido materno:</label>
-                            <input type="text" name="apellido_m" id="apellido_m" value="<?php echo htmlspecialchars($data['paciente_apellidoMaterno'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" readonly>
+                            <label for="apellidoMaterno">Apellido materno:</label>
+                            <input type="text" name="apellidoMaterno" id="apellidoMaterno" value="<?php echo htmlspecialchars($data['paciente_apellidoMaterno'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" readonly>
                         </div>
 
                     </div>

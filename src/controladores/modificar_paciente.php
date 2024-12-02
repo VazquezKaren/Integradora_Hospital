@@ -47,9 +47,9 @@ try {
     error_log("Datos recibidos: " . print_r($_POST, true));
 
     $sql_update_paciente = "UPDATE paciente SET 
-        nombres = :nombre,
-        apellidoPaterno = :apellido_p,
-        apellidoMaterno = :apellido_m,
+        nombres = :nombres,
+        apellidoPaterno = :apellidoPaterno,
+        apellidoMaterno = :apellidoMaterno,
         curp = :curp,
         noRegistro = :no_registro,
         fechaNacimiento = :fecha_nacimiento,
@@ -68,9 +68,9 @@ try {
 
     $stmt = $conn->prepare($sql_update_paciente);
     $stmt->execute([
-        ':nombre' => strtoupper($_POST['nombre'] ?? ''),
-        ':apellido_p' => strtoupper($_POST['apellido_p'] ?? ''),
-        ':apellido_m' => strtoupper($_POST['apellido_m'] ?? ''),
+        ':nombres' => strtoupper($_POST['nombres'] ?? ''),
+        ':apellidoPaterno' => strtoupper($_POST['apellidoPaterno'] ?? ''),
+        ':apellidoMaterno' => strtoupper($_POST['apellidoMaterno'] ?? ''),
         ':curp' => strtoupper($_POST['curp'] ?? ''),
         ':no_registro' => $_POST['no_registro'] ?? null,
         ':fecha_nacimiento' => $_POST['fecha_nacimiento'] ?? null,
