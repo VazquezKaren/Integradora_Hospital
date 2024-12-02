@@ -136,7 +136,7 @@ include('cabecera.php');
                     </div>
                     <div class="form-group">
                         <label for="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" name="telefono" required>
+                        <input type="number" id="telefono" name="telefono" required>
                     </div>
                     <div class="form-group">
                         <label for="ocupacion">Ocupación:</label>
@@ -212,13 +212,15 @@ include('cabecera.php');
                         <input type="number" id="personas_apoyo" min="0" name="personas_apoyo" required>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="total_ingresos">Total de ingresos mensuales:</label>
-                    <input type="number" id="total_ingresos" name="total_ingresos" step="0.01" min="0" required>
-                </div>
-                <div class="form-group">
-                    <label for="total_egresos">Total de egresos mensuales:</label>
-                    <input type="number" id="total_egresos" name="total_egresos" step="0.01" min="0" required>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="total_ingresos">Total de ingresos monetarios mensuales:</label>
+                        <input type="number" id="total_ingresos" name="total_ingresos" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="total_egresos">Total de egresos monetarios mensuales:</label>
+                        <input type="number" id="total_egresos" name="total_egresos" step="0.01" min="0" required>
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
