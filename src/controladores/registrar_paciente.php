@@ -61,21 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (count($errores) > 0) {
-        // Si hay errores, almacenarlos en la sesión y redirigir
-        $_SESSION['error_message'] = implode('<br>', $errores);
-        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-              <script>
-                  Swal.fire({
-                      icon: 'error',
-                      title: 'Errores de validación',
-                      html: '" . addslashes(implode('<br>', $errores)) . "',
-                      confirmButtonText: 'OK'
-                  }).then(() => {
-                      window.location.href = '../views/registro.php';
-                  });
-              </script>";
+        echo json_encode(['success' => false, 'message' => implode('<br>', $errores)]);
         exit;
-    }    
+    }
 
     try {
         $conn = new conn();
@@ -191,32 +179,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdo->commit();
 
         // Mensaje de éxito
-        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-              <script>
-                  Swal.fire({
-                      icon: 'success',
-                      title: 'Registro exitoso',
-                      text: 'Los datos se han guardado correctamente.',
-                      confirmButtonText: 'OK'
-                  }).then(() => {
-                      window.location.href = '../views/registro.php';
-                  });
-              </script>";
+        echo json_encode(['success' => true, 'message' => 'Registro exitoso']);
 
     } catch (PDOException $e) {
         // Rollback en caso de error
         $pdo->rollBack();
-        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-              <script>
-                  Swal.fire({
-                      icon: 'error',
-                      title: 'Error en la transacción',
-                      text: 'Hubo un problema al guardar los datos: " . addslashes($e->getMessage()) . "',
-                      confirmButtonText: 'OK'
-                  }).then(() => {
-                      window.location.href = '../views/registro.php';
-                  });
-              </script>";
+        echo json_encode(['success' => false, 'message' => 'Error en la transacción: ' . $e->getMessage()]);
     }
 }
 ?>
