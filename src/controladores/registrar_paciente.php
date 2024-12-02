@@ -157,8 +157,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $turno = 'NOCTURNO';
         }
 
-        $sqlIngreso = "INSERT INTO ingreso (
-            fechaIngreso, horaIngreso, turno, fkIdPaciente, fkIdUsuario, egreso, servicioSolicitado, motivo
+        $sqlIngreso = "INSERT INTO ingresos (
+            fechaIngreso, horaIngreso, turno, fkIdPaciente, fkIdUsuario, egreso, servicioSolicita, motivo
         ) VALUES (
             :fechaIngreso, :horaIngreso, :turno, :fkIdPaciente, :fkIdUsuario, :egreso, :servicioSolicitado, :motivo
         )";

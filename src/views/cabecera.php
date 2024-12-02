@@ -72,6 +72,8 @@ include('../controladores/sesion.php');
             </div>
         </header>
 
+
+        <input type="checkbox" id="btn-menu" checked>
         <div class="container-menu">
             <div class="cont-menu">
 
