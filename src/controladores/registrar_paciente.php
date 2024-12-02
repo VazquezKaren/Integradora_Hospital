@@ -180,7 +180,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Mensaje de éxito
         echo json_encode(['success' => true, 'message' => 'Registro exitoso']);
-
     } catch (PDOException $e) {
         // Rollback en caso de error
         $pdo->rollBack();
