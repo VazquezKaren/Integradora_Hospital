@@ -258,18 +258,13 @@ include('cabecera.php');
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="hoja_frontal">Hoja frontal:</label>
-                        <input type="file" name="hoja_frontal" id="hoja_frontal">
-                    </div>
-                    <div class="form-group">
-                        <label for="hoja_compromiso">Hoja de compromiso:</label>
-                        <input type="file" name="hoja_compromiso" id="hoja_compromiso">
+                        <label for="hoja_compromiso">Hoja de Consentimiento:</label>
+                        <input type="file" name="hoja_consentimiento" id="hoja_consentimiento">
                     </div>
                 </div>
 
                 <div class="button-group">
-                    <button type="button">Generar Hoja Frontal</button>
-                    <button type="button">Generar Hoja de Compromiso</button>
+                    <button type="button">Generar Hoja de Consentimiento</button>
                 </div>
 
                 <div class="button-group">

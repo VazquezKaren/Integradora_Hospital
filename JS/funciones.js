@@ -392,8 +392,6 @@ function confirmarDesactivacionEmpleado() {
     });
 }
 
-
-
 function guardarCambios(contexto) {
     const datos = new FormData();
 
@@ -439,16 +437,24 @@ function guardarCambios(contexto) {
 
     const campos = contexto === 'paciente' ? camposPaciente : camposResponsable;
 
+    // Validar y sincronizar valores
     campos.forEach(campo => {
         const elemento = document.getElementById(campo);
+        console.log(`Campo: ${campo}, Elemento:`, elemento);
         if (elemento) {
             const valor = elemento.value.trim();
-            datos.append(campo, valor || ''); 
-            console.log(`Campo: ${campo}, Valor: ${valor}`); 
+            console.log(`Campo: ${campo}, Valor: ${valor}`);
+            datos.append(campo, valor || '');
         } else {
-            console.warn(`Campo no encontrado en el DOM: ${campo}`);
+            console.log(`Elemento con ID "${campo}" no encontrado.`);
         }
     });
+
+
+    console.log('Datos enviados al servidor:');
+    for (let [key, value] of datos.entries()) {
+        console.log(`${key}: ${value}`);
+    }
 
     const controlador = contexto === 'paciente'
         ? '../controladores/modificar_paciente.php'
@@ -459,40 +465,24 @@ function guardarCambios(contexto) {
         body: datos,
     })
         .then(response => {
-            console.log(`Estado de respuesta: ${response.status}`);
             if (!response.ok) throw new Error(`Error en la respuesta del servidor. Código: ${response.status}`);
             return response.json();
         })
         .then(data => {
-            console.log('Respuesta del servidor:', data);
             if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Éxito',
-                    text: data.message,
-                }).then(() => window.location.reload());
+                Swal.fire('Éxito', data.message, 'success').then(() => window.location.reload());
             } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.message || 'Error al actualizar los datos.',
-                });
+                Swal.fire('Error', data.message || 'Error al actualizar los datos.', 'error');
             }
         })
         .catch(error => {
-            console.error('Error al guardar los cambios:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Ocurrió un error al guardar los cambios. Revisa la consola para más detalles.',
-            });
+            console.error('Error:', error);
+            Swal.fire('Error', 'Ocurrió un error al guardar los cambios.', 'error');
         });
 }
 
-
-
 function confirmarCambio(event) {
-    event.preventDefault(); 
+    event.preventDefault();
     const confirmacion = confirm("¿Está seguro de que desea cambiar la contraseña?");
     if (confirmacion) {
         document.getElementById('form-cambiar-contrasena').submit();
@@ -552,7 +542,7 @@ function toggleEspecialidad() {
     const rol = document.getElementById("rol").value;
     const especialidadGroup = document.getElementById("especialidad-group");
     if (rol === "DOCTOR" || rol === "ENFERMERO") {
-        especialidadGroup.style.display = "block"; 
+        especialidadGroup.style.display = "block";
         document.getElementById("especialidad").setAttribute("required", "true");
     } else {
         especialidadGroup.style.display = "none";

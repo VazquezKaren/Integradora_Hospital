@@ -54,6 +54,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($sexo) || !in_array($sexo, ['MASCULINO', 'FEMENINO'])) $errores[] = 'El sexo es obligatorio y debe ser MASCULINO o FEMENINO.';
     // Agregar más validaciones según sea necesario
 
+    // Manejo del archivo subido
+    $fileUploaded = false;
+    $filePath = '';
+    if (isset($_FILES['hoja_consentimiento']) && $_FILES['hoja_consentimiento']['error'] == UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['hoja_consentimiento']['tmp_name'];
+        $fileName = $_FILES['hoja_consentimiento']['name'];
+        $fileSize = $_FILES['hoja_consentimiento']['size'];
+        $fileType = $_FILES['hoja_consentimiento']['type'];
+        $fileNameCmps = pathinfo($fileName);
+        $fileExtension = strtolower($fileNameCmps['extension']);
+
+        // Sanitizar el nombre del archivo
+        $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+
+        // Extensiones de archivo permitidas
+        $allowedfileExtensions = array('pdf', 'jpg', 'jpeg', 'png');
+
+        if (in_array($fileExtension, $allowedfileExtensions)) {
+            // Directorio donde se guardará el archivo
+            $uploadFileDir = '../uploads/';
+            $dest_path = $uploadFileDir . $newFileName;
+
+            // Crear el directorio si no existe
+            if (!is_dir($uploadFileDir)) {
+                mkdir($uploadFileDir, 0755, true);
+            }
+
+            // Mover el archivo al directorio de destino
+            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                $fileUploaded = true;
+                $filePath = $dest_path;
+            } else {
+                $errores[] = 'Error al mover el archivo al directorio de subida. Asegúrese de que el directorio es escribible.';
+            }
+        } else {
+            $errores[] = 'Carga fallida. Tipos de archivo permitidos: ' . implode(', ', $allowedfileExtensions);
+        }
+    } else {
+        $errores[] = 'La Hoja de Consentimiento es obligatoria.';
+    }
+
     // Validación del usuario en sesión
     $fkIdUsuario = $_SESSION['idUsuario'] ?? null;
     if (!$fkIdUsuario) {
@@ -175,6 +216,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'motivo' => $motivo
         ]);
 
+        // Insertar en la tabla documentos
+        if ($fileUploaded) {
+            $sqlDocumento = "INSERT INTO documentos (
+                nombre, vinculoDocumento, fechaSubida, horaSubida, tipo, fkPaciente
+            ) VALUES (
+                :nombre, :vinculoDocumento, :fechaSubida, :horaSubida, :tipo, :fkPaciente
+            )";
+
+            $stmtDocumento = $pdo->prepare($sqlDocumento);
+            $stmtDocumento->execute([
+                'nombre' => 'Hoja de Consentimiento',
+                'vinculoDocumento' => $filePath,
+                'fechaSubida' => date('Y-m-d'),
+                'horaSubida' => date('H:i:s'),
+                'tipo' => $fileExtension,
+                'fkPaciente' => $idPaciente
+            ]);
+        }
+
         // Confirmar transacción
         $pdo->commit();
 
@@ -183,7 +243,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } catch (PDOException $e) {
         // Rollback en caso de error
         $pdo->rollBack();
+        // Eliminar el archivo subido si la transacción falla
+        if ($fileUploaded && file_exists($filePath)) {
+            unlink($filePath);
+        }
         echo json_encode(['success' => false, 'message' => 'Error en la transacción: ' . $e->getMessage()]);
     }
+} else {
+    // Si hay errores, retornarlos
+    echo json_encode(['success' => false, 'message' => implode('<br>', $errores)]);
 }
 ?>
