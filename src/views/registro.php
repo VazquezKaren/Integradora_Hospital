@@ -24,7 +24,6 @@ include('cabecera.php');
                         <input type="text" id="apellido_materno" name="apellido_materno" required>
                     </div>
                 </div>
-                <!-- numero de CURP de paciente faltante en el insert -->
                 <div class="form-row">
                     <div class="form-group">
                         <label for="fecha_nacimiento">Fecha de nacimiento:</label>
@@ -155,7 +154,6 @@ include('cabecera.php');
                         </select>
                     </div>
 
-                    <!-- Estado del Responsable -->
                     <div class="form-group">
                         <label for="responsable_estado">Estado: </label>
                         <select id="responsable_estado" name="responsable_estado" onchange="actualizarMunicipios('responsable')" required>
@@ -163,7 +161,6 @@ include('cabecera.php');
                         </select>
                     </div>
 
-                    <!-- Municipio del Responsable -->
                     <div class="form-group">
                         <label for="responsable_municipio">Municipio: </label>
                         <select id="responsable_municipio" name="responsable_municipio" required>

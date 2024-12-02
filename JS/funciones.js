@@ -392,52 +392,41 @@ function confirmarDesactivacionEmpleado() {
     });
 }
 
-function desactivarEmpleado() {
-    const idEmpleado = document.querySelector('input[name="idEmpleado"]').value;
-    if (!idEmpleado) {
-        Swal.fire('Error', 'No se encontró el ID del empleado.', 'error');
-        return;
-    }
-
-    fetch('../controladores/eliminar_empleado.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'idEmpleado=' + encodeURIComponent(idEmpleado)
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire('Eliminado', data.message, 'success').then(() => {
-                    // Redirigir o actualizar la página
-                    window.location.href = 'consultarEmpleado.php';
-                });
-            } else {
-                Swal.fire('Error', data.message, 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire('Error', 'Ocurrió un error al desactivar el empleado.', 'error');
-        });
-}
 
 
 function guardarCambios(contexto) {
     const datos = new FormData();
 
-    const curp = document.getElementById('paciente_CURP').value;
-    if (curp) {
-        datos.append('curp', curp);
+    const identificador = document.getElementById('busqueda').value.trim();
+    if (!identificador) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error',
+            text: 'Debe ingresar el CURP o No. de Registro del paciente.',
+        });
+        return;
+    }
+
+    const esCurp = /^[A-Z0-9]{18}$/.test(identificador);
+    const esNoRegistro = /^\d{4}\/\d{2}$/.test(identificador);
+
+    if (esCurp) {
+        datos.append('curp', identificador);
+    } else if (esNoRegistro) {
+        datos.append('noRegistro', identificador);
     } else {
-        alert('No. de registro del paciente no encontrado.');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Formato no válido',
+            text: 'El identificador ingresado no tiene un formato válido. Ingrese CURP (18 caracteres) o No. de Registro (0000/00).',
+        });
         return;
     }
 
     const camposPaciente = [
-        'nombre', 'apellido_p', 'apellido_m', 'fecha_nacimiento', 'paciente_edad', 'sexo',
-        'paciente_pais', 'paciente_estado', 'paciente_municipio', 'calle', 'numero', 'colonia',
+        'nombre', 'apellido_p', 'apellido_m', 'paciente_CURP', 'no_registro',
+        'fecha_nacimiento', 'paciente_edad', 'sexo', 'paciente_pais',
+        'paciente_estado', 'paciente_municipio', 'calle', 'numero', 'colonia',
         'derechoHabiente', 'dx', 'observaciones'
     ];
 
@@ -453,36 +442,57 @@ function guardarCambios(contexto) {
     campos.forEach(campo => {
         const elemento = document.getElementById(campo);
         if (elemento) {
-            datos.append(campo, elemento.value);
+            const valor = elemento.value.trim();
+            datos.append(campo, valor || ''); 
+            console.log(`Campo: ${campo}, Valor: ${valor}`); 
+        } else {
+            console.warn(`Campo no encontrado en el DOM: ${campo}`);
         }
     });
 
-    const controlador = contexto === 'paciente' ? '../controladores/modificar_paciente.php' : '../controladores/modificar_responsable.php';
+    const controlador = contexto === 'paciente'
+        ? '../controladores/modificar_paciente.php'
+        : '../controladores/modificar_responsable.php';
 
     fetch(controlador, {
         method: 'POST',
-        body: datos
+        body: datos,
     })
-        .then(response => response.json().catch(() => ({ success: false, message: 'Respuesta inválida del servidor' })))
+        .then(response => {
+            console.log(`Estado de respuesta: ${response.status}`);
+            if (!response.ok) throw new Error(`Error en la respuesta del servidor. Código: ${response.status}`);
+            return response.json();
+        })
         .then(data => {
+            console.log('Respuesta del servidor:', data);
             if (data.success) {
-                alert(data.message);
-                deshabilitarEdicion(contexto);
-
-                window.location.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: data.message,
+                }).then(() => window.location.reload());
             } else {
-                alert(data.message || 'Error al actualizar los datos.');
-                console.error('Error:', data.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message || 'Error al actualizar los datos.',
+                });
             }
         })
         .catch(error => {
-            console.error(`Error al guardar los cambios (${contexto}):`, error);
-            alert("Ocurrió un error al guardar los cambios. Por favor, intenta de nuevo.");
+            console.error('Error al guardar los cambios:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error al guardar los cambios. Revisa la consola para más detalles.',
+            });
         });
 }
 
+
+
 function confirmarCambio(event) {
-    event.preventDefault();
+    event.preventDefault(); 
     const confirmacion = confirm("¿Está seguro de que desea cambiar la contraseña?");
     if (confirmacion) {
         document.getElementById('form-cambiar-contrasena').submit();
@@ -524,7 +534,6 @@ function eliminarPaciente() {
         .then(data => {
             if (data.success) {
                 Swal.fire('Eliminado', data.message, 'success').then(() => {
-                    // Redirigir o actualizar la página
                     window.location.href = 'pacientes.php';
                 });
             } else {
@@ -543,10 +552,10 @@ function toggleEspecialidad() {
     const rol = document.getElementById("rol").value;
     const especialidadGroup = document.getElementById("especialidad-group");
     if (rol === "DOCTOR" || rol === "ENFERMERO") {
-        especialidadGroup.style.display = "block"; // Muestra el campo
+        especialidadGroup.style.display = "block"; 
         document.getElementById("especialidad").setAttribute("required", "true");
     } else {
-        especialidadGroup.style.display = "none"; // Oculta el campo
+        especialidadGroup.style.display = "none";
         document.getElementById("especialidad").removeAttribute("required");
     }
     try {
