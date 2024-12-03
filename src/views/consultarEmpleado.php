@@ -38,7 +38,7 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
         <div class="contentbox patienets-info">
             <div class="tabs">
                 <button class="tab-btn active" onclick="showTab('informacion')">Informacion</button>
-                <button class="tab-btn" onclick="showTab('historial')">Historial</button>
+                <!-- <button class="tab-btn" onclick="showTab('historial')">Historial</button> -->
             </div>
 
             <div id="informacion" class="tab-content active">
