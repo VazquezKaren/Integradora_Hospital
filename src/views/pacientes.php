@@ -169,10 +169,10 @@ include('../controladores/mostrar_informacion_pacientes.php')
                     </div> -->
 
                     <div class="button-group" id="paciente">
-                        <button type="button" class="delete-button" onclick="confirmarEliminacionPaciente()">Eliminar paciente</button>
-                        <button type="button" id="modificar-btn-paciente" onclick="habilitarEdicion('paciente')">Modificar</button>
-                        <button type="button" class="save-button" id="guardar-btn-paciente" style="display: none;" onclick="guardarCambios('paciente')">Guardar cambios</button>
-                        <button type="reset" class="delete-button" id="descartar-btn-paciente" style="display: none;" onclick="deshabilitarEdicion('paciente')">Descartar cambios</button>
+                        <button type="button" class="delete-button" onclick="confirmarEliminacionPaciente()"><i class="fa-solid fa-trash"></i>  Eliminar paciente</button>
+                        <button type="button" id="modificar-btn-paciente" onclick="habilitarEdicion('paciente')" style="background-color: #fea429;"><i class="fa-solid fa-pen"></i>  Modificar</button>
+                        <button type="button" class="save-button" id="guardar-btn-paciente" style="display: none;" onclick="guardarCambios('paciente')"><i class="fa-solid fa-floppy-disk"></i>  Guardar cambios</button>
+                        <button type="reset" class="delete-button" id="descartar-btn-paciente" style="display: none;" onclick="deshabilitarEdicion('paciente')"><i class="fa-solid fa-rotate-left"></i>  Descartar cambios</button>
                     </div>
                 </form>
             </div>
@@ -311,9 +311,9 @@ include('../controladores/mostrar_informacion_pacientes.php')
                     </div>
 
                     <div class="button-group" id="responsable">
-                        <button type="button" id="modificar-btn-responsable" onclick="habilitarEdicion('responsable')">Modificar</button>
-                        <button type="button" class="save-button" id="guardar-btn-responsable" style="display: none;" onclick="guardarCambios('responsable')">Guardar cambios</button>
-                        <button type="reset" class="delete-button" id="descartar-btn-responsable" style="display: none;" onclick="deshabilitarEdicion('responsable')">Descartar cambios</button>
+                        <button type="button" id="modificar-btn-responsable" onclick="habilitarEdicion('responsable')"style="background-color: #fea429;"><i class="fa-solid fa-pen"></i>  Modificar</button>
+                        <button type="button" class="save-button" id="guardar-btn-responsable" style="display: none;" onclick="guardarCambios('responsable')"><i class="fa-solid fa-floppy-disk"></i>  Guardar cambios</button>
+                        <button type="reset" class="delete-button" id="descartar-btn-responsable" style="display: none;" onclick="deshabilitarEdicion('responsable')"><i class="fa-solid fa-rotate-left"></i>  Descartar cambios</button>
 
                     </div>
                 </form>

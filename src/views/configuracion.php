@@ -24,14 +24,14 @@ include("cabecera.php");
                     <input type="file" name="logo" id="logo" accept="image/*">
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Guardar Logo</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #4CAF50;"><i class="fa-solid fa-floppy-disk"></i>  Guardar Logo</button>
                 </div>
             </form>
 
             
             <form action="../controladores/eliminarLogo.php" method="POST">
                 <div class="form-group">
-                    <button type="submit" class="btn btn-danger">Eliminar Logo</button>
+                    <button type="submit" class="btn btn-danger" style="background-color: #ff4d4d;"><i class="fa-solid fa-trash"></i>  Eliminar Logo</button>
                 </div>
             </form>
             <div>

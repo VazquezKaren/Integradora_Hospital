@@ -106,7 +106,7 @@ $pdo = $conn->connect();
                     </div>
                 </div>
                 <div class="button-group">
-                    <button type="submit">Registrar Empleado</button>
+                    <button type="submit" style="background-color: #4CAF50;"><i class="fa-solid fa-floppy-disk"></i>  Registrar Empleado</button>
                 </div>
         </div>
         </form>

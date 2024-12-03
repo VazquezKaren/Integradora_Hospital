@@ -31,8 +31,8 @@ if (isset($_POST['busqueda'])) {
                       <script>
                         Swal.fire({
                             icon: 'success',
-                            title: 'Rol encontrado',
-                            text: 'El rol del empleado es: " . htmlspecialchars($empleadorol['rol']) . "',
+                            title: 'Empleado encontrado',
+                            text: 'El empleado tiene privilegios de: " . htmlspecialchars($empleadorol['rol']) . " ',
                         }).then(() => {
                             
                         });

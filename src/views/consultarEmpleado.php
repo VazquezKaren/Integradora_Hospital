@@ -10,7 +10,28 @@ if ($_SESSION['rol'] !== 'ADMIN') {
 }
 include("cabecera.php");
 
-include('../controladores/mostrar_informacion_empleado.php')
+include('../controladores/mostrar_informacion_empleado.php');
+
+// Procesar búsqueda
+$historial = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['busqueda'])) {
+    $busqueda = trim($_POST['busqueda']);
+    $pdo = new PDO("mysql:host=localhost;dbname=hospitalinfantil", "root", "");
+
+    // Obtener datos del empleado
+    $stmtEmpleado = $pdo->prepare("SELECT * FROM empleado WHERE telefono = :telefono");
+    $stmtEmpleado->bindValue(':telefono', $busqueda, PDO::PARAM_STR);
+    $stmtEmpleado->execute();
+    $empleadoData = $stmtEmpleado->fetch(PDO::FETCH_ASSOC);
+
+    if ($empleadoData) {
+        // Obtener historial relacionado con el empleado
+        $stmtHistorial = $pdo->prepare("SELECT fecha, actividad, usuario FROM historial WHERE usuario = :usuario");
+        $stmtHistorial->bindValue(':usuario', $empleadoData['nombres'] . " " . $empleadoData['apellidoPaterno'], PDO::PARAM_STR);
+        $stmtHistorial->execute();
+        $historial = $stmtHistorial->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
 ?>
 <section class="main-content">
     <div class="content-grid">
@@ -127,9 +148,9 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
                     </div>
 
                     <div class="button-group">
-                        <button type="button" id="modificar-btn" onclick="habilitarEdicionEmpleado()">Modificar</button>
-                        <button type="button" id="guardar-btn" class="save-button" style="display: none;" onclick="confirmarCambiosEmpleado(event)">Guardar cambios</button>
-                        <button type="reset" id="descartar-btn" class="delete-button" style="display: none;" onclick="deshabilitarEdicionEmpleado()">Descartar cambios</button>
+                        <button type="button" id="modificar-btn" onclick="habilitarEdicionEmpleado()"style="background-color: #fea429;"><i class="fa-solid fa-pen"></i>  Modificar</button>
+                        <button type="button" id="guardar-btn" class="save-button" style="display: none;" onclick="confirmarCambiosEmpleado(event)"><i class="fa-solid fa-floppy-disk"></i>  Guardar cambios</button>
+                        <button type="reset" id="descartar-btn" class="delete-button" style="display: none;" onclick="deshabilitarEdicionEmpleado()"><i class="fa-solid fa-rotate-left"></i>  Descartar cambios</button>
                     </div>
                 </form>
 
@@ -137,11 +158,11 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
                 <form method="post" action="../controladores/eliminar_empleado.php" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
                     <input type="hidden" name="idEmpleado" value="<?php echo $empleadoData['idEmpleado'] ?? ''; ?>">
                     <!-- Botón para desactivar empleado -->
-                    <button type="button" class="delete-button" onclick="confirmarDesactivacionEmpleado()">Eliminar empleado</button>
+                    <button type="button" class="delete-button" onclick="confirmarDesactivacionEmpleado()" style="background-color: #ff4d4d;"><i class="fa-solid fa-trash"></i>  Eliminar empleado</button>
                 </form>
             </div>
 
-            <!-- <div id="historial" class="tab-content">
+            <div id="historial" class="tab-content">
                 <div class="content-grid">
                     <div class="contentbox">
                         <h2>Historial de Actividades</h2>
@@ -154,21 +175,24 @@ como julian y que salgan todos los julianes y ya si selecciona uno que lo mande 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>23/10/2024</td>
-                                    <td>Modificación de datos de paciente</td>
-                                    <td>Ricardo Perez</td>
-                                </tr>
-                                <tr>
-                                    <td>22/10/2024</td>
-                                    <td>Registro de nuevo paciente</td>
-                                    <td>Ana Lopez</td>
-                                </tr>
+                                <?php if (!empty($historial)): ?>
+                                    <?php foreach ($historial as $registro): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($registro['fecha']); ?></td>
+                                            <td><?php echo htmlspecialchars($registro['actividad']); ?></td>
+                                            <td><?php echo htmlspecialchars($registro['usuario']); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="3">No se encontraron registros en el historial.</td>
+                                    </tr>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </section>

@@ -200,7 +200,7 @@ try {
               Swal.fire({
                   icon: 'error',
                   title: 'Error en la obtención de los registros',
-                  text: '" . addslashes($th->getMessage()) . "',
+                  text: 'Porfavor intente con otro registro o mas tarde',
                   confirmButtonText: 'OK'
               }).then(() => {
                   window.location.href = '../views/ingresos.php';

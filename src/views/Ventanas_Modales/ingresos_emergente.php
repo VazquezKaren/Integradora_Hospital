@@ -13,7 +13,6 @@
                                     type="text"
                                     name="curp"
                                     id="curp"
-                                    class="form-control"
                                     value="<?php echo $_POST['curp'] ?? ''; ?>"
                                     placeholder="Ingrese la CURP"
                                     required />
@@ -27,7 +26,6 @@
                                 <textarea
                                     name="motivo"
                                     id="motivo"
-                                    class="form-control"
                                     placeholder="Ingrese el motivo de ingreso"
                                     rows="3"
                                     required><?php echo $_POST['motivo'] ?? ''; ?></textarea>
@@ -42,7 +40,6 @@
                                     type="text"
                                     name="servicio_solicitado"
                                     id="servicio_solicitado"
-                                    class="form-control"
                                     value="<?php echo $_POST['servicio_solicitado'] ?? ''; ?>"
                                     placeholder="Servicio solicitado"
                                     required />
@@ -57,7 +54,6 @@
                                     type="text"
                                     name="turno"
                                     id="turno"
-                                    class="form-control"
                                     value="<?php
                                             // Obtener hora actual
                                             date_default_timezone_set('America/Mexico_City'); // Ajusta según tu zona horaria
@@ -81,7 +77,7 @@
                         <!-- Botón de envío -->
                         <div class="form-row mt-3">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Ingresar paciente</button>
+                                <button type="submit" class="btn btn-primary" style="background-color: #4CAF50;"><i class="fa-solid fa-arrow-right-to-bracket"></i>  Ingresar paciente</button>
                             </div>
                         </div>
                 </div>

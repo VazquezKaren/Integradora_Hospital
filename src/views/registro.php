@@ -270,7 +270,7 @@ include('cabecera.php');
                 </div>
 
                 <div class="button-group">
-                    <button type="submit">Registrar Paciente</button>
+                    <button type="submit" style="background-color: #4CAF50;"><i class="fa-solid fa-floppy-disk"></i>  Registrar Paciente</button>
                 </div>
             </form>
         </div>
