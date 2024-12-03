@@ -162,14 +162,56 @@ try {
     $stmt->execute();
     $ingresos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Consulta para contar el total de registros
+    $countQuery = "
+        SELECT COUNT(*) 
+        FROM ingresos
+        JOIN paciente ON ingresos.fkIdPaciente = paciente.idPaciente
+        JOIN usuarios ON ingresos.fkIdUsuario = usuarios.idUsuario
+        JOIN empleado ON usuarios.fkIdEmpleado = empleado.idEmpleado
+        WHERE 1=1
+    ";
 
-    $rowCount = $stmt->rowCount();} catch (\Throwable $th) {
-        echo "<script>
-                alert('Error en la obtencion de los registros: " . addslashes($th->getMessage()) . "');
-                window.location.href = '../views/registro.php';
-                </script>";
+    // Reutilizar las mismas condiciones
+    if (!empty($conditions)) {
+        $countQuery .= ' AND ' . implode(' AND ', $conditions);
     }
-    //echo "<pre>";
-    //print_r($ingresos); // O usar var_dump($ingresos);
-    //echo "</pre>";
+
+    // Preparar y ejecutar la consulta de conteo
+    $stmtCount = $pdo->prepare($countQuery);
+
+    // Vincular los mismos parámetros
+    foreach ($params as $key => $value) {
+        if ($key !== ':limit' && $key !== ':offset') {
+            $stmtCount->bindValue($key, $value);
+        }
+    }
+
+    $stmtCount->execute();
+    $rowCount = $stmtCount->fetchColumn();
+
+    // Calcular el total de páginas
+    $paginas_totales = ceil($rowCount / $registros_por_pagina);
+
+} catch (\Throwable $th) {
+    // Manejo de error con SweetAlert2
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+          <script>
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error en la obtención de los registros',
+                  text: '" . addslashes($th->getMessage()) . "',
+                  confirmButtonText: 'OK'
+              }).then(() => {
+                  window.location.href = '../views/ingresos.php';
+              });
+          </script>";
+    exit();
+}
+
+// Mostrar datos
+foreach ($ingresos as $ingreso) {
+    echo "Nombre: " . htmlspecialchars($ingreso['nombrePaciente']);
+    // Aquí agregar más información de cada ingreso
+}
 ?>

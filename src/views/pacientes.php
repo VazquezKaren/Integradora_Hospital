@@ -19,7 +19,7 @@ include('../controladores/mostrar_informacion_pacientes.php')
     <div class="content-grid">
         <div class="contentbox patient-info">
             <h1>Información del paciente</h1>
-            <p>Ingrese el No. de registro del paciente</p>
+            <p>Ingrese el CURP del paciente</p>
             <br>
 
             <?php if ($error): ?>
